@@ -80,6 +80,7 @@
             List<Servivo_2> seresVivos = new List<Servivo_2>();
             seresVivos.Add(h1);
             seresVivos.Add(g1);
+            //seresVivos.Remove(h1);
 
             Console.WriteLine("\n\n\nForeach");
 
@@ -151,7 +152,6 @@
 
     public sealed class Gato : Animal
     {
-
         public String Raza { get; set; }
 
         public override void Comer()
@@ -198,7 +198,7 @@
             set { this.tipo = value; }
         }
 
-        public string Nombre { get => nombre; set => nombre = value; }
+        public string Nombre { get =>  nombre; set => nombre = value; }
 
         public SerVivo()
         {

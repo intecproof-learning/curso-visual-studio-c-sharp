@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcatExample", "ConcatExample\ConcatExample.csproj", "{CA579DED-BD64-4871-B3A3-F001EF24880C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objetos", "Objetos\Objetos.csproj", "{0CDF9CB5-707B-423B-9BCE-A23E253E0793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objetos", "Objetos\Objetos.csproj", "{0CDF9CB5-707B-423B-9BCE-A23E253E0793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{4CE2EFEA-B3A2-4C32-93A4-CE4DE7C9E788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0CDF9CB5-707B-423B-9BCE-A23E253E0793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CDF9CB5-707B-423B-9BCE-A23E253E0793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CDF9CB5-707B-423B-9BCE-A23E253E0793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE2EFEA-B3A2-4C32-93A4-CE4DE7C9E788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE2EFEA-B3A2-4C32-93A4-CE4DE7C9E788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE2EFEA-B3A2-4C32-93A4-CE4DE7C9E788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE2EFEA-B3A2-4C32-93A4-CE4DE7C9E788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
