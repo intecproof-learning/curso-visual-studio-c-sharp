@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            bool finishExecution = false;
+            /*bool finishExecution = false;
             UserRepo uRepo = new UserRepo();
             do
             {
@@ -60,7 +60,7 @@
 
                         Console.WriteLine("Por favor ingrese el \"Apodo\" del usuario. Solo presione enter si no desea modificarlo");
                         nicName = Console.ReadLine();
-                        
+
                         Console.WriteLine("Por favor ingrese la \"Contraseña\" del usuario. Solo presione enter si no desea modificarlo");
                         password = Console.ReadLine();
 
@@ -74,14 +74,21 @@
                         Console.WriteLine($"El usuario \"{newUser.ToString()}\" se modificó correctamente");
                         break;
                     case "4":
-                        Console.WriteLine("******Modificar un usuario*****");
+                        try
+                        {
+                            Console.WriteLine("******Eliminar un usuario*****");
 
-                        Console.WriteLine("Por favor ingrese el \"Correo electrónico\" del usuario a eliminar");
-                        email = Console.ReadLine();
+                            Console.WriteLine("Por favor ingrese el \"Correo electrónico\" del usuario a eliminar");
+                            email = Console.ReadLine();
 
-                        newUser = uRepo.DeleteUser(email);
+                            newUser = uRepo.DeleteUser(email);
 
-                        Console.WriteLine($"El usuario \"{newUser.ToString()}\" se eliminó correctamente");
+                            Console.WriteLine($"El usuario \"{newUser.ToString()}\" se eliminó correctamente");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
 
                         break;
                     case "5":
@@ -100,7 +107,21 @@
                     Console.Clear();
                 }
 
-            } while (finishExecution == false);
+            } while (!finishExecution);
+            //while (finishExecution == false);*/
+
+            GenericRepo<User> uRepo =
+                new GenericRepo<User>();
+
+            uRepo.Add(new User()
+            {
+                Email = "ah.com",
+                NickName = "a",
+                Password = "a"
+            });
+
+            GenericRepo<Module> mRepo
+                = new GenericRepo<Module>();
         }
     }
 
@@ -136,16 +157,27 @@
                     return this.users;
                 }
 
-                List<User> matches = new List<User>();
-                foreach (User user in this.users)
-                {
-                    if (user.Email.ToLower().Contains(searchValue.ToLower()) == true || user.NickName.ToLower().Contains(searchValue.ToLower()) == true)
-                    {
-                        matches.Add(user);
-                    }
-                }
+                searchValue = searchValue.ToLower();
 
-                return matches;
+                return this.users.Where(
+                u => u.NickName.ToLower().Contains(searchValue) ||
+                u.Email.ToLower().Contains(searchValue)).ToList();
+
+                //return (from u in this.users
+                //        where u.NickName.ToLower().Contains(searchValue) ||
+                //        u.Email.ToLower().Contains(searchValue)
+                //        select u).ToList();
+
+                //List<User> matches = new List<User>();
+                //foreach (User user in this.users)
+                //{
+                //    if (user.Email.ToLower().Contains(searchValue.ToLower()) == true || user.NickName.ToLower().Contains(searchValue.ToLower()) == true)
+                //    {
+                //        matches.Add(user);
+                //    }
+                //}
+
+                //return matches;
             }
             catch
             {
@@ -162,7 +194,8 @@
                 if (matches.Any() == true)
                 {
                     User tmp = matches.First();
-                    tmp.NickName = String.IsNullOrEmpty(user.NickName) == true? tmp.NickName: user.NickName;
+                    tmp.NickName = String.IsNullOrEmpty(user.NickName) == true ?
+                        tmp.NickName : user.NickName;
                     tmp.Password = String.IsNullOrEmpty(user.Password) == true ? tmp.Password : user.Password;
 
                     return matches.First();
@@ -212,6 +245,97 @@
         public override string ToString()
         {
             return $"Apodo: {this.NickName} - Correo electrónico: {this.Email}";
+        }
+    }
+
+    public class Module
+    {
+        public int ID { get; set; }
+        public String Name { get; set; }
+        public String Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {this.Description} - Nombre: {this.Name}";
+        }
+    }
+
+    public interface IGenericRepo<T>
+    {
+        public T Add(T item);
+
+        public List<T> Search(String criteria);
+
+        public T Modify(T item);
+
+        public T Delete<U>(U id);
+    }
+
+    public class GenericRepo<T> : IGenericRepo<T>
+    {
+        private List<T> items;
+
+        public GenericRepo()
+        {
+            this.items = new List<T>();
+        }
+
+        public T Add(T item)
+        {
+            try
+            {
+                this.items.Add(item);
+
+                return item;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public T Delete<U>(U id)
+        {
+            try
+            {
+                var matches = this.Search(id.ToString());
+
+                if (matches.Any() == true)
+                {
+                    T tmp = matches.First();
+                    this.items.Remove(tmp);
+
+                    return tmp;
+                }
+                else
+                {
+                    throw new Exception("No hay elementos a eliminar");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public T Modify(T item)
+        {
+            try
+            {
+                this.items.Remove(item);
+                this.Add(item);
+
+                return item;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<T> Search(string criteria)
+        {
+            throw new NotImplementedException();
         }
     }
 }
