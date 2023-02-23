@@ -115,13 +115,32 @@
 
             uRepo.Add(new User()
             {
-                Email = "ah.com",
+                ID = 1,
+                Email = "a@h.com",
                 NickName = "a",
                 Password = "a"
             });
 
-            GenericRepo<Module> mRepo
-                = new GenericRepo<Module>();
+            uRepo.Modify(new User()
+            {
+                ID = 1,
+                Email = "a@hotmail.com",
+                NickName = "Abraham",
+                Password = "Admin123"
+            });
+
+            var matches = uRepo.Search(u => u.NickName.ToLower().Contains("h") && u.Email.ToLower().Contains("h"));
+            uRepo.Search(SearchUser);
+
+            uRepo.Delete(uRepo.Search(u => u.ID == 1).First());
+
+            GenericRepo<Module> mRepo = new GenericRepo<Module>();
+        }
+
+        public static bool SearchUser(User usuario)
+        {
+            return usuario.NickName.ToLower().Contains("h") &&
+                usuario.Email.ToLower().Contains("h");
         }
     }
 
@@ -236,11 +255,35 @@
         }
     }
 
-    public class User
+    public class User : IComparable<User>
     {
+        public int ID { get; set; }
         public String Email { get; set; }
         public String NickName { get; set; }
         public String Password { get; set; }
+
+        //CompareTo regresa 0 si ambos ojetos son iguales
+        //1 = si el objeto de la izquierda es mayor
+        //-1 = si el objeto de la izquierda es menor
+        public int CompareTo(User? other)
+        {
+            if (other == null)
+                return -1;
+
+            return this.ID.CompareTo(other.ID);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj != null && obj.GetType() == typeof(User))
+            {
+                User tmp = (User)obj;
+                //return this.ID.Equals(tmp.ID);
+                return this.ID == tmp.ID;
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {
@@ -248,11 +291,31 @@
         }
     }
 
-    public class Module
+    public class Module : IComparable<Module>
     {
         public int ID { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
+
+        public int CompareTo(Module? other)
+        {
+            if (other == null)
+                return -1;
+
+            return this.ID.CompareTo(other.ID);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj != null && obj.GetType() == typeof(Module))
+            {
+                Module tmp = (Module)obj;
+                //return this.ID.Equals(tmp.ID);
+                return this.ID == tmp.ID;
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {
@@ -264,11 +327,11 @@
     {
         public T Add(T item);
 
-        public List<T> Search(String criteria);
+        public List<T> Search(Func<T, bool> predicate);
 
         public T Modify(T item);
 
-        public T Delete<U>(U id);
+        public T Delete(T entity);
     }
 
     public class GenericRepo<T> : IGenericRepo<T>
@@ -294,23 +357,13 @@
             }
         }
 
-        public T Delete<U>(U id)
+        public T Delete(T entity)
         {
             try
             {
-                var matches = this.Search(id.ToString());
+                this.items.Remove(entity);
 
-                if (matches.Any() == true)
-                {
-                    T tmp = matches.First();
-                    this.items.Remove(tmp);
-
-                    return tmp;
-                }
-                else
-                {
-                    throw new Exception("No hay elementos a eliminar");
-                }
+                return entity;
             }
             catch
             {
@@ -333,9 +386,16 @@
             }
         }
 
-        public List<T> Search(string criteria)
+        public List<T> Search(Func<T, bool> predicate)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return this.items.Where(predicate).ToList();
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
