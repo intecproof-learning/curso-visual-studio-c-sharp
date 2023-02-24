@@ -1,4 +1,6 @@
-﻿namespace UserManagement
+﻿using System.Numerics;
+
+namespace UserManagement
 {
     internal class Program
     {
@@ -115,10 +117,25 @@
 
             uRepo.Add(new User()
             {
+                ID = 3,
+                Email = "c@h.com",
+                NickName = "c",
+                Password = "c"
+            });
+
+            uRepo.Add(new User()
+            {
                 ID = 1,
                 Email = "a@h.com",
                 NickName = "a",
                 Password = "a"
+            });
+            uRepo.Add(new User()
+            {
+                ID = 2,
+                Email = "b@h.com",
+                NickName = "b",
+                Password = "b"
             });
 
             uRepo.Modify(new User()
@@ -127,20 +144,60 @@
                 Email = "a@hotmail.com",
                 NickName = "Abraham",
                 Password = "Admin123"
+            },
+            u => u.ID == 1,
+            (newU, current) =>
+            {
+                current.Email = newU.Email;
+                current.NickName = newU.NickName;
+                current.Password = newU.Password;
             });
 
             var matches = uRepo.Search(u => u.NickName.ToLower().Contains("h") && u.Email.ToLower().Contains("h"));
             uRepo.Search(SearchUser);
 
-            uRepo.Delete(uRepo.Search(u => u.ID == 1).First());
+            matches = uRepo.Search(u =>
+            u.NickName.ToLower().Contains("h"));
+            matches = uRepo.Search(u =>
+            u.Email.ToLower().Contains("h"));
+            matches = uRepo.Search(u =>
+            u.Password.ToLower().Contains("h"));
+
+            //uRepo.Delete(uRepo.Search(u => u.ID == 1).First());
+
+            uRepo.Sort((u1, u2) =>
+            {
+                return u1.Email.CompareTo(u2.Email);
+            });
+
+            uRepo.Sort((u1, u2) =>
+            {
+                return u1.Email.CompareTo(u2.Email);
+            }, false);
 
             GenericRepo<Module> mRepo = new GenericRepo<Module>();
         }
 
-        public static bool SearchUser(User usuario)
+        public static bool SearchUser(User u)
         {
-            return usuario.NickName.ToLower().Contains("h") &&
-                usuario.Email.ToLower().Contains("h");
+            return u.NickName.ToLower().Contains("h") &&
+                u.Email.ToLower().Contains("h");
+        }
+
+        private static List<User> items = new List<User>();
+
+        private static List<User> SearchUSer(Func<User, bool> predicate)
+        {
+            List<User> tmp = new List<User>();
+            foreach (var item in items)
+            {
+                if (predicate(item) == true)
+                {
+                    tmp.Add(item);
+                }
+            }
+
+            return tmp;
         }
     }
 
@@ -329,7 +386,9 @@
 
         public List<T> Search(Func<T, bool> predicate);
 
-        public T Modify(T item);
+        public T Modify(T item,
+            Func<T, bool> predicateSearch,
+            Action<T, T> predicateMod);
 
         public T Delete(T entity);
     }
@@ -371,14 +430,17 @@
             }
         }
 
-        public T Modify(T item)
+        public T Modify(T item,
+            Func<T, bool> predicateSearch,
+            Action<T, T> predicateMod)
         {
             try
             {
-                this.items.Remove(item);
-                this.Add(item);
+                T current =
+                    this.Search(predicateSearch).First();
+                predicateMod(item, current);
 
-                return item;
+                return current;
             }
             catch
             {
@@ -397,5 +459,28 @@
                 throw;
             }
         }
+
+        public void Sort(Func<T, T, int> predicate, bool isAsc = true)
+        {
+            T pivot;
+
+            for (int a = 1; a < this.items.Count; a++)
+                for (int b = this.items.Count - 1; b >= a; b--)
+                {
+                    if (predicate(this.items[b - 1], this.items[b]) == (isAsc == true ? 1 : -1))//this.items[b - 1] > this.items[b]
+                    {
+                        pivot = this.items[b - 1];
+                        this.items[b - 1] = this.items[b];
+                        this.items[b] = pivot;
+                    }
+                }
+        }
     }
 }
+
+//Visual Studio 2022
+//Enterprise :
+//VHF9H - NXBBB - 638P6 - 6JHCY - 88JWH
+
+//Professional:
+//TD244 - P4NB7 - YQ6XK - Y8MMM - YWV2J
