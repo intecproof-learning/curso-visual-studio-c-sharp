@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Finanzas.CursoVisualStudio.Shared.DTOs;
 
 namespace UserManagement
 {
