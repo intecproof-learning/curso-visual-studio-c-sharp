@@ -120,7 +120,7 @@ namespace UserManagement
                 ID = 3,
                 Email = "c@h.com",
                 NickName = "c",
-                Password = "c"
+                Password = "ldfjij"
             });
 
             uRepo.Add(new User()
@@ -135,7 +135,7 @@ namespace UserManagement
                 ID = 2,
                 Email = "b@h.com",
                 NickName = "b",
-                Password = "b"
+                Password = "poiut"
             });
 
             uRepo.Modify(new User()
@@ -167,13 +167,13 @@ namespace UserManagement
 
             uRepo.Sort((u1, u2) =>
             {
-                return u1.Email.CompareTo(u2.Email);
+                return u1.Password.CompareTo(u2.Password);
             });
 
-            uRepo.Sort((u1, u2) =>
+            uRepo.Sort(y: 45, predicate: (u1, u2) =>
             {
                 return u1.Email.CompareTo(u2.Email);
-            }, false);
+            }, isAsc: false, x: 10, w: "Adios");
 
             GenericRepo<Module> mRepo = new GenericRepo<Module>();
         }
@@ -312,74 +312,6 @@ namespace UserManagement
         }
     }
 
-    public class User : IComparable<User>
-    {
-        public int ID { get; set; }
-        public String Email { get; set; }
-        public String NickName { get; set; }
-        public String Password { get; set; }
-
-        //CompareTo regresa 0 si ambos ojetos son iguales
-        //1 = si el objeto de la izquierda es mayor
-        //-1 = si el objeto de la izquierda es menor
-        public int CompareTo(User? other)
-        {
-            if (other == null)
-                return -1;
-
-            return this.ID.CompareTo(other.ID);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj != null && obj.GetType() == typeof(User))
-            {
-                User tmp = (User)obj;
-                //return this.ID.Equals(tmp.ID);
-                return this.ID == tmp.ID;
-            }
-
-            return false;
-        }
-
-        public override string ToString()
-        {
-            return $"Apodo: {this.NickName} - Correo electrónico: {this.Email}";
-        }
-    }
-
-    public class Module : IComparable<Module>
-    {
-        public int ID { get; set; }
-        public String Name { get; set; }
-        public String Description { get; set; }
-
-        public int CompareTo(Module? other)
-        {
-            if (other == null)
-                return -1;
-
-            return this.ID.CompareTo(other.ID);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj != null && obj.GetType() == typeof(Module))
-            {
-                Module tmp = (Module)obj;
-                //return this.ID.Equals(tmp.ID);
-                return this.ID == tmp.ID;
-            }
-
-            return false;
-        }
-
-        public override string ToString()
-        {
-            return $"ID: {this.Description} - Nombre: {this.Name}";
-        }
-    }
-
     public interface IGenericRepo<T>
     {
         public T Add(T item);
@@ -460,14 +392,17 @@ namespace UserManagement
             }
         }
 
-        public void Sort(Func<T, T, int> predicate, bool isAsc = true)
+        public void Sort(Func<T, T, int> predicate,
+            bool isAsc = true,
+            int x = 0, float y = 9, String w = "Hola")
         {
             T pivot;
 
             for (int a = 1; a < this.items.Count; a++)
                 for (int b = this.items.Count - 1; b >= a; b--)
                 {
-                    if (predicate(this.items[b - 1], this.items[b]) == (isAsc == true ? 1 : -1))//this.items[b - 1] > this.items[b]
+                    if (predicate(this.items[b - 1], this.items[b])
+                        == (isAsc == true ? 1 : -1))
                     {
                         pivot = this.items[b - 1];
                         this.items[b - 1] = this.items[b];
