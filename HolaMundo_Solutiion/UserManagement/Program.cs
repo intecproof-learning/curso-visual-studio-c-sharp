@@ -113,70 +113,70 @@ namespace UserManagement
             } while (!finishExecution);
             //while (finishExecution == false);*/
 
-            GenericRepo<User> uRepo =
-                new GenericRepo<User>();
+            //GenericRepo<User> uRepo =
+            //    new GenericRepo<User>();
 
-            uRepo.Add(new User()
-            {
-                ID = 3,
-                Email = "c@h.com",
-                NickName = "c",
-                Password = "ldfjij"
-            });
+            //uRepo.Add(new User()
+            //{
+            //    ID = 3,
+            //    Email = "c@h.com",
+            //    NickName = "c",
+            //    Password = "ldfjij"
+            //});
 
-            uRepo.Add(new User()
-            {
-                ID = 1,
-                Email = "a@h.com",
-                NickName = "a",
-                Password = "a"
-            });
-            uRepo.Add(new User()
-            {
-                ID = 2,
-                Email = "b@h.com",
-                NickName = "b",
-                Password = "poiut"
-            });
+            //uRepo.Add(new User()
+            //{
+            //    ID = 1,
+            //    Email = "a@h.com",
+            //    NickName = "a",
+            //    Password = "a"
+            //});
+            //uRepo.Add(new User()
+            //{
+            //    ID = 2,
+            //    Email = "b@h.com",
+            //    NickName = "b",
+            //    Password = "poiut"
+            //});
 
-            uRepo.Modify(new User()
-            {
-                ID = 1,
-                Email = "a@hotmail.com",
-                NickName = "Abraham",
-                Password = "Admin123"
-            },
-            u => u.ID == 1,
-            (newU, current) =>
-            {
-                current.Email = newU.Email;
-                current.NickName = newU.NickName;
-                current.Password = newU.Password;
-            });
+            //uRepo.Modify(new User()
+            //{
+            //    ID = 1,
+            //    Email = "a@hotmail.com",
+            //    NickName = "Abraham",
+            //    Password = "Admin123"
+            //},
+            //u => u.ID == 1,
+            //(newU, current) =>
+            //{
+            //    current.Email = newU.Email;
+            //    current.NickName = newU.NickName;
+            //    current.Password = newU.Password;
+            //});
 
-            var matches = uRepo.Search(u => u.NickName.ToLower().Contains("h") && u.Email.ToLower().Contains("h"));
-            uRepo.Search(SearchUser);
+            //var matches = uRepo.Search(u => u.NickName.ToLower().Contains("h") && u.Email.ToLower().Contains("h"));
+            //uRepo.Search(SearchUser);
 
-            matches = uRepo.Search(u =>
-            u.NickName.ToLower().Contains("h"));
-            matches = uRepo.Search(u =>
-            u.Email.ToLower().Contains("h"));
-            matches = uRepo.Search(u =>
-            u.Password.ToLower().Contains("h"));
+            //matches = uRepo.Search(u =>
+            //u.NickName.ToLower().Contains("h"));
+            //matches = uRepo.Search(u =>
+            //u.Email.ToLower().Contains("h"));
+            //matches = uRepo.Search(u =>
+            //u.Password.ToLower().Contains("h"));
 
-            //uRepo.Delete(uRepo.Search(u => u.ID == 1).First());
+            ////uRepo.Delete(uRepo.Search(u => u.ID == 1).First());
 
-            uRepo.Sort((u1, u2) =>
-            {
-                return u1.Password.CompareTo(u2.Password);
-            });
+            //uRepo.Sort((u1, u2) =>
+            //{
+            //    return u1.Password.CompareTo(u2.Password);
+            //});
 
-            uRepo.Sort(y: 45, predicate: (u1, u2) =>
-            {
-                return u1.Email.CompareTo(u2.Email);
-            }, isAsc: false, x: 10, w: "Adios");
+            //uRepo.Sort(y: 45, predicate: (u1, u2) =>
+            //{
+            //    return u1.Email.CompareTo(u2.Email);
+            //}, isAsc: false, x: 10, w: "Adios");
 
-            GenericRepo<Module> mRepo = new GenericRepo<Module>();
+            //GenericRepo<Module> mRepo = new GenericRepo<Module>();
         }
 
         public static bool SearchUser(User u)
@@ -201,8 +201,6 @@ namespace UserManagement
             return tmp;
         }
     }
-
-    
 }
 
 //Visual Studio 2022
