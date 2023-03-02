@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj" />
-  </ItemGroup>
-
 </Project>
