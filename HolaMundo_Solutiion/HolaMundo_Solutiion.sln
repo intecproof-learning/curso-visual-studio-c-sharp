@@ -29,11 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{9B04D0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.Shared.DTOs", "Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj", "{E8C6E7B7-CEC5-402D-9AAF-4DF6CA060FC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.Shared.Repositories", "DataAccess\Finanzas.CursoVisualStudio.Shared.Repositories\Finanzas.CursoVisualStudio.Shared.Repositories.csproj", "{0EABB856-7D3D-4840-9698-2769A50167CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.DataAccess.Repositories", "DataAccess\Finanzas.CursoVisualStudio.Shared.Repositories\Finanzas.CursoVisualStudio.DataAccess.Repositories.csproj", "{0EABB856-7D3D-4840-9698-2769A50167CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.BusinessLogic.UserManagement", "BusinessLogic\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.csproj", "{E33541B1-ED9A-48E3-A680-1A3A9E9A3AD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finanzas.CusroVisualStudio.APIs.UserManagementAPI", "APIs\Finanzas.CusroVisualStudio.APIs.UserManagementAPI\Finanzas.CusroVisualStudio.APIs.UserManagementAPI.csproj", "{B7D76871-7F4B-417D-B13A-BCCB8AA40143}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CusroVisualStudio.APIs.UserManagementAPI", "APIs\Finanzas.CusroVisualStudio.APIs.UserManagementAPI\Finanzas.CusroVisualStudio.APIs.UserManagementAPI.csproj", "{B7D76871-7F4B-417D-B13A-BCCB8AA40143}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataAccess\Finanzas.CursoVisualStudio.Shared.Repositories\Finanzas.CursoVisualStudio.Shared.Repositories.csproj" />
+    <ProjectReference Include="..\..\DataAccess\Finanzas.CursoVisualStudio.Shared.Repositories\Finanzas.CursoVisualStudio.DataAccess.Repositories.csproj" />
     <ProjectReference Include="..\..\Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj" />
   </ItemGroup>
 

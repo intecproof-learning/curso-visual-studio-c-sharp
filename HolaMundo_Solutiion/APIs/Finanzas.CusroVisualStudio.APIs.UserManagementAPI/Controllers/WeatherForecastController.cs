@@ -1,3 +1,5 @@
+using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations;
+using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
@@ -28,6 +30,16 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("user")]
+        public Dictionary<string, string>
+            CreateOrUpdateUSer(User item)
+        {
+            UserManagementBusiness uBusiness =
+                new UserManagementBusiness();
+
+            return uBusiness.CreateOrUpdateUser(item);
         }
     }
 }

@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BusinessLogic\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.csproj" />
+    <ProjectReference Include="..\..\Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj" />
+  </ItemGroup>
+
 </Project>
