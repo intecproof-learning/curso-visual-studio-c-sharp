@@ -1,13 +1,13 @@
-﻿using Finanzas.CursoVisualStudio.Shared.Repositories.Interfaces;
+﻿using Finanzas.CursoVisualStudio.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Finanzas.CursoVisualStudio.Shared.Repositories.Implementations
+namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
-    public class GenericRepo<T> : IGenericRepo<T>
+    internal class GenericRepo<T> : IGenericRepo<T>
     {
         private List<T> items;
 
@@ -44,9 +44,7 @@ namespace Finanzas.CursoVisualStudio.Shared.Repositories.Implementations
             }
         }
 
-        public T Modify(T item,
-            Func<T, bool> predicateSearch,
-            Action<T, T> predicateMod)
+        public T Modify(T item, Func<T, bool> predicateSearch, Action<T, T> predicateMod)
         {
             try
             {
@@ -74,13 +72,12 @@ namespace Finanzas.CursoVisualStudio.Shared.Repositories.Implementations
             }
         }
 
-        public void Sort(Func<T, T, int> predicate,
-            bool isAsc = true,
-            int x = 0, float y = 9, String w = "Hola")
+        public void Sort(Func<T, T, int> predicate, bool isAsc = true)
         {
             T pivot;
 
             for (int a = 1; a < this.items.Count; a++)
+            {
                 for (int b = this.items.Count - 1; b >= a; b--)
                 {
                     if (predicate(this.items[b - 1], this.items[b])
@@ -91,6 +88,7 @@ namespace Finanzas.CursoVisualStudio.Shared.Repositories.Implementations
                         this.items[b] = pivot;
                     }
                 }
+            }
         }
     }
 }

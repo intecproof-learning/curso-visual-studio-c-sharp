@@ -1,4 +1,5 @@
 ﻿using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces;
+using Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations
@@ -8,12 +9,14 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
         private readonly byte nickNameMinLen;
         private readonly byte nickNameMaxLen;
         private Dictionary<string, string> errorList;
+        private UnitOfWork uRepo;
 
         public UserManagementBusiness()
         {
             this.nickNameMaxLen = 12;
             this.nickNameMinLen = 8;
             this.errorList = new Dictionary<string, string>();
+            this.uRepo = new UnitOfWork();
         }
 
         public Dictionary<string, string> CreateOrUpdateUser(User item)
