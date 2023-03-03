@@ -71,5 +71,25 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 ObjectResult = result
             };
         }
+
+        public ObjectResponse<User> DeleteUser(int ID)
+        {
+            var result = uWork.UserRepo.Search(u => u.ID == ID);
+
+            if (result.Any())
+            {
+                this.uWork.UserRepo.Delete(result.First());
+            }
+
+            return new ObjectResponse<User>()
+            {
+                IsSucess = true,
+                Message = result == null || result.Any() == false ?
+                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
+                : $"El usuario {result.First().NickName} se eliminó correctamente",
+                Errors = null,
+                ObjectResult = result.First()
+            };
+        }
     }
 }

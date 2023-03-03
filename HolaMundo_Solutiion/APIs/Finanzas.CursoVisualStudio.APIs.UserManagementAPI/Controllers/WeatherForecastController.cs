@@ -31,9 +31,27 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
             .ToArray();
         }
 
+        [HttpDelete("delete/user/id")]
+        public IActionResult
+            DeleteUser(int id)
+        {
+            IUserManagementBusiness uBusiness =
+                new UserManagementBusiness();
+
+            var result = uBusiness
+                .DeleteUser(id);
+
+            if (result.IsSucess == false)
+            {
+                return this.StatusCode((int)HttpStatusCode.InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpGet("get/user/{criteria}")]
         public IActionResult
-            GetUSer(String criteria)
+            GetUser(String criteria)
         {
             IUserManagementBusiness uBusiness =
                 new UserManagementBusiness();
@@ -52,7 +70,7 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
         /*httpClient://localhost:5411/api
         /WeatherForecast/get/user/asdasds */
         [HttpPost("create/user")]
-        public IActionResult CreateOrUpdateUSer(User item)
+        public IActionResult CreateOrUpdateUser(User item)
         {
             IUserManagementBusiness uBusiness =
                 new UserManagementBusiness();
