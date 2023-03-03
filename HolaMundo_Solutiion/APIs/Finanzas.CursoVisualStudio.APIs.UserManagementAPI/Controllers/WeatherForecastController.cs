@@ -1,17 +1,16 @@
 using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations;
+using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private static readonly string[] Summaries = new[] {"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"};
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -32,14 +31,19 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
             .ToArray();
         }
 
-        [HttpPost("user")]
-        public Dictionary<string, string>
-            CreateOrUpdateUSer(User item)
+        [HttpPost("create/user")]
+        public IActionResult CreateOrUpdateUSer(User item)
         {
-            UserManagementBusiness uBusiness =
-                new UserManagementBusiness();
+            IUserManagementBusiness uBusiness = new UserManagementBusiness();
 
-            return uBusiness.CreateOrUpdateUser(item);
+            var result = uBusiness.CreateOrUpdateUser(item);
+
+            if (result.IsSucess == false)
+            {
+                return this.StatusCode((int)HttpStatusCode.InternalServerError, result);
+            }
+
+            return Ok(result);
         }
     }
 }

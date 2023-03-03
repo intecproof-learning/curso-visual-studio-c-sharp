@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finanzas.CursoVisualStudio.APIs.UserManagementAPI", "APIs\Finanzas.CursoVisualStudio.APIs.UserManagementAPI\Finanzas.CursoVisualStudio.APIs.UserManagementAPI.csproj", "{BB6DA71C-7E98-4691-BFF6-4AF2B6ADB15D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finanzas.CursoVisualStudio.Shared.Utilities", "Shared\Finanzas.CursoVisualStudio.Shared.Utilities\Finanzas.CursoVisualStudio.Shared.Utilities.csproj", "{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{BB6DA71C-7E98-4691-BFF6-4AF2B6ADB15D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB6DA71C-7E98-4691-BFF6-4AF2B6ADB15D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB6DA71C-7E98-4691-BFF6-4AF2B6ADB15D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +102,7 @@ Global
 		{E33541B1-ED9A-48E3-A680-1A3A9E9A3AD7} = {962E5823-B107-4FC3-A728-FCE1DF375B89}
 		{9087DDA1-7BEA-4F84-A4DA-CAF04A3650EF} = {C3D8CA0F-ED01-41FC-8F3C-E16406BEED80}
 		{BB6DA71C-7E98-4691-BFF6-4AF2B6ADB15D} = {DBA9B22E-1BCE-46EE-A35E-F88F1A0D3818}
+		{2B63B9A8-7419-4BE6-80E3-3795C5E34E9B} = {9B04D097-293C-410F-AD74-2FB59D2E3A7C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DBA3FDC8-99E9-474D-A2D0-BE52B595F73E}

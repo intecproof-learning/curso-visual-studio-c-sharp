@@ -1,4 +1,6 @@
-﻿namespace Finanzas.CursoVisualStudio.Shared.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Finanzas.CursoVisualStudio.Shared.DTOs
 {
     /// <summary>
     /// Clase que representa a  un Usuario
@@ -9,9 +11,20 @@
         /// <summary>
         /// ID de tipo entero que debe ser único
         /// </summary>
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El ID del usuario es requerido")]
         public int ID { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El Correo Electrónico es obligatorio")]
+        [EmailAddress(ErrorMessage = "El Correo Electrónico no tiene el formato esperado")]
         public String Email { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El Apodo es requerido")]
+        [StringLength(12, MinimumLength = 8, ErrorMessage = "El Apodo debe tener entre 8 y 12 caracteres")]
+        [RegularExpression("^[A-Za-z0-9]{8,12}$", ErrorMessage = "El Apodo solo puede tener letras y/o números")]
         public String NickName { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La Contraseña es requerida")]
+        [StringLength(16, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 16 caracteres")]
         public String Password { get; set; }
         #endregion
 

@@ -1,43 +1,55 @@
 ﻿using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces;
 using Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
+using Finanzas.CursoVisualStudio.Shared.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations
 {
     public class UserManagementBusiness : IUserManagementBusiness
     {
-        private readonly byte nickNameMinLen;
-        private readonly byte nickNameMaxLen;
-        private Dictionary<string, string> errorList;
-        private UnitOfWork uRepo;
+        private UnitOfWork uWork;
 
         public UserManagementBusiness()
         {
-            this.nickNameMaxLen = 12;
-            this.nickNameMinLen = 8;
-            this.errorList = new Dictionary<string, string>();
-            this.uRepo = new UnitOfWork();
+            this.uWork = new UnitOfWork();
         }
 
-        public Dictionary<string, string> CreateOrUpdateUser(User item)
+        public ObjectResponse<User> CreateOrUpdateUser(User item)
         {
-            this.ValidateUser(item);
-            return this.errorList;
-        }
+            ICollection<ValidationResult> vResult = new List<ValidationResult>();
+            String message = "Ocurrieron uno o varios errores al validar el modelo";
+            bool isSuccess = false;
 
-        private void ValidateUser(User item)
-        {
-            if (item.NickName.Length < this.nickNameMinLen
-                || item.NickName.Length > this.nickNameMaxLen)
+            if (Utilities.IsValidModel<User>(item, out vResult) == true)
             {
-                this.errorList.Add("Longitud del apodo", "El apodo debe tener entre 8 y 12 carácteres");
+                if (uWork.UserRepo.Search(u => u.ID == item.ID).Any() == true)
+                {
+                    uWork.UserRepo.Modify(item, u => u.ID == item.ID, (nUser, cUser) =>
+                    {
+                        cUser.Email = nUser.Email;
+                        cUser.NickName = nUser.NickName;
+                        cUser.Password = nUser.Password;
+                    });
+
+                    message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
+                    isSuccess = true;
+                }
+                else
+                {
+                    uWork.UserRepo.Add(item);
+                    message = $"El usuario \"{item.NickName}\" se insertó correctamente";
+                    isSuccess = true;
+                }
             }
 
-            var matches = item.NickName.Intersect("@°¬|#$%&/");
-            if (matches.Count() > 0)
+            return new ObjectResponse<User>()
             {
-                this.errorList.Add("Carácteres del apodo", $"El apodo no debe tener los siguientes carácteres:\"@°¬|#$%&/\". Se encontraron los siguientes carácteres: {new string(matches.ToArray())}");
-            }
+                Errors = vResult,
+                Message = message,
+                ObjectResult = item,
+                IsSucess = isSuccess
+            };
         }
     }
 }
