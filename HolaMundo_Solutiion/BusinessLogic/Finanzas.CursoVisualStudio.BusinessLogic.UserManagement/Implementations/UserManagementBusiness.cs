@@ -51,5 +51,25 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 IsSucess = isSuccess
             };
         }
+
+        public ObjectResponse<List<User>>
+            GetUser(String criteria)
+        {
+            var result = this.uWork.UserRepo
+            .Search(u => u.ID.ToString() == criteria
+            || u.NickName.ToLower().Contains(criteria)
+            || u.Email.ToLower().Contains(criteria));
+
+
+            return new ObjectResponse<List<User>>()
+            {
+                IsSucess = true,
+                Message = result == null || result.Any() == false ?
+                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
+                : $"Se encontraron {result.Count} coincidencias",
+                Errors = null,
+                ObjectResult = result
+            };
+        }
     }
 }

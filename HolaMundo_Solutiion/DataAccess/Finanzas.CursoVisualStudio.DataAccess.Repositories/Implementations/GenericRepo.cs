@@ -9,18 +9,21 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
     internal class GenericRepo<T> : IGenericRepo<T>
     {
-        private List<T> items;
+        private static List<T> items;
 
         public GenericRepo()
         {
-            this.items = new List<T>();
+            if (items == null)
+            {
+                items = new List<T>();
+            }
         }
 
         public T Add(T item)
         {
             try
             {
-                this.items.Add(item);
+                items.Add(item);
 
                 return item;
             }
@@ -34,7 +37,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                this.items.Remove(entity);
+                items.Remove(entity);
 
                 return entity;
             }
@@ -64,7 +67,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                return this.items.Where(predicate).ToList();
+                return items.Where(predicate).ToList();
             }
             catch
             {
@@ -76,16 +79,16 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             T pivot;
 
-            for (int a = 1; a < this.items.Count; a++)
+            for (int a = 1; a < items.Count; a++)
             {
-                for (int b = this.items.Count - 1; b >= a; b--)
+                for (int b = items.Count - 1; b >= a; b--)
                 {
-                    if (predicate(this.items[b - 1], this.items[b])
+                    if (predicate(items[b - 1], items[b])
                         == (isAsc == true ? 1 : -1))
                     {
-                        pivot = this.items[b - 1];
-                        this.items[b - 1] = this.items[b];
-                        this.items[b] = pivot;
+                        pivot = items[b - 1];
+                        items[b - 1] = items[b];
+                        items[b] = pivot;
                     }
                 }
             }

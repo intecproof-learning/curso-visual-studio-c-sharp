@@ -31,10 +31,31 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI.Controllers
             .ToArray();
         }
 
+        [HttpGet("get/user/{criteria}")]
+        public IActionResult
+            GetUSer(String criteria)
+        {
+            IUserManagementBusiness uBusiness =
+                new UserManagementBusiness();
+
+            var result = uBusiness
+                .GetUser(criteria.ToLower());
+
+            if (result.IsSucess == false)
+            {
+                return this.StatusCode((int)HttpStatusCode.InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        /*httpClient://localhost:5411/api
+        /WeatherForecast/get/user/asdasds */
         [HttpPost("create/user")]
         public IActionResult CreateOrUpdateUSer(User item)
         {
-            IUserManagementBusiness uBusiness = new UserManagementBusiness();
+            IUserManagementBusiness uBusiness =
+                new UserManagementBusiness();
 
             var result = uBusiness.CreateOrUpdateUser(item);
 
