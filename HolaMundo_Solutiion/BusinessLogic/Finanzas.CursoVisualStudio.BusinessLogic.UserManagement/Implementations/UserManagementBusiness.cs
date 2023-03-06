@@ -17,39 +17,46 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public ObjectResponse<User> CreateOrUpdateUser(User item)
         {
-            ICollection<ValidationResult> vResult = new List<ValidationResult>();
-            String message = "Ocurrieron uno o varios errores al validar el modelo";
-            bool isSuccess = false;
-
-            if (Utilities.IsValidModel<User>(item, out vResult) == true)
+            try
             {
-                if (uWork.UserRepo.Search(u => u.ID == item.ID).Any() == true)
+                ICollection<ValidationResult> vResult = new List<ValidationResult>();
+                String message = "Ocurrieron uno o varios errores al validar el modelo";
+                bool isSuccess = false;
+
+                if (Utilities.IsValidModel<User>(item, out vResult) == true)
                 {
-                    uWork.UserRepo.Modify(item, u => u.ID == item.ID, (nUser, cUser) =>
+                    if (uWork.UserRepo.Search(u => u.ID == item.ID).Any() == true)
                     {
-                        cUser.Email = nUser.Email;
-                        cUser.NickName = nUser.NickName;
-                        cUser.Password = nUser.Password;
-                    });
+                        uWork.UserRepo.Modify(item, u => u.ID == item.ID, (nUser, cUser) =>
+                        {
+                            cUser.Email = nUser.Email;
+                            cUser.NickName = nUser.NickName;
+                            cUser.Password = nUser.Password;
+                        });
 
-                    message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
-                    isSuccess = true;
+                        message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
+                        isSuccess = true;
+                    }
+                    else
+                    {
+                        uWork.UserRepo.Add(item);
+                        message = $"El usuario \"{item.NickName}\" se insertó correctamente";
+                        isSuccess = true;
+                    }
                 }
-                else
+
+                return new ObjectResponse<User>()
                 {
-                    uWork.UserRepo.Add(item);
-                    message = $"El usuario \"{item.NickName}\" se insertó correctamente";
-                    isSuccess = true;
-                }
+                    Errors = vResult,
+                    Message = message,
+                    ObjectResult = item,
+                    IsSucess = isSuccess
+                };
             }
-
-            return new ObjectResponse<User>()
+            catch
             {
-                Errors = vResult,
-                Message = message,
-                ObjectResult = item,
-                IsSucess = isSuccess
-            };
+                throw;
+            }
         }
 
         public ObjectResponse<List<User>>
