@@ -1,4 +1,5 @@
 ﻿using Finanzas.CursoVisualStudio.DataAccess.Repositories.Interfaces;
+using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,11 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
     internal class GenericRepo<T> : IGenericRepo<T>
     {
-        private static List<T> items;
+        private CursoVisualCContext context;
 
         public GenericRepo()
         {
-            if (items == null)
-            {
-                items = new List<T>();
-            }
+            this.context = new CursoVisualCContext();
         }
 
         public T Add(T item)

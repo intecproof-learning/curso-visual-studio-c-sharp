@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj" />
+    <ProjectReference Include="..\Finanzas.CursoVisualStudio.DataAccess.SQLDatabase\Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.csproj" />
   </ItemGroup>
 
 </Project>
