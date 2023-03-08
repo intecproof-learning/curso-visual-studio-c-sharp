@@ -11,6 +11,7 @@ namespace Finanzas.CursoVisualStudio.Shared.DTOs
         [StringLength(20, MinimumLength = 3, ErrorMessage = "El Nombre del módulo debe tener entre 3 y 20 carácteres")]
         [RegularExpression("^[A-Za-z0-9]{3,20}$", ErrorMessage = "El Nombre solo puede tener letras y/o números")]
         public String Name { get; set; }
+        
         [StringLength(150, ErrorMessage = "La Descripción del módulo debe tener máximo 150 carácteres")]
         public String Description { get; set; }
 
