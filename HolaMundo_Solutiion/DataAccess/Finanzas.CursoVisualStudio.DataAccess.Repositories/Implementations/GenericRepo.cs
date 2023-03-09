@@ -14,7 +14,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 
         public GenericRepo()
         {
-            this.context = new CursoVisualCContext();
+            this.context= new CursoVisualCContext();
         }
 
         public T Add(T item)
@@ -93,3 +93,6 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         }
     }
 }
+
+//Scaffold command
+//Scaffold-DbContext "Server=localhost;Database=CursoVisualC#;User ID=sa;Password=Admin123;Trusted_Connection=True;Encrypt=True;" Microsoft.EntityFrameworkCore.SqlServer -Force -OutputDir Models
