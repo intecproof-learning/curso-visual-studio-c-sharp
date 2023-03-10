@@ -1,10 +1,6 @@
 ﻿using Finanzas.CursoVisualStudio.DataAccess.Repositories.Interfaces;
 using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
@@ -27,7 +23,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 
         public GenericRepo()
         {
-            this.context= new CursoVisualCContext();
+            this.context = new CursoVisualCContext();
         }
 
         public T Add(T item)
@@ -48,6 +44,8 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
+                this.context.Remove<T>(entity);
+                this.context.SaveChanges();
                 return entity;
             }
             catch
@@ -56,15 +54,13 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             }
         }
 
-        public T Modify(T item, Func<T, bool> predicateSearch, Action<T, T> predicateMod)
+        public T Modify(T item)
         {
             try
             {
-                T current =
-                    this.Search(predicateSearch).First();
-                predicateMod(item, current);
-
-                return current;
+                context.Update<T>(item);
+                context.SaveChanges();
+                return item;
             }
             catch
             {
@@ -72,35 +68,28 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             }
         }
 
-        public List<T> Search(Func<T, bool> predicate)
+        public List<T> Search(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
             try
             {
-                return new List<T>();
+                IQueryable<T> query = this.context.Set<T>();
+
+                if (filter != null)
+                {
+                    query = query.Where(filter);
+                }
+
+                if (orderBy != null)
+                {
+                    return orderBy(query).ToList();
+                }
+
+                return query.ToList();
             }
             catch
             {
                 throw;
             }
-        }
-
-        public void Sort(Func<T, T, int> predicate, bool isAsc = true)
-        {
-            //T pivot;
-
-            //for (int a = 1; a < items.Count; a++)
-            //{
-            //    for (int b = items.Count - 1; b >= a; b--)
-            //    {
-            //        if (predicate(items[b - 1], items[b])
-            //            == (isAsc == true ? 1 : -1))
-            //        {
-            //            pivot = items[b - 1];
-            //            items[b - 1] = items[b];
-            //            items[b] = pivot;
-            //        }
-            //    }
-            //}
         }
     }
 }

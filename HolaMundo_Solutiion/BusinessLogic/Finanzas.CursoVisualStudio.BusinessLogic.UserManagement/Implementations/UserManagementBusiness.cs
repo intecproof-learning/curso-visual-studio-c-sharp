@@ -3,6 +3,7 @@ using Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Finanzas.CursoVisualStudio.Shared.Utilities;
 using System.ComponentModel.DataAnnotations;
+using Sql = Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations
 {
@@ -25,23 +26,23 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
                 if (Utilities.IsValidModel<User>(item, out vResult) == true)
                 {
-                    if (uWork.UserRepo.Search(u => u.Id == item.ID).Any() == true)
+                    if (item.ID != 0 && uWork.UserRepo.Search(u => u.Id == item.ID).Any() == true)
                     {
-                        uWork.UserRepo.Modify(ConvertUserDtoToUserSql(item), u => u.Id == item.ID, (nUser, cUser) =>
-                        {
-                            cUser.Email = nUser.Email;
-                            cUser.NickName = nUser.NickName;
-                            cUser.Password = nUser.Password;
-                        });
+                        uWork.UserRepo.Modify(ConvertUserDtoToUserSql(item));
 
                         message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
                         isSuccess = true;
                     }
-                    else
+                    else if (item.ID != 0)
                     {
                         uWork.UserRepo.Add(ConvertUserDtoToUserSql(item));
                         message = $"El usuario \"{item.NickName}\" se insertó correctamente";
                         isSuccess = true;
+                    }
+                    else
+                    {
+                        message = $"El usuario \"{item.NickName}\" con ID: \"{item.ID}\" que intentas actualizar no existe";
+                        isSuccess = false;
                     }
                 }
 
@@ -59,14 +60,15 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             }
         }
 
-        public ObjectResponse<List<User>>
-            GetUser(String criteria)
+        public ObjectResponse<List<User>> GetUser(String criteria)
         {
             var result = this.uWork.UserRepo
             .Search(u => u.Id.ToString() == criteria
             || u.NickName.ToLower().Contains(criteria)
-            || u.Email.ToLower().Contains(criteria));
+            || u.Email.ToLower().Contains(criteria), user => user.OrderBy(u => u.NickName));
 
+            List<User> resultDTO = new List<User>();
+            result.ForEach(a => resultDTO.Add(this.ConvertUserSqlToUserDto(a)));
 
             return new ObjectResponse<List<User>>()
             {
@@ -75,36 +77,46 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 "No se encontraron coincidencias que empaten con el criterio de búsqueda"
                 : $"Se encontraron {result.Count} coincidencias",
                 Errors = null,
-                //ObjectResult = result
+                ObjectResult = resultDTO
             };
         }
 
         public ObjectResponse<User> DeleteUser(int ID)
         {
             var result = uWork.UserRepo.Search(u => u.Id == ID);
-
-            if (result.Any())
+            var response = new ObjectResponse<User>()
             {
-                this.uWork.UserRepo.Delete(result.First());
-            }
-
-            return new ObjectResponse<User>()
-            {
-                IsSucess = true,
+                IsSucess = result == null || result.Any() == false ? false : true,
                 Message = result == null || result.Any() == false ?
                 "No se encontraron coincidencias que empaten con el criterio de búsqueda"
                 : $"El usuario {result.First().NickName} se eliminó correctamente",
                 Errors = null,
-                //ObjectResult = result.First()
             };
+
+            if (result.Any())
+            {
+                response.ObjectResult = this.ConvertUserSqlToUserDto(this.uWork.UserRepo.Delete(result.First()));
+            }
+
+            return response;
         }
 
-        private Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models.User ConvertUserDtoToUserSql(Shared.DTOs.User dto)
+        private Sql.User ConvertUserDtoToUserSql(Shared.DTOs.User dto)
         {
-            return new DataAccess.SQLDatabase.Models.User()
+            return new Sql.User()
             {
                 Email = dto.Email,
                 Id = dto.ID,
+                NickName = dto.NickName,
+                Password = dto.Password
+            };
+        }
+        private User ConvertUserSqlToUserDto(Sql.User dto)
+        {
+            return new User()
+            {
+                Email = dto.Email,
+                ID = dto.Id,
                 NickName = dto.NickName,
                 Password = dto.Password
             };

@@ -10,7 +10,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpDelete("delete/user/id")]
+        [HttpDelete("delete/id")]
         public IActionResult
             DeleteUser(int id)
         {
@@ -28,7 +28,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get/user/{criteria}")]
+        [HttpGet("get")]
         public IActionResult
             GetUser(String criteria)
         {
@@ -36,7 +36,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
                 new UserManagementBusiness();
 
             var result = uBusiness
-                .GetUser(criteria.ToLower());
+                .GetUser(criteria);
 
             if (result.IsSucess == false)
             {
@@ -48,7 +48,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
 
         /*httpClient://localhost:5411/api
         /WeatherForecast/get/user/asdasds */
-        [HttpPost("create/user")]
+        [HttpPost("create")]
         public IActionResult CreateOrUpdateUser(User item)
         {
             try

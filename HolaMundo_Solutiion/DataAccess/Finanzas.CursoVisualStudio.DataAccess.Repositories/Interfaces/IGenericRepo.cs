@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Interfaces
 {
-    public interface IGenericRepo<T>
+    public interface IGenericRepo<T> where T : class, new()
     {
         public T Add(T item);
 
-        public List<T> Search(Func<T, bool> predicate);
+        public List<T> Search(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
-        public T Modify(T item, Func<T, bool> predicateSearch, Action<T, T> predicateMod);
+        public T Modify(T item);
 
         public T Delete(T entity);
-
-        public void Sort(Func<T, T, int> predicate, bool isAsc = true);
     }
 }
