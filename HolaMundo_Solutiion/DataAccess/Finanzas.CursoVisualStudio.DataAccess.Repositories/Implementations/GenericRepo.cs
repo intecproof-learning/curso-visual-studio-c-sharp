@@ -35,7 +35,6 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             try
             {
                 this.context.Add<T>(item);
-                this.context.Update<T>(item);
                 this.context.SaveChanges();
                 return item;
             }
