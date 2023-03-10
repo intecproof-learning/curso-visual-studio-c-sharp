@@ -10,7 +10,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpDelete("delete/id")]
+        [HttpDelete("delete/{id:int}")]
         public IActionResult
             DeleteUser(int id)
         {
@@ -30,7 +30,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
 
         [HttpGet("get")]
         public IActionResult
-            GetUser(String criteria)
+            GetUser(String? criteria)
         {
             IUserManagementBusiness uBusiness =
                 new UserManagementBusiness();

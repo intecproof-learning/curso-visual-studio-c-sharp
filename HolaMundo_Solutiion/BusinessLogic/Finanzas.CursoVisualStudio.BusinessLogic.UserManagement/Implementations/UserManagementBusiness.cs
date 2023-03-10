@@ -3,6 +3,7 @@ using Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Finanzas.CursoVisualStudio.Shared.Utilities;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using Sql = Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations
@@ -33,7 +34,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                         message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
                         isSuccess = true;
                     }
-                    else if (item.ID != 0)
+                    else if (item.ID == 0)
                     {
                         uWork.UserRepo.Add(ConvertUserDtoToUserSql(item));
                         message = $"El usuario \"{item.NickName}\" se insertó correctamente";
@@ -60,15 +61,26 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             }
         }
 
-        public ObjectResponse<List<User>> GetUser(String criteria)
+        public ObjectResponse<List<User>> GetUser(String? criteria)
         {
-            var result = this.uWork.UserRepo
-            .Search(u => u.Id.ToString() == criteria
+            Expression<Func<Sql.User, bool>> filter = String.IsNullOrEmpty(criteria) == true ? null : u => u.Id.ToString() == criteria
             || u.NickName.ToLower().Contains(criteria)
-            || u.Email.ToLower().Contains(criteria), user => user.OrderBy(u => u.NickName));
+            || u.Email.ToLower().Contains(criteria);
+
+            var result = this.uWork.UserRepo
+            .Search(filter: filter);
 
             List<User> resultDTO = new List<User>();
-            result.ForEach(a => resultDTO.Add(this.ConvertUserSqlToUserDto(a)));
+            result.ForEach(a =>
+            resultDTO.Add(
+            this.ConvertUserSqlToUserDto(a)));
+
+            ///Este foreach es lo mismo que el de arriba
+            //foreach (var a in result)
+            //{
+            //    resultDTO.Add(
+            //    this.ConvertUserSqlToUserDto(a));
+            //}
 
             return new ObjectResponse<List<User>>()
             {
@@ -111,14 +123,14 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 Password = dto.Password
             };
         }
-        private User ConvertUserSqlToUserDto(Sql.User dto)
+        private User ConvertUserSqlToUserDto(Sql.User sql)
         {
             return new User()
             {
-                Email = dto.Email,
-                ID = dto.Id,
-                NickName = dto.NickName,
-                Password = dto.Password
+                Email = sql.Email,
+                ID = sql.Id,
+                NickName = sql.NickName,
+                Password = sql.Password
             };
         }
     }
