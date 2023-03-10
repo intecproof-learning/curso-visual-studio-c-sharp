@@ -25,9 +25,9 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
                 if (Utilities.IsValidModel<User>(item, out vResult) == true)
                 {
-                    if (uWork.UserRepo.Search(u => u.ID == item.ID).Any() == true)
+                    if (uWork.UserRepo.Search(u => u.Id == item.ID).Any() == true)
                     {
-                        uWork.UserRepo.Modify(item, u => u.ID == item.ID, (nUser, cUser) =>
+                        uWork.UserRepo.Modify(ConvertUserDtoToUserSql(item), u => u.Id == item.ID, (nUser, cUser) =>
                         {
                             cUser.Email = nUser.Email;
                             cUser.NickName = nUser.NickName;
@@ -39,7 +39,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                     }
                     else
                     {
-                        uWork.UserRepo.Add(item);
+                        uWork.UserRepo.Add(ConvertUserDtoToUserSql(item));
                         message = $"El usuario \"{item.NickName}\" se insertó correctamente";
                         isSuccess = true;
                     }
@@ -63,7 +63,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             GetUser(String criteria)
         {
             var result = this.uWork.UserRepo
-            .Search(u => u.ID.ToString() == criteria
+            .Search(u => u.Id.ToString() == criteria
             || u.NickName.ToLower().Contains(criteria)
             || u.Email.ToLower().Contains(criteria));
 
@@ -75,13 +75,13 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 "No se encontraron coincidencias que empaten con el criterio de búsqueda"
                 : $"Se encontraron {result.Count} coincidencias",
                 Errors = null,
-                ObjectResult = result
+                //ObjectResult = result
             };
         }
 
         public ObjectResponse<User> DeleteUser(int ID)
         {
-            var result = uWork.UserRepo.Search(u => u.ID == ID);
+            var result = uWork.UserRepo.Search(u => u.Id == ID);
 
             if (result.Any())
             {
@@ -95,7 +95,18 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 "No se encontraron coincidencias que empaten con el criterio de búsqueda"
                 : $"El usuario {result.First().NickName} se eliminó correctamente",
                 Errors = null,
-                ObjectResult = result.First()
+                //ObjectResult = result.First()
+            };
+        }
+
+        private Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models.User ConvertUserDtoToUserSql(Shared.DTOs.User dto)
+        {
+            return new DataAccess.SQLDatabase.Models.User()
+            {
+                Email = dto.Email,
+                Id = dto.ID,
+                NickName = dto.NickName,
+                Password = dto.Password
             };
         }
     }

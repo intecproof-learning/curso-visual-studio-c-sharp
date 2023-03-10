@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Implementations\ModuleManagementBusiness.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\Finanzas.CursoVisualStudio.DataAccess.Repositories\Finanzas.CursoVisualStudio.DataAccess.Repositories.csproj" />
     <ProjectReference Include="..\..\Shared\Finanzas.CursoVisualStudio.Shared.DTOs\Finanzas.CursoVisualStudio.Shared.DTOs.csproj" />
     <ProjectReference Include="..\..\Shared\Finanzas.CursoVisualStudio.Shared.Utilities\Finanzas.CursoVisualStudio.Shared.Utilities.csproj" />

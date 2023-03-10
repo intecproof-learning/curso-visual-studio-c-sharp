@@ -8,7 +8,20 @@ using System.Threading.Tasks;
 
 namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
-    internal class GenericRepo<T> : IGenericRepo<T>
+    internal class GenericRepo<T> : IGenericRepo<T> where T : class, new()
+        ///class -> Objeto tipo T debe ser una clase
+
+        ///new() -> Objeto tipo T debe tener un
+        ///constructor sin parámetros
+
+        ///struct -> T debe ser de tipo struct
+
+        ///notnull -> T no debe permitir nulos
+
+        ///[Nombre de la interface] T debe implementar
+        ///la interface especificada
+
+        ///https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
     {
         private CursoVisualCContext context;
 
@@ -21,8 +34,9 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                items.Add(item);
-
+                this.context.Add<T>(item);
+                this.context.Update<T>(item);
+                this.context.SaveChanges();
                 return item;
             }
             catch
@@ -35,8 +49,6 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                items.Remove(entity);
-
                 return entity;
             }
             catch
@@ -65,7 +77,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                return items.Where(predicate).ToList();
+                return new List<T>();
             }
             catch
             {
@@ -75,21 +87,21 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 
         public void Sort(Func<T, T, int> predicate, bool isAsc = true)
         {
-            T pivot;
+            //T pivot;
 
-            for (int a = 1; a < items.Count; a++)
-            {
-                for (int b = items.Count - 1; b >= a; b--)
-                {
-                    if (predicate(items[b - 1], items[b])
-                        == (isAsc == true ? 1 : -1))
-                    {
-                        pivot = items[b - 1];
-                        items[b - 1] = items[b];
-                        items[b] = pivot;
-                    }
-                }
-            }
+            //for (int a = 1; a < items.Count; a++)
+            //{
+            //    for (int b = items.Count - 1; b >= a; b--)
+            //    {
+            //        if (predicate(items[b - 1], items[b])
+            //            == (isAsc == true ? 1 : -1))
+            //        {
+            //            pivot = items[b - 1];
+            //            items[b - 1] = items[b];
+            //            items[b] = pivot;
+            //        }
+            //    }
+            //}
         }
     }
 }

@@ -68,9 +68,7 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
             catch (Exception ex)
             {
                 //Registro del error para su control
-                return this.StatusCode
-                ((int)HttpStatusCode
-                .InternalServerError);
+                return this.StatusCode((int)HttpStatusCode.InternalServerError);
             }
             finally
             {
