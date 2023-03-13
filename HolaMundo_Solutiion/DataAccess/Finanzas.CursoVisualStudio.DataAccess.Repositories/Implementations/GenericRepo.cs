@@ -72,18 +72,43 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
+                /*
+                 * Recuerda que esta instrucción
+                 * primero recupera los datos y
+                 * luego los ordena
+                this.context.Users
+               .Where(u => u.Id == 1).ToList()
+               .OrderBy(u=> u.Id);
+
+                * Esta instrucción recupera los datos ya
+                * ordenados
+                this.context.Users
+               .Where(u => u.Id == 1)
+               .OrderBy(u => u.Id)
+               .ToList();
+                */
+
+                //SELECT * FROM User
                 IQueryable<T> query = this.context.Set<T>();
 
                 if (filter != null)
                 {
+                    //SELECT * FROM User WHERE filtro
                     query = query.Where(filter);
                 }
 
                 if (orderBy != null)
                 {
+                    //orderBy(query) ->
+                    //SELECT * FROM User WHERE filtro
+                    //order by columna(s)
+                    //.ToList() -> F5 o ejecutar query
                     return orderBy(query).ToList();
                 }
 
+                //query ->
+                //SELECT * FROM User WHERE filtro
+                //.ToList() -> F5 o ejecutar query
                 return query.ToList();
             }
             catch

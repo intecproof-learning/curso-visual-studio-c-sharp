@@ -67,8 +67,19 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             || u.NickName.ToLower().Contains(criteria)
             || u.Email.ToLower().Contains(criteria);
 
+            //Si criteria es nulo o vacío entoces:
+            //SELECT * FROM User
+
+            //Si criteria tiene algo entonces: 
+            //SELECT * FROM User
+            //WHERE id = criteria OR
+            //email LIKE "%criteria%" OR
+            //nickName LIKE "%criteria%"
+
             var result = this.uWork.UserRepo
             .Search(filter: filter);
+
+            result.OrderBy(ob => ob.Id);
 
             List<User> resultDTO = new List<User>();
             result.ForEach(a =>
