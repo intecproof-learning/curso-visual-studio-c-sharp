@@ -15,7 +15,11 @@ public partial class CursoVisualCContext : DbContext
     {
     }
 
+    public virtual DbSet<Module> Modules { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserModuleRel> UserModuleRels { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -23,6 +27,19 @@ public partial class CursoVisualCContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Module>(entity =>
+        {
+            entity.ToTable("Module");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(150)
+                .HasColumnName("description");
+            entity.Property(e => e.Name)
+                .HasMaxLength(20)
+                .HasColumnName("name");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");
@@ -37,6 +54,27 @@ public partial class CursoVisualCContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(16)
                 .HasColumnName("password");
+        });
+
+        modelBuilder.Entity<UserModuleRel>(entity =>
+        {
+            entity.HasKey(e => new { e.IdUser, e.IdModule });
+
+            entity.ToTable("User_Module_Rel");
+
+            entity.Property(e => e.IdUser).HasColumnName("idUser");
+            entity.Property(e => e.IdModule).HasColumnName("idModule");
+            entity.Property(e => e.IsActive).HasColumnName("isActive");
+
+            entity.HasOne(d => d.IdModuleNavigation).WithMany(p => p.UserModuleRels)
+                .HasForeignKey(d => d.IdModule)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Module_Rel_Module");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.UserModuleRels)
+                .HasForeignKey(d => d.IdUser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Module_Rel_User");
         });
 
         OnModelCreatingPartial(modelBuilder);
