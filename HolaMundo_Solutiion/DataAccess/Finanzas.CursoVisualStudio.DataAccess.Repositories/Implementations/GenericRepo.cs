@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
-    internal class GenericRepo<T> : IGenericRepo<T> where T : class, new()
+    internal class GenericRepo<T> : IDisposable, IGenericRepo<T> where T : class, new()
         ///class -> Objeto tipo T debe ser una clase
 
         ///new() -> Objeto tipo T debe tener un
@@ -52,6 +52,11 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             {
                 throw;
             }
+        }
+
+        public void Dispose()
+        {
+            this.context.Dispose();
         }
 
         public T Modify(T item)
@@ -115,6 +120,11 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             {
                 throw;
             }
+        }
+
+        ~GenericRepo()
+        {
+            this.Dispose();
         }
     }
 }
