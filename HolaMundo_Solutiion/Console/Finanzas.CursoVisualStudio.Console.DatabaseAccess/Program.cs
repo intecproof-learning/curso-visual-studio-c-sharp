@@ -12,8 +12,61 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             //QueryModules();
             //QueryADO();
             //InserUsers();
-            InsertModuleADO();
+            //InsertModuleADO();
+            InsertUserModule();
             Console.WriteLine("Finalizado");
+        }
+
+        private static void InsertUserModule()
+        {
+            using (CursoVisualCContext context
+                = new CursoVisualCContext())
+            {
+                var user = new User()
+                {
+                    Email = "abraham@hotmail.com",
+                    Id = 0,
+                    NickName = "Abraham",
+                    Password = "Abraham123"
+                };
+
+                Module module = new Module()
+                {
+                    Description = "Módulo Abraham",
+                    Id = 0,
+                    Name = "Módulo Abraham"
+                };
+
+                Module module2 = new Module()
+                {
+                    Description = "Módulo Abraham 2",
+                    Id = 0,
+                    Name = "Módulo Abraham 2"
+                };
+
+                UserModuleRel umr =
+                    new UserModuleRel()
+                    {
+                        IdModule = 0,
+                        IdUser = 0,
+                   IdModuleNavigation = module,
+                   IsActive= true
+                    };
+
+                UserModuleRel umr2 =
+                    new UserModuleRel()
+                    {
+                        IdModule = 0,
+                        IdUser = 0,
+                  IdModuleNavigation = module2,
+                        IsActive = true
+                    };
+
+                user.UserModuleRels.Add(umr);
+                user.UserModuleRels.Add(umr2);
+                context.Users.Add(user);
+                context.SaveChanges();
+            }
         }
 
         private static void InserUsers()
@@ -87,8 +140,8 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
                             reader.GetOrdinal("id")).Value);
                     Console.WriteLine($"El Id del usuario es:" +
                         $"{idU}");
-                    string nickName = reader.GetSqlString(1).IsNull?
-                    String.Empty:Convert.ToString(reader
+                    string nickName = reader.GetSqlString(1).IsNull ?
+                    String.Empty : Convert.ToString(reader
                     .GetSqlString(1).Value);
 
                     Console.WriteLine($"El NickName del usuario es:" +
@@ -237,7 +290,7 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             string queryS = $"SELECT * FROM [User]";
             SqlConnection conn =
                 new SqlConnection(connS);
-            
+
             conn.Open();
             var tran = conn.BeginTransaction();
             SqlCommand command = null;
