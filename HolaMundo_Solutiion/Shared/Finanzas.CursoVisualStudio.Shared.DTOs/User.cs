@@ -26,7 +26,14 @@ namespace Finanzas.CursoVisualStudio.Shared.DTOs
         [Required(AllowEmptyStrings = false, ErrorMessage = "La Contraseña es requerida")]
         [StringLength(16, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 16 caracteres")]
         public String Password { get; set; }
+
+        public List<UserModuleRelDto> RelatedModules { get; set; }
         #endregion
+
+        public User()
+        {
+            this.RelatedModules = null;
+        }
 
         #region Methods
         //CompareTo regresa 0 si ambos ojetos son iguales

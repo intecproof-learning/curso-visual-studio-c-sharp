@@ -126,13 +126,41 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         private Sql.User ConvertUserDtoToUserSql(Shared.DTOs.User dto)
         {
-            return new Sql.User()
+            Sql.User sql = new Sql.User()
             {
                 Email = dto.Email,
                 Id = dto.ID,
                 NickName = dto.NickName,
                 Password = dto.Password
             };
+
+            if (dto.RelatedModules != null
+            && dto.RelatedModules.Any() == true)
+            {
+                foreach (var item in dto.RelatedModules)
+                {
+                    sql.UserModuleRels.Add(
+                        new Sql.UserModuleRel()
+                        {
+                            IsActive = true,
+                            IdUser = dto.ID,
+                            IdModule = item.ModuleDto.ID,
+                            IdModuleNavigation =
+                            new Sql.Module()
+                            {
+                                Description =
+                     item.ModuleDto.Description,
+                                Name =
+                      item.ModuleDto.Name,
+                                Id =
+                      item.ModuleDto.ID,
+                            }
+                        }
+                        ) ;
+                }
+            }
+
+            return sql;
         }
         private User ConvertUserSqlToUserDto(Sql.User sql)
         {

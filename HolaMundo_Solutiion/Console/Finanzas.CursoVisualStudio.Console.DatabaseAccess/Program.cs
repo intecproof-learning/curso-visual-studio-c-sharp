@@ -237,19 +237,21 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             string queryS = $"SELECT * FROM [User]";
             SqlConnection conn =
                 new SqlConnection(connS);
-            SqlCommand command = null;
+            
             conn.Open();
             var tran = conn.BeginTransaction();
+            SqlCommand command = null;
+
             try
             {
                 command = new SqlCommand(
 "INSERT INTO Module ([name], [description]) VALUES ('Módulo ADO 1','Módulo ADO 1')"
-, conn, tran);
+, conn);
                 command.ExecuteNonQuery();
 
                 command = new SqlCommand(
 "INSERT INTO Module ([name], [description]) VALUES ('Módulo ADO 2','Módulo ADO 2')"
-, conn, tran);
+, conn);
                 command.ExecuteNonQuery();
 
                 tran.Commit();
