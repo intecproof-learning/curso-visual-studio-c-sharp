@@ -10,7 +10,43 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
         {
             //QueryUsers();
             //QueryModules();
-            QueryADO();
+            //QueryADO();
+            //InserUsers();
+            InsertModuleADO();
+            Console.WriteLine("Finalizado");
+        }
+
+        private static void InserUsers()
+        {
+            using (CursoVisualCContext
+                    context =
+                    new CursoVisualCContext())
+            {
+                var tran = context.Database
+                    .BeginTransaction();
+                try
+                {
+                    context.Modules.Add(new Module()
+                    {
+                        Name = "Módulo Tran 3",
+                        Description = "Módulo Tran 3"
+                    });
+
+                    context.Modules.Add(new Module()
+                    {
+                        Name = "Módulo Tran 4asdfghjklñpoiurrsg",
+                        Description = "Módulo Tran 4"
+                    });
+
+                    context.SaveChanges();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw;
+                }
+            }
         }
 
         private static void QueryADO()
@@ -193,6 +229,45 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
 
             }//Cuando se ejecuta esta llave de cierre
             //C# manda a llamar a context.Dispose();
+        }
+
+        private static void InsertModuleADO()
+        {
+            string connS = "Server=localhost;Database=CursoVisualC#;User ID=sa;Password=Admin123;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=true";
+            string queryS = $"SELECT * FROM [User]";
+            SqlConnection conn =
+                new SqlConnection(connS);
+            SqlCommand command = null;
+            conn.Open();
+            var tran = conn.BeginTransaction();
+            try
+            {
+                command = new SqlCommand(
+"INSERT INTO Module ([name], [description]) VALUES ('Módulo ADO 1','Módulo ADO 1')"
+, conn, tran);
+                command.ExecuteNonQuery();
+
+                command = new SqlCommand(
+"INSERT INTO Module ([name], [description]) VALUES ('Módulo ADO 2','Módulo ADO 2')"
+, conn, tran);
+                command.ExecuteNonQuery();
+
+                tran.Commit();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+            }
+            finally
+            {
+                if (command != null)
+                {
+                    command.Dispose();
+                }
+                conn.Close();
+                conn.Dispose();
+            }
         }
     }
 }
