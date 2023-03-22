@@ -74,7 +74,7 @@
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Location = new System.Drawing.Point(6, 25);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(86, 26);
+            this.btnSave.Size = new System.Drawing.Size(100, 30);
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "Guardar";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -111,9 +111,9 @@
             // btnDelete
             // 
             this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDelete.Location = new System.Drawing.Point(374, 25);
+            this.btnDelete.Location = new System.Drawing.Point(430, 25);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(86, 26);
+            this.btnDelete.Size = new System.Drawing.Size(100, 30);
             this.btnDelete.TabIndex = 6;
             this.btnDelete.Text = "Eliminar";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -121,9 +121,9 @@
             // btnModify
             // 
             this.btnModify.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnModify.Location = new System.Drawing.Point(282, 25);
+            this.btnModify.Location = new System.Drawing.Point(324, 25);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(86, 26);
+            this.btnModify.Size = new System.Drawing.Size(100, 30);
             this.btnModify.TabIndex = 4;
             this.btnModify.Text = "Modificar";
             this.btnModify.UseVisualStyleBackColor = true;
@@ -133,9 +133,9 @@
             this.btnCreate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCreate.FlatAppearance.BorderSize = 4;
             this.btnCreate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Fuchsia;
-            this.btnCreate.Location = new System.Drawing.Point(190, 25);
+            this.btnCreate.Location = new System.Drawing.Point(218, 25);
             this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(86, 26);
+            this.btnCreate.Size = new System.Drawing.Size(100, 30);
             this.btnCreate.TabIndex = 3;
             this.btnCreate.Text = "Nuevo";
             this.btnCreate.UseVisualStyleBackColor = true;
@@ -143,10 +143,9 @@
             // btnCancel
             // 
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancel.Location = new System.Drawing.Point(98, 25);
+            this.btnCancel.Location = new System.Drawing.Point(112, 25);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(86, 26);
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
