@@ -63,9 +63,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public ObjectResponse<List<User>> GetUser(String? criteria)
         {
-            Expression<Func<Sql.User, bool>> filter = String.IsNullOrEmpty(criteria) == true ? null : u => u.Id.ToString() == criteria
-            || u.NickName.ToLower().Contains(criteria)
-            || u.Email.ToLower().Contains(criteria);
+            Expression<Func<Sql.User, bool>> filter = String.IsNullOrEmpty(criteria) == true ? null : u => u.Id.ToString() == criteria || u.NickName.ToLower().Contains(criteria) || u.Email.ToLower().Contains(criteria);
 
             //Si criteria es nulo o vacío entoces:
             //SELECT * FROM User
@@ -76,15 +74,11 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             //email LIKE "%criteria%" OR
             //nickName LIKE "%criteria%"
 
-            var result = this.uWork.UserRepo
-            .Search(filter: filter);
-
+            var result = this.uWork.UserRepo.Search(filter: filter, include: "UserModuleRels.IdModuleNavigation");
             result.OrderBy(ob => ob.Id);
 
             List<User> resultDTO = new List<User>();
-            result.ForEach(a =>
-            resultDTO.Add(
-            this.ConvertUserSqlToUserDto(a)));
+            result.ForEach(a => resultDTO.Add(this.ConvertUserSqlToUserDto(a)));
 
             ///Este foreach es lo mismo que el de arriba
             //foreach (var a in result)
@@ -96,9 +90,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             return new ObjectResponse<List<User>>()
             {
                 IsSucess = true,
-                Message = result == null || result.Any() == false ?
-                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
-                : $"Se encontraron {result.Count} coincidencias",
+                Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"Se encontraron {result.Count} coincidencias",
                 Errors = null,
                 ObjectResult = resultDTO
             };
@@ -110,9 +102,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             var response = new ObjectResponse<User>()
             {
                 IsSucess = result == null || result.Any() == false ? false : true,
-                Message = result == null || result.Any() == false ?
-                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
-                : $"El usuario {result.First().NickName} se eliminó correctamente",
+                Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"El usuario {result.First().NickName} se eliminó correctamente",
                 Errors = null,
             };
 
@@ -134,8 +124,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 Password = dto.Password
             };
 
-            if (dto.RelatedModules != null
-            && dto.RelatedModules.Any() == true)
+            if (dto.RelatedModules != null && dto.RelatedModules.Any() == true)
             {
                 foreach (var item in dto.RelatedModules)
                 {
@@ -145,32 +134,60 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                             IsActive = true,
                             IdUser = dto.ID,
                             IdModule = item.ModuleDto.ID,
-                            IdModuleNavigation =
-                            new Sql.Module()
+                            IdModuleNavigation = new Sql.Module()
                             {
-                                Description =
-                     item.ModuleDto.Description,
-                                Name =
-                      item.ModuleDto.Name,
-                                Id =
-                      item.ModuleDto.ID,
+                                Description = item.ModuleDto.Description,
+                                Name = item.ModuleDto.Name,
+                                Id = item.ModuleDto.ID
                             }
-                        }
-                        ) ;
+                        });
                 }
             }
 
             return sql;
         }
+
         private User ConvertUserSqlToUserDto(Sql.User sql)
         {
-            return new User()
+            User dto = new User()
             {
                 Email = sql.Email,
                 ID = sql.Id,
                 NickName = sql.NickName,
-                Password = sql.Password
+                Password = sql.Password,
+                RelatedModules = new List<UserModuleRelDto>()
             };
+
+            if (sql.UserModuleRels != null && sql.UserModuleRels.Any() == true)
+            {
+                foreach (var item in sql.UserModuleRels)
+                {
+                    dto.RelatedModules.Add(
+                        new UserModuleRelDto()
+                        {
+                            IsActive = item.IsActive,
+                            ModuleDto = new Module()
+                            {
+                                Description = item.IdModuleNavigation.Description,
+                                ID = item.IdModule,
+                                Name = item.IdModuleNavigation.Name,
+                                RelatedUsers = null
+                            }
+                        });
+                }
+            }
+
+            return dto;
+        }
+
+        public void Dispose()
+        {
+            this.uWork.Dispose();
+        }
+
+        ~UserManagementBusiness()
+        {
+            this.Dispose();
         }
     }
 }

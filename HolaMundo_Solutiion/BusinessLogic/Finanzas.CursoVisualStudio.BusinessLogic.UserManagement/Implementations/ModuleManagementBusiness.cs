@@ -3,6 +3,7 @@ using Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Finanzas.CursoVisualStudio.Shared.Utilities;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using Sql = Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations
@@ -55,13 +56,11 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             }
         }
 
-        public ObjectResponse<List<Module>>
-            GetModule(String criteria)
+        public ObjectResponse<List<Module>> GetModule(String criteria)
         {
-            var result = this.uWork.ModuleRepo
-            .Search(u => u.Id.ToString() == criteria
-            || u.Name.ToLower().Contains(criteria)
-            || u.Description.ToLower().Contains(criteria));
+            Expression<Func<Sql.Module, bool>> filter = u => u.Id.ToString() == criteria || u.Name.ToLower().Contains(criteria) || u.Description.ToLower().Contains(criteria);
+
+            var result = this.uWork.ModuleRepo.Search(filter:filter, include: "UserModuleRels.IdUserNavigation");
 
             List<Module> resultQuery = new List<Module>();
             result.ForEach(item =>
@@ -69,13 +68,10 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 resultQuery.Add(this.ConvertModuleSqlToModuleDto(item));
             });
 
-
             return new ObjectResponse<List<Module>>()
             {
                 IsSucess = true,
-                Message = result == null || result.Any() == false ?
-                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
-                : $"Se encontraron {result.Count} coincidencias",
+                Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"Se encontraron {result.Count} coincidencias",
                 Errors = null,
                 ObjectResult = resultQuery
             };
@@ -93,34 +89,86 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             return new ObjectResponse<Module>()
             {
                 IsSucess = true,
-                Message = result == null || result.Any() == false ?
-                "No se encontraron coincidencias que empaten con el criterio de búsqueda"
-                : $"El usuario {result.First().Name} se eliminó correctamente",
+                Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"El usuario {result.First().Name} se eliminó correctamente",
                 Errors = null,
                 ObjectResult = this.ConvertModuleSqlToModuleDto(result.First())
             };
         }
 
-        private Sql.Module ConvertModuleDtoToModuleSql
-            (Module dto)
+        private Sql.Module ConvertModuleDtoToModuleSql(Module dto)
         {
-            return new Sql.Module()
+            Sql.Module sql = new Sql.Module()
             {
                 Description = dto.Description,
                 Id = dto.ID,
                 Name = dto.Name
             };
+
+            if (dto.RelatedUsers != null && dto.RelatedUsers.Any() == true)
+            {
+                foreach (var item in dto.RelatedUsers)
+                {
+                    sql.UserModuleRels.Add(
+                        new Sql.UserModuleRel()
+                        {
+                            IsActive = true,
+                            IdUser = item.UserDto.ID,
+                            IdModule = dto.ID,
+                            IdUserNavigation = new Sql.User()
+                            {
+                                Id = item.UserDto.ID,
+                                Email = item.UserDto.Email,
+                                NickName = item.UserDto.NickName,
+                                Password = item.UserDto.Password,
+                            }
+                        });
+                }
+            }
+
+            return sql;
         }
 
-        private Module ConvertModuleSqlToModuleDto
-            (Sql.Module sql)
+        private Module ConvertModuleSqlToModuleDto(Sql.Module sql)
         {
-            return new Module()
+            Module dto = new Module()
             {
                 Description = sql.Description,
                 ID = sql.Id,
-                Name = sql.Name
+                Name = sql.Name,
+                RelatedUsers = new List<ModuleUserRelDto>()
             };
+
+            if (sql.UserModuleRels != null && sql.UserModuleRels.Any() == true)
+            {
+                foreach (var item in sql.UserModuleRels)
+                {
+                    dto.RelatedUsers.Add(
+                        new ModuleUserRelDto()
+                        {
+                            IsActive = item.IsActive,
+                            UserDto = new User()
+                            {
+                                ID = item.IdUser,
+                                Email = item.IdUserNavigation.Email,
+                                NickName = item.IdUserNavigation.NickName,
+                                Password = item.IdUserNavigation.Password,
+                                RelatedModules = null
+                            }
+                        });
+                }
+            }
+
+            return dto;
+        }
+
+        public void Dispose()
+        {
+            this.uWork.Dispose();
+        }
+
+        ~ModuleManagementBusiness()
+        {
+            this.Dispose();
         }
     }
 }

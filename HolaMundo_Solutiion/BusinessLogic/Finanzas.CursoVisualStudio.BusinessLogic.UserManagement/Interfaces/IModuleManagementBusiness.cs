@@ -2,7 +2,7 @@
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces
 {
-    public interface IModuleManagementBusiness
+    public interface IModuleManagementBusiness: IDisposable
     {
         public ObjectResponse<Module> CreateOrUpdateModule(Module item);
 

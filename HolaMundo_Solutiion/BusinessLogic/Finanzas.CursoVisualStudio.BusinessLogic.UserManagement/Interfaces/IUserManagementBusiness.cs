@@ -2,7 +2,7 @@
 
 namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces
 {
-    public interface IUserManagementBusiness
+    public interface IUserManagementBusiness : IDisposable
     {
         public ObjectResponse<User> CreateOrUpdateUser(User item);
 

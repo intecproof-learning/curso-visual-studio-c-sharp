@@ -1,10 +1,11 @@
 ﻿using Finanzas.CursoVisualStudio.DataAccess.Repositories.Interfaces;
 using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 {
-    internal class GenericRepo<T> : IDisposable, IGenericRepo<T> where T : class, new()
+    internal class GenericRepo<T> : IGenericRepo<T> where T : class, new()
         ///class -> Objeto tipo T debe ser una clase
 
         ///new() -> Objeto tipo T debe tener un
@@ -73,7 +74,7 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
             }
         }
 
-        public List<T> Search(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public List<T> Search(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, String include = "")
         {
             try
             {
@@ -100,6 +101,14 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
                 {
                     //SELECT * FROM User WHERE filtro
                     query = query.Where(filter);
+                }
+
+                if (String.IsNullOrEmpty(include) == false)
+                {
+                    foreach (var includeProperty in include.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(includeProperty);
+                    }
                 }
 
                 if (orderBy != null)
