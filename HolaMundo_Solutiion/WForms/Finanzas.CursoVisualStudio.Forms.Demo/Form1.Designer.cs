@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "123",
+            "Modulo Demo"}, -1);
             this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -42,7 +45,9 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblDescription = new System.Windows.Forms.Label();
             this.gpbModuleList = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lstModules = new System.Windows.Forms.ListView();
+            this.idColLstModules = new System.Windows.Forms.ColumnHeader();
+            this.nameColLstModules = new System.Windows.Forms.ColumnHeader();
             this.gpbModuleButtons.SuspendLayout();
             this.flpButtons.SuspendLayout();
             this.gpbModule.SuspendLayout();
@@ -202,7 +207,7 @@
             // 
             // gpbModuleList
             // 
-            this.gpbModuleList.Controls.Add(this.listView1);
+            this.gpbModuleList.Controls.Add(this.lstModules);
             this.gpbModuleList.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.gpbModuleList.Location = new System.Drawing.Point(478, 12);
             this.gpbModuleList.Name = "gpbModuleList";
@@ -211,13 +216,30 @@
             this.gpbModuleList.TabStop = false;
             this.gpbModuleList.Text = "Lista de módulos";
             // 
-            // listView1
+            // lstModules
             // 
-            this.listView1.Location = new System.Drawing.Point(6, 25);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(298, 313);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.lstModules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.idColLstModules,
+            this.nameColLstModules});
+            this.lstModules.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
+            this.lstModules.Location = new System.Drawing.Point(6, 25);
+            this.lstModules.MultiSelect = false;
+            this.lstModules.Name = "lstModules";
+            this.lstModules.Size = new System.Drawing.Size(298, 313);
+            this.lstModules.TabIndex = 0;
+            this.lstModules.UseCompatibleStateImageBehavior = false;
+            this.lstModules.View = System.Windows.Forms.View.Details;
+            // 
+            // idColLstModules
+            // 
+            this.idColLstModules.Text = "ID";
+            this.idColLstModules.Width = -1;
+            // 
+            // nameColLstModules
+            // 
+            this.nameColLstModules.Text = "Nombre";
+            this.nameColLstModules.Width = -2;
             // 
             // DemoForm
             // 
@@ -259,7 +281,9 @@
         private DataGridView dataGridView1;
         private Label lblDescription;
         private GroupBox gpbModuleList;
-        private ListView listView1;
+        private ListView lstModules;
         private FlowLayoutPanel flpButtons;
+        private ColumnHeader idColLstModules;
+        private ColumnHeader nameColLstModules;
     }
 }

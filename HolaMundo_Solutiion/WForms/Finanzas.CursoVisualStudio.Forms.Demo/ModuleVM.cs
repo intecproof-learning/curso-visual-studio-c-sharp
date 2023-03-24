@@ -15,6 +15,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         private bool isOperationBtnVisible;
         private Module moduleDto;
         private IModuleManagementBusiness business;
+        private List<Module> modules;
 
         public bool IsEditingBtnVisible
         {
@@ -45,12 +46,23 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             }
         }
 
+        public List<Module> Modules
+        {
+            get => modules;
+            private set
+            {
+                modules = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
         public ModuleVM()
         {
             this.isEditingBtnVisible = false;
             this.isOperationBtnVisible = true;
             this.moduleDto = new Module();
             this.business = new ModuleManagementBusiness();
+            this.GetModules();
         }
 
         public void EnableEditingMode
@@ -64,11 +76,28 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         {
             this.EnableEditingMode(false);
             this.ModuleDto = new Module();
+            this.GetModules();
         }
 
         public ObjectResponse<Module> SaveModule()
         {
             return this.business.CreateOrUpdateModule(this.moduleDto);
+        }
+
+        public void GetModules()
+        {
+            var result = this.business
+                .GetModule("");
+            if (result.IsSucess == true)
+            {
+                this.Modules = result
+                    .ObjectResult;
+            }
+            else
+            {
+                this.Modules =
+                    new List<Module>();
+            }
         }
 
         private void NotifyPropertyChanged

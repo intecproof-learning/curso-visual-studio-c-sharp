@@ -12,7 +12,28 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         {
             InitializeComponent();
             this.context = new ModuleVM();
+            this.context.PropertyChanged +=
+                Context_PropertyChanged;
+            this.context.GetModules();
             this.CreateBindings();
+        }
+
+        private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Modules")
+            {
+                this.lstModules.Items.Clear();
+
+                foreach (var item in this.context
+                    .Modules)
+                {
+                    this.lstModules.Items.Add(new
+                        ListViewItem(new string[] {
+                            item.ID.ToString(),
+                            item.Name
+                        }));
+                }
+            }
         }
 
         private void CreateBindings()
@@ -92,7 +113,18 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.context.EnableEditingMode(false);
+            var result = MessageBox.Show(
+                "¿Está seguro que desea cancelar la" +
+                "operación?",
+                "Cancelar operación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.context.Clean();
+            }
+
         }
     }
 }
