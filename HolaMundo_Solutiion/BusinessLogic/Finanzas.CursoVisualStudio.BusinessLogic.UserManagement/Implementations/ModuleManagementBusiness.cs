@@ -29,14 +29,14 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 {
                     if (uWork.ModuleRepo.Search(u => u.Id == item.ID).Any() == true)
                     {
-                        uWork.ModuleRepo.Modify(this.ConvertModuleDtoToModuleSql(item));
+                        item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Modify(this.ConvertModuleDtoToModuleSql(item)));
 
                         message = $"El Módulo \"{item.Name}\" se actualizó correctamente";
                         isSuccess = true;
                     }
                     else
                     {
-                        uWork.ModuleRepo.Add(this.ConvertModuleDtoToModuleSql(item));
+                        item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Add(this.ConvertModuleDtoToModuleSql(item)));
                         message = $"El Módulo \"{item.Name}\" se insertó correctamente";
                         isSuccess = true;
                     }
@@ -60,7 +60,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
         {
             Expression<Func<Sql.Module, bool>> filter = u => u.Id.ToString() == criteria || u.Name.ToLower().Contains(criteria) || u.Description.ToLower().Contains(criteria);
 
-            var result = this.uWork.ModuleRepo.Search(filter:filter, include: "UserModuleRels.IdUserNavigation");
+            var result = this.uWork.ModuleRepo.Search(filter: filter, include: "UserModuleRels.IdUserNavigation");
 
             List<Module> resultQuery = new List<Module>();
             result.ForEach(item =>
@@ -80,10 +80,11 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
         public ObjectResponse<Module> DeleteModule(int ID)
         {
             var result = uWork.ModuleRepo.Search(u => u.Id == ID);
+            Module deletedModule = null;
 
             if (result.Any())
             {
-                this.uWork.ModuleRepo.Delete(result.First());
+                deletedModule = this.ConvertModuleSqlToModuleDto(this.uWork.ModuleRepo.Delete(result.First()));
             }
 
             return new ObjectResponse<Module>()
@@ -91,7 +92,7 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 IsSucess = true,
                 Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"El usuario {result.First().Name} se eliminó correctamente",
                 Errors = null,
-                ObjectResult = this.ConvertModuleSqlToModuleDto(result.First())
+                ObjectResult = deletedModule
             };
         }
 

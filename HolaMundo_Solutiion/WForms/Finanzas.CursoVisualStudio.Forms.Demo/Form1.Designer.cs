@@ -33,16 +33,18 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.gpbModuleButtons = new System.Windows.Forms.GroupBox();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnModify = new System.Windows.Forms.Button();
-            this.btnCreate = new System.Windows.Forms.Button();
+            this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnCreate = new System.Windows.Forms.Button();
+            this.btnModify = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.gpbModule = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblDescription = new System.Windows.Forms.Label();
             this.gpbModuleList = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.gpbModuleButtons.SuspendLayout();
+            this.flpButtons.SuspendLayout();
             this.gpbModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.gpbModuleList.SuspendLayout();
@@ -72,7 +74,7 @@
             // btnSave
             // 
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Location = new System.Drawing.Point(6, 25);
+            this.btnSave.Location = new System.Drawing.Point(3, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 30);
             this.btnSave.TabIndex = 2;
@@ -86,55 +88,55 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescription.Location = new System.Drawing.Point(98, 52);
-            this.txtDescription.MaxLength = 20;
+            this.txtDescription.MaxLength = 150;
+            this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(356, 26);
+            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDescription.Size = new System.Drawing.Size(356, 77);
             this.txtDescription.TabIndex = 3;
             // 
             // gpbModuleButtons
             // 
             this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gpbModuleButtons.Controls.Add(this.btnDelete);
-            this.gpbModuleButtons.Controls.Add(this.btnModify);
-            this.gpbModuleButtons.Controls.Add(this.btnCreate);
-            this.gpbModuleButtons.Controls.Add(this.btnSave);
-            this.gpbModuleButtons.Controls.Add(this.btnCancel);
+            this.gpbModuleButtons.Controls.Add(this.flpButtons);
             this.gpbModuleButtons.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.gpbModuleButtons.Location = new System.Drawing.Point(12, 362);
             this.gpbModuleButtons.Name = "gpbModuleButtons";
-            this.gpbModuleButtons.Size = new System.Drawing.Size(776, 76);
+            this.gpbModuleButtons.Size = new System.Drawing.Size(776, 74);
             this.gpbModuleButtons.TabIndex = 4;
             this.gpbModuleButtons.TabStop = false;
             this.gpbModuleButtons.Text = "Acciones";
             // 
-            // btnDelete
+            // flpButtons
             // 
-            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDelete.Location = new System.Drawing.Point(430, 25);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(100, 30);
-            this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Eliminar";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.flpButtons.Controls.Add(this.btnSave);
+            this.flpButtons.Controls.Add(this.btnCancel);
+            this.flpButtons.Controls.Add(this.btnCreate);
+            this.flpButtons.Controls.Add(this.btnModify);
+            this.flpButtons.Controls.Add(this.btnDelete);
+            this.flpButtons.Location = new System.Drawing.Point(6, 25);
+            this.flpButtons.Name = "flpButtons";
+            this.flpButtons.Size = new System.Drawing.Size(764, 39);
+            this.flpButtons.TabIndex = 7;
             // 
-            // btnModify
+            // btnCancel
             // 
-            this.btnModify.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnModify.Location = new System.Drawing.Point(324, 25);
-            this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(100, 30);
-            this.btnModify.TabIndex = 4;
-            this.btnModify.Text = "Modificar";
-            this.btnModify.UseVisualStyleBackColor = true;
-            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
+            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancel.Location = new System.Drawing.Point(109, 3);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "Cancelar";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnCreate
             // 
             this.btnCreate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCreate.FlatAppearance.BorderSize = 4;
             this.btnCreate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Fuchsia;
-            this.btnCreate.Location = new System.Drawing.Point(218, 25);
+            this.btnCreate.Location = new System.Drawing.Point(215, 3);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(100, 30);
             this.btnCreate.TabIndex = 3;
@@ -142,16 +144,26 @@
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // btnCancel
+            // btnModify
             // 
-            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancel.Location = new System.Drawing.Point(112, 25);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(100, 30);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnModify.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnModify.Location = new System.Drawing.Point(321, 3);
+            this.btnModify.Name = "btnModify";
+            this.btnModify.Size = new System.Drawing.Size(100, 30);
+            this.btnModify.TabIndex = 4;
+            this.btnModify.Text = "Modificar";
+            this.btnModify.UseVisualStyleBackColor = true;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDelete.Location = new System.Drawing.Point(427, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(100, 30);
+            this.btnDelete.TabIndex = 6;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
             // 
             // gpbModule
             // 
@@ -171,11 +183,11 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 105);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 135);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 47;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(448, 233);
+            this.dataGridView1.Size = new System.Drawing.Size(448, 203);
             this.dataGridView1.TabIndex = 4;
             // 
             // lblDescription
@@ -211,7 +223,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 445);
             this.Controls.Add(this.gpbModuleList);
             this.Controls.Add(this.gpbModule);
             this.Controls.Add(this.gpbModuleButtons);
@@ -223,6 +235,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Demo";
             this.gpbModuleButtons.ResumeLayout(false);
+            this.flpButtons.ResumeLayout(false);
             this.gpbModule.ResumeLayout(false);
             this.gpbModule.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -247,5 +260,6 @@
         private Label lblDescription;
         private GroupBox gpbModuleList;
         private ListView listView1;
+        private FlowLayoutPanel flpButtons;
     }
 }
