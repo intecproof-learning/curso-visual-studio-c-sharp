@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "123",
-            "Modulo Demo"}, -1);
             this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -67,7 +64,7 @@
             // 
             // txtName
             // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtName.Location = new System.Drawing.Point(98, 20);
@@ -89,7 +86,7 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescription.Location = new System.Drawing.Point(98, 52);
@@ -102,7 +99,7 @@
             // 
             // gpbModuleButtons
             // 
-            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbModuleButtons.Controls.Add(this.flpButtons);
             this.gpbModuleButtons.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -218,11 +215,10 @@
             // 
             // lstModules
             // 
+            this.lstModules.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lstModules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.idColLstModules,
             this.nameColLstModules});
-            this.lstModules.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.lstModules.Location = new System.Drawing.Point(6, 25);
             this.lstModules.MultiSelect = false;
             this.lstModules.Name = "lstModules";
@@ -230,16 +226,17 @@
             this.lstModules.TabIndex = 0;
             this.lstModules.UseCompatibleStateImageBehavior = false;
             this.lstModules.View = System.Windows.Forms.View.Details;
+            this.lstModules.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstModules_ItemSelectionChanged);
             // 
             // idColLstModules
             // 
             this.idColLstModules.Text = "ID";
-            this.idColLstModules.Width = -1;
+            this.idColLstModules.Width = 29;
             // 
             // nameColLstModules
             // 
             this.nameColLstModules.Text = "Nombre";
-            this.nameColLstModules.Width = -2;
+            this.nameColLstModules.Width = 265;
             // 
             // DemoForm
             // 

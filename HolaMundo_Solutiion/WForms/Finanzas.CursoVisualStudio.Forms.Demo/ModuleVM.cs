@@ -1,7 +1,6 @@
 ﻿using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations;
 using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -65,8 +64,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             this.GetModules();
         }
 
-        public void EnableEditingMode
-            (bool isEditing)
+        public void EnableEditingMode(bool isEditing)
         {
             this.IsEditingBtnVisible = isEditing;
             this.IsOperationBtnVisible = !isEditing;
@@ -86,29 +84,22 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         public void GetModules()
         {
-            var result = this.business
-                .GetModule("");
+            var result = this.business.GetModule("");
             if (result.IsSucess == true)
             {
-                this.Modules = result
-                    .ObjectResult;
+                this.Modules = result.ObjectResult;
             }
             else
             {
-                this.Modules =
-                    new List<Module>();
+                this.Modules = new List<Module>();
             }
         }
 
-        private void NotifyPropertyChanged
-            ([CallerMemberName]
-        String propertyName = "")
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (this.PropertyChanged != null)
             {
-                this.PropertyChanged(this,
-                    new PropertyChangedEventArgs
-                    (propertyName));
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

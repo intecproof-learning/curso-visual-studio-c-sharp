@@ -20,20 +20,21 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 
         ///https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
     {
-        private CursoVisualCContext context;
 
         public GenericRepo()
         {
-            this.context = new CursoVisualCContext();
         }
 
         public T Add(T item)
         {
             try
             {
-                this.context.Add<T>(item);
-                this.context.SaveChanges();
-                return item;
+                using (CursoVisualCContext context = new CursoVisualCContext())
+                {
+                    context.Add<T>(item);
+                    context.SaveChanges();
+                    return item;
+                }
             }
             catch
             {
@@ -45,9 +46,12 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
         {
             try
             {
-                this.context.Remove<T>(entity);
-                this.context.SaveChanges();
-                return entity;
+                using (CursoVisualCContext context = new CursoVisualCContext())
+                {
+                    context.Remove<T>(entity);
+                    context.SaveChanges();
+                    return entity;
+                }
             }
             catch
             {
@@ -57,16 +61,18 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
 
         public void Dispose()
         {
-            this.context.Dispose();
         }
 
         public T Modify(T item)
         {
             try
             {
-                context.Update<T>(item);
-                context.SaveChanges();
-                return item;
+                using (CursoVisualCContext context = new CursoVisualCContext())
+                {
+                    context.Update<T>(item);
+                    context.SaveChanges();
+                    return item;
+                }
             }
             catch
             {
@@ -94,36 +100,39 @@ namespace Finanzas.CursoVisualStudio.DataAccess.Repositories.Implementations
                .ToList();
                 */
 
-                //SELECT * FROM User
-                IQueryable<T> query = this.context.Set<T>();
-
-                if (filter != null)
+                using (CursoVisualCContext context = new CursoVisualCContext())
                 {
-                    //SELECT * FROM User WHERE filtro
-                    query = query.Where(filter);
-                }
+                    //SELECT * FROM User
+                    IQueryable<T> query = context.Set<T>();
 
-                if (String.IsNullOrEmpty(include) == false)
-                {
-                    foreach (var includeProperty in include.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                    if (filter != null)
                     {
-                        query = query.Include(includeProperty);
+                        //SELECT * FROM User WHERE filtro
+                        query = query.Where(filter);
                     }
-                }
 
-                if (orderBy != null)
-                {
-                    //orderBy(query) ->
+                    if (String.IsNullOrEmpty(include) == false)
+                    {
+                        foreach (var includeProperty in include.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            query = query.Include(includeProperty);
+                        }
+                    }
+
+                    if (orderBy != null)
+                    {
+                        //orderBy(query) ->
+                        //SELECT * FROM User WHERE filtro
+                        //order by columna(s)
+                        //.ToList() -> F5 o ejecutar query
+                        return orderBy(query).ToList();
+                    }
+
+                    //query ->
                     //SELECT * FROM User WHERE filtro
-                    //order by columna(s)
                     //.ToList() -> F5 o ejecutar query
-                    return orderBy(query).ToList();
+                    return query.ToList();
                 }
-
-                //query ->
-                //SELECT * FROM User WHERE filtro
-                //.ToList() -> F5 o ejecutar query
-                return query.ToList();
             }
             catch
             {
