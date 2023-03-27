@@ -10,11 +10,9 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 {
     public class UserManagementBusiness : IUserManagementBusiness
     {
-        private UnitOfWork uWork;
 
         public UserManagementBusiness()
         {
-            this.uWork = new UnitOfWork();
         }
 
         public ObjectResponse<User> CreateOrUpdateUser(User item)
@@ -27,23 +25,26 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
                 if (Utilities.IsValidModel<User>(item, out vResult) == true)
                 {
-                    if (item.ID != 0 && uWork.UserRepo.Search(u => u.Id == item.ID).Any() == true)
+                    using (UnitOfWork uWork = new UnitOfWork())
                     {
-                        uWork.UserRepo.Modify(ConvertUserDtoToUserSql(item));
+                        if (item.ID != 0 && uWork.UserRepo.Search(u => u.Id == item.ID).Any() == true)
+                        {
+                            uWork.UserRepo.Modify(ConvertUserDtoToUserSql(item));
 
-                        message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
-                        isSuccess = true;
-                    }
-                    else if (item.ID == 0)
-                    {
-                        uWork.UserRepo.Add(ConvertUserDtoToUserSql(item));
-                        message = $"El usuario \"{item.NickName}\" se insertó correctamente";
-                        isSuccess = true;
-                    }
-                    else
-                    {
-                        message = $"El usuario \"{item.NickName}\" con ID: \"{item.ID}\" que intentas actualizar no existe";
-                        isSuccess = false;
+                            message = $"El usuario \"{item.NickName}\" se actualizó correctamente";
+                            isSuccess = true;
+                        }
+                        else if (item.ID == 0)
+                        {
+                            uWork.UserRepo.Add(ConvertUserDtoToUserSql(item));
+                            message = $"El usuario \"{item.NickName}\" se insertó correctamente";
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            message = $"El usuario \"{item.NickName}\" con ID: \"{item.ID}\" que intentas actualizar no existe";
+                            isSuccess = false;
+                        }
                     }
                 }
 
@@ -73,9 +74,13 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             //WHERE id = criteria OR
             //email LIKE "%criteria%" OR
             //nickName LIKE "%criteria%"
+            List<Sql.User> result = null;
 
-            var result = this.uWork.UserRepo.Search(filter: filter, include: "UserModuleRels.IdModuleNavigation");
-            result.OrderBy(ob => ob.Id);
+            using (UnitOfWork uWork = new UnitOfWork())
+            {
+                result = uWork.UserRepo.Search(filter: filter, include: "UserModuleRels.IdModuleNavigation");
+                result.OrderBy(ob => ob.Id);
+            }
 
             List<User> resultDTO = new List<User>();
             result.ForEach(a => resultDTO.Add(this.ConvertUserSqlToUserDto(a)));
@@ -98,18 +103,22 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public ObjectResponse<User> DeleteUser(int ID)
         {
-            var result = uWork.UserRepo.Search(u => u.Id == ID);
-            var response = new ObjectResponse<User>()
-            {
-                IsSucess = result == null || result.Any() == false ? false : true,
-                Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"El usuario {result.First().NickName} se eliminó correctamente",
-                Errors = null,
-            };
+            List<Sql.User> result = null;
+            var response = new ObjectResponse<User>();
 
-            if (result.Any())
+            using (UnitOfWork uWork = new UnitOfWork())
             {
-                response.ObjectResult = this.ConvertUserSqlToUserDto(this.uWork.UserRepo.Delete(result.First()));
+                result = uWork.UserRepo.Search(u => u.Id == ID);
+                if (result.Any())
+                {
+                    response.ObjectResult = this.ConvertUserSqlToUserDto(uWork.UserRepo.Delete(result.First()));
+                }
+
             }
+
+            response.IsSucess = result == null || result.Any() == false ? false : true;
+            response.Message = result == null || result.Any() == false ? "No se encontraron coincidencias que empaten con el criterio de búsqueda" : $"El usuario {result.First().NickName} se eliminó correctamente";
+            response.Errors = null;
 
             return response;
         }
@@ -124,25 +133,25 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                 Password = dto.Password
             };
 
-            if (dto.RelatedModules != null && dto.RelatedModules.Any() == true)
-            {
-                foreach (var item in dto.RelatedModules)
-                {
-                    sql.UserModuleRels.Add(
-                        new Sql.UserModuleRel()
-                        {
-                            IsActive = true,
-                            IdUser = dto.ID,
-                            IdModule = item.ModuleDto.ID,
-                            IdModuleNavigation = new Sql.Module()
-                            {
-                                Description = item.ModuleDto.Description,
-                                Name = item.ModuleDto.Name,
-                                Id = item.ModuleDto.ID
-                            }
-                        });
-                }
-            }
+            //if (dto.RelatedModules != null && dto.RelatedModules.Any() == true)
+            //{
+            //    foreach (var item in dto.RelatedModules)
+            //    {
+            //        sql.UserModuleRels.Add(
+            //            new Sql.UserModuleRel()
+            //            {
+            //                IsActive = true,
+            //                IdUser = dto.ID,
+            //                IdModule = item.ModuleDto.ID,
+            //                IdModuleNavigation = new Sql.Module()
+            //                {
+            //                    Description = item.ModuleDto.Description,
+            //                    Name = item.ModuleDto.Name,
+            //                    Id = item.ModuleDto.ID
+            //                }
+            //            });
+            //    }
+            //}
 
             return sql;
         }
@@ -182,7 +191,6 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public void Dispose()
         {
-            this.uWork.Dispose();
         }
 
         ~UserManagementBusiness()

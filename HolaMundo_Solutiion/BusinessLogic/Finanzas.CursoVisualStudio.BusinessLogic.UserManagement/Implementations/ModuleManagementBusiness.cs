@@ -10,11 +10,9 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 {
     public class ModuleManagementBusiness : IModuleManagementBusiness
     {
-        private UnitOfWork uWork;
 
         public ModuleManagementBusiness()
         {
-            this.uWork = new UnitOfWork();
         }
 
         public ObjectResponse<Module> CreateOrUpdateModule(Module item)
@@ -27,18 +25,23 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
                 if (Utilities.IsValidModel<Module>(item, out vResult) == true)
                 {
-                    if (uWork.ModuleRepo.Search(u => u.Id == item.ID).Any() == true)
+                    using (UnitOfWork uWork = new UnitOfWork())
                     {
-                        item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Modify(this.ConvertModuleDtoToModuleSql(item)));
+                        if (uWork.ModuleRepo.Search(u => u.Id == item.ID).Any() == true)
+                        {
+                            Sql.Module prev = uWork.ModuleRepo.Search(u => u.Id == item.ID).First();
 
-                        message = $"El Módulo \"{item.Name}\" se actualizó correctamente";
-                        isSuccess = true;
-                    }
-                    else
-                    {
-                        item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Add(this.ConvertModuleDtoToModuleSql(item)));
-                        message = $"El Módulo \"{item.Name}\" se insertó correctamente";
-                        isSuccess = true;
+                            item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Modify(this.ConvertModuleDtoToModuleSql(item, prev)));
+
+                            message = $"El Módulo \"{item.Name}\" se actualizó correctamente";
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Add(this.ConvertModuleDtoToModuleSql(item)));
+                            message = $"El Módulo \"{item.Name}\" se insertó correctamente";
+                            isSuccess = true;
+                        }
                     }
                 }
 
@@ -60,13 +63,18 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
         {
             Expression<Func<Sql.Module, bool>> filter = u => u.Id.ToString() == criteria || u.Name.ToLower().Contains(criteria) || u.Description.ToLower().Contains(criteria);
 
-            var result = this.uWork.ModuleRepo.Search(filter: filter, include: "UserModuleRels.IdUserNavigation");
-
+            List<Sql.Module> result = null;
             List<Module> resultQuery = new List<Module>();
-            result.ForEach(item =>
+
+            using (UnitOfWork uWork = new UnitOfWork())
             {
-                resultQuery.Add(this.ConvertModuleSqlToModuleDto(item));
-            });
+                result = uWork.ModuleRepo.Search(filter: filter, include: "UserModuleRels.IdUserNavigation");
+
+                result.ForEach(item =>
+                {
+                    resultQuery.Add(this.ConvertModuleSqlToModuleDto(item));
+                });
+            }
 
             return new ObjectResponse<List<Module>>()
             {
@@ -79,12 +87,17 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public ObjectResponse<Module> DeleteModule(int ID)
         {
-            var result = uWork.ModuleRepo.Search(u => u.Id == ID);
+            List<Sql.Module> result = null;
             Module deletedModule = null;
 
-            if (result.Any())
+            using (UnitOfWork uWork = new UnitOfWork())
             {
-                deletedModule = this.ConvertModuleSqlToModuleDto(this.uWork.ModuleRepo.Delete(result.First()));
+                result = uWork.ModuleRepo.Search(u => u.Id == ID);
+
+                if (result.Any())
+                {
+                    deletedModule = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Delete(result.First()));
+                }
             }
 
             return new ObjectResponse<Module>()
@@ -96,35 +109,37 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             };
         }
 
-        private Sql.Module ConvertModuleDtoToModuleSql(Module dto)
+        private Sql.Module ConvertModuleDtoToModuleSql(Module dto, Sql.Module sql = null)
         {
-            Sql.Module sql = new Sql.Module()
+            if (sql == null)
             {
-                Description = dto.Description,
-                Id = dto.ID,
-                Name = dto.Name
-            };
-
-            if (dto.RelatedUsers != null && dto.RelatedUsers.Any() == true)
-            {
-                foreach (var item in dto.RelatedUsers)
-                {
-                    sql.UserModuleRels.Add(
-                        new Sql.UserModuleRel()
-                        {
-                            IsActive = true,
-                            IdUser = item.UserDto.ID,
-                            IdModule = dto.ID,
-                            IdUserNavigation = new Sql.User()
-                            {
-                                Id = item.UserDto.ID,
-                                Email = item.UserDto.Email,
-                                NickName = item.UserDto.NickName,
-                                Password = item.UserDto.Password,
-                            }
-                        });
-                }
+                sql = new Sql.Module();
             }
+
+            sql.Description = dto.Description;
+            sql.Id = dto.ID;
+            sql.Name = dto.Name;
+
+            //if (dto.RelatedUsers != null && dto.RelatedUsers.Any() == true)
+            //{
+            //    foreach (var item in dto.RelatedUsers)
+            //    {
+            //        sql.UserModuleRels.Add(
+            //            new Sql.UserModuleRel()
+            //            {
+            //                IsActive = true,
+            //                IdUser = item.UserDto.ID,
+            //                IdModule = dto.ID,
+            //                IdUserNavigation = new Sql.User()
+            //                {
+            //                    Id = item.UserDto.ID,
+            //                    Email = item.UserDto.Email,
+            //                    NickName = item.UserDto.NickName,
+            //                    Password = item.UserDto.Password,
+            //                }
+            //            });
+            //    }
+            //}
 
             return sql;
         }
@@ -164,7 +179,6 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
         public void Dispose()
         {
-            this.uWork.Dispose();
         }
 
         ~ModuleManagementBusiness()
