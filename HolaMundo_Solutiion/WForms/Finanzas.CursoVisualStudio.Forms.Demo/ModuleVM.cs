@@ -15,6 +15,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         private Module moduleDto;
         private IModuleManagementBusiness business;
         private List<Module> modules;
+        private BindingList<ModuleUserRelDto> relatedUsers;
 
         public bool IsEditingBtnVisible
         {
@@ -51,6 +52,16 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             private set
             {
                 modules = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public BindingList<ModuleUserRelDto> RelatedUsers
+        {
+            get => relatedUsers;
+            set
+            {
+                relatedUsers = value;
                 this.NotifyPropertyChanged();
             }
         }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Finanzas.CursoVisualStudio.Shared.DTOs
 {
-    public class ModuleUserRelDto
+    public class ModuleUserRelDto : User
     {
-        public User UserDto { get; set; }
-        public bool IsActive { get; set; } 
+        [DisplayName("Activo")]
+        public bool IsActive { get; set; }
     }
 }

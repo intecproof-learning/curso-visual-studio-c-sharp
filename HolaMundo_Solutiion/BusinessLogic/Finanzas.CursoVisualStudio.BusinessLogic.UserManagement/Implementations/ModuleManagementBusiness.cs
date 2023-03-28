@@ -10,7 +10,6 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 {
     public class ModuleManagementBusiness : IModuleManagementBusiness
     {
-
         public ModuleManagementBusiness()
         {
         }
@@ -162,14 +161,11 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                         new ModuleUserRelDto()
                         {
                             IsActive = item.IsActive,
-                            UserDto = new User()
-                            {
-                                ID = item.IdUser,
-                                Email = item.IdUserNavigation.Email,
-                                NickName = item.IdUserNavigation.NickName,
-                                Password = item.IdUserNavigation.Password,
-                                RelatedModules = null
-                            }
+                            ID = item.IdUser,
+                            Email = item.IdUserNavigation.Email,
+                            NickName = item.IdUserNavigation.NickName,
+                            Password = item.IdUserNavigation.Password,
+                            RelatedModules = null
                         });
                 }
             }

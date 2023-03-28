@@ -39,7 +39,7 @@
             this.btnModify = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.gpbModule = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvRelatedUsers = new System.Windows.Forms.DataGridView();
             this.lblDescription = new System.Windows.Forms.Label();
             this.gpbModuleList = new System.Windows.Forms.GroupBox();
             this.lstModules = new System.Windows.Forms.ListView();
@@ -48,7 +48,7 @@
             this.gpbModuleButtons.SuspendLayout();
             this.flpButtons.SuspendLayout();
             this.gpbModule.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRelatedUsers)).BeginInit();
             this.gpbModuleList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
             // 
             // txtName
             // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtName.Location = new System.Drawing.Point(98, 20);
@@ -86,7 +86,7 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescription.Location = new System.Drawing.Point(98, 52);
@@ -99,7 +99,7 @@
             // 
             // gpbModuleButtons
             // 
-            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbModuleButtons.Controls.Add(this.flpButtons);
             this.gpbModuleButtons.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -169,7 +169,7 @@
             // 
             // gpbModule
             // 
-            this.gpbModule.Controls.Add(this.dataGridView1);
+            this.gpbModule.Controls.Add(this.dgvRelatedUsers);
             this.gpbModule.Controls.Add(this.lblDescription);
             this.gpbModule.Controls.Add(this.lblName);
             this.gpbModule.Controls.Add(this.txtDescription);
@@ -182,15 +182,15 @@
             this.gpbModule.TabStop = false;
             this.gpbModule.Text = "Propiedades del módulo";
             // 
-            // dataGridView1
+            // dgvRelatedUsers
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 135);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 47;
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(448, 203);
-            this.dataGridView1.TabIndex = 4;
+            this.dgvRelatedUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRelatedUsers.Location = new System.Drawing.Point(6, 135);
+            this.dgvRelatedUsers.Name = "dgvRelatedUsers";
+            this.dgvRelatedUsers.RowHeadersWidth = 47;
+            this.dgvRelatedUsers.RowTemplate.Height = 28;
+            this.dgvRelatedUsers.Size = new System.Drawing.Size(448, 203);
+            this.dgvRelatedUsers.TabIndex = 4;
             // 
             // lblDescription
             // 
@@ -257,7 +257,7 @@
             this.flpButtons.ResumeLayout(false);
             this.gpbModule.ResumeLayout(false);
             this.gpbModule.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRelatedUsers)).EndInit();
             this.gpbModuleList.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -275,7 +275,7 @@
         private Button btnCreate;
         private Button btnCancel;
         private GroupBox gpbModule;
-        private DataGridView dataGridView1;
+        private DataGridView dgvRelatedUsers;
         private Label lblDescription;
         private GroupBox gpbModuleList;
         private ListView lstModules;

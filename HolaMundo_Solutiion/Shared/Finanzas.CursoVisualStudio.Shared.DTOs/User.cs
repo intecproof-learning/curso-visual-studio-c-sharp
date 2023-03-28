@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Finanzas.CursoVisualStudio.Shared.DTOs
 {
@@ -16,15 +17,18 @@ namespace Finanzas.CursoVisualStudio.Shared.DTOs
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El Correo Electrónico es obligatorio")]
         [EmailAddress(ErrorMessage = "El Correo Electrónico no tiene el formato esperado")]
+        [DisplayName("Correo electrónico")]
         public String Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El Apodo es requerido")]
         [StringLength(12, MinimumLength = 8, ErrorMessage = "El Apodo debe tener entre 8 y 12 caracteres")]
         [RegularExpression("^[A-Za-z0-9]{8,12}$", ErrorMessage = "El Apodo solo puede tener letras y/o números")]
+        [DisplayName("Apodo")]
         public String NickName { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "La Contraseña es requerida")]
         [StringLength(16, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 16 caracteres")]
+        [DisplayName("Contraseña")]
         public String Password { get; set; }
 
         public List<UserModuleRelDto> RelatedModules { get; set; }

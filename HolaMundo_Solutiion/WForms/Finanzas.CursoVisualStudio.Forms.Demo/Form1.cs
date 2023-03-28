@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Finanzas.CursoVisualStudio.Forms.Demo
 {
     public partial class DemoForm : Form
@@ -41,6 +43,10 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             this.txtName.DataBindings.Add("Text", this.context, "ModuleDto.Name");
             this.txtDescription.DataBindings.Add("Text", this.context, "ModuleDto.Description");
             this.lstModules.DataBindings.Add("Enabled", this.context, "IsOperationBtnVisible");
+            this.dgvRelatedUsers.DataBindings
+                .Add("DataSource"
+                , this.context
+                , "RelatedUsers");
         }
 
         private void btnSaveModule_Click(object sender, EventArgs e)
@@ -85,10 +91,16 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             if (e.IsSelected == true)
             {
                 this.context.ModuleDto = this.context.Modules.Where(m => m.ID.ToString() == e.Item.Text).First();
+                this.context.RelatedUsers
+                    = new BindingList<Shared.DTOs.ModuleUserRelDto>
+                    (this.context.ModuleDto.RelatedUsers);
             }
             else
             {
                 this.context.ModuleDto = new Shared.DTOs.Module();
+                this.context.RelatedUsers
+                    = new BindingList<Shared.DTOs
+                    .ModuleUserRelDto>();
             }
         }
     }
