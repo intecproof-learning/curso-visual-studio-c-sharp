@@ -16,6 +16,8 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         private IModuleManagementBusiness business;
         private List<Module> modules;
         private BindingList<ModuleUserRelDto> relatedUsers;
+        private List<ModuleUserRelSearchBoxDto> allUsersSearchBox;
+        private String searchDialogBoxFilter;
 
         public bool IsEditingBtnVisible
         {
@@ -66,6 +68,26 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             }
         }
 
+        public string SearchDialogBoxFilter
+        {
+            get => searchDialogBoxFilter;
+            set
+            {
+                searchDialogBoxFilter = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public List<ModuleUserRelSearchBoxDto> AllUsersSearchBox
+        {
+            get => allUsersSearchBox;
+            set
+            {
+                allUsersSearchBox = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
         public ModuleVM()
         {
             this.isEditingBtnVisible = false;
@@ -103,6 +125,39 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             else
             {
                 this.Modules = new List<Module>();
+            }
+        }
+
+        public void GetUsers()
+        {
+            UserManagementBusiness userBusiness = new UserManagementBusiness();
+            var result = userBusiness.GetUser(this.SearchDialogBoxFilter);
+            if (result.IsSucess == true)
+            {
+                var findUsers = result.ObjectResult.Select(or => new ModuleUserRelSearchBoxDto()
+                {
+                    Email = or.Email,
+                    ID = or.ID,
+                    IsActive = true,
+                    NickName = or.NickName,
+                    Password = or.Password,
+                    IsChecked = false,
+                    RelatedModules = null
+                }).ToList();
+
+                foreach (var item in findUsers)
+                {
+                    if (this.relatedUsers.Any(ru => ru.ID == item.ID) == true)
+                    {
+                        item.IsChecked = true;
+                    }
+                }
+
+                this.AllUsersSearchBox = new List<ModuleUserRelSearchBoxDto>(findUsers);
+            }
+            else
+            {
+                this.AllUsersSearchBox = new List<ModuleUserRelSearchBoxDto>();
             }
         }
 

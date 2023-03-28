@@ -38,6 +38,7 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnLinkUser = new System.Windows.Forms.Button();
             this.gpbModule = new System.Windows.Forms.GroupBox();
             this.dgvRelatedUsers = new System.Windows.Forms.DataGridView();
             this.lblDescription = new System.Windows.Forms.Label();
@@ -99,7 +100,7 @@
             // 
             // gpbModuleButtons
             // 
-            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gpbModuleButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbModuleButtons.Controls.Add(this.flpButtons);
             this.gpbModuleButtons.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -117,6 +118,7 @@
             this.flpButtons.Controls.Add(this.btnCreate);
             this.flpButtons.Controls.Add(this.btnModify);
             this.flpButtons.Controls.Add(this.btnDelete);
+            this.flpButtons.Controls.Add(this.btnLinkUser);
             this.flpButtons.Location = new System.Drawing.Point(6, 25);
             this.flpButtons.Name = "flpButtons";
             this.flpButtons.Size = new System.Drawing.Size(764, 39);
@@ -167,8 +169,22 @@
             this.btnDelete.Text = "Eliminar";
             this.btnDelete.UseVisualStyleBackColor = true;
             // 
+            // btnLinkUser
+            // 
+            this.btnLinkUser.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLinkUser.Location = new System.Drawing.Point(533, 3);
+            this.btnLinkUser.Name = "btnLinkUser";
+            this.btnLinkUser.Size = new System.Drawing.Size(127, 30);
+            this.btnLinkUser.TabIndex = 7;
+            this.btnLinkUser.Text = "Agregar usuario";
+            this.btnLinkUser.UseVisualStyleBackColor = true;
+            this.btnLinkUser.Click += new System.EventHandler(this.btnLinkUser_Click);
+            // 
             // gpbModule
             // 
+            this.gpbModule.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbModule.Controls.Add(this.dgvRelatedUsers);
             this.gpbModule.Controls.Add(this.lblDescription);
             this.gpbModule.Controls.Add(this.lblName);
@@ -184,11 +200,18 @@
             // 
             // dgvRelatedUsers
             // 
+            this.dgvRelatedUsers.AllowUserToAddRows = false;
+            this.dgvRelatedUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRelatedUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvRelatedUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRelatedUsers.Location = new System.Drawing.Point(6, 135);
+            this.dgvRelatedUsers.MultiSelect = false;
             this.dgvRelatedUsers.Name = "dgvRelatedUsers";
-            this.dgvRelatedUsers.RowHeadersWidth = 47;
+            this.dgvRelatedUsers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvRelatedUsers.RowTemplate.Height = 28;
+            this.dgvRelatedUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRelatedUsers.Size = new System.Drawing.Size(448, 203);
             this.dgvRelatedUsers.TabIndex = 4;
             // 
@@ -204,6 +227,8 @@
             // 
             // gpbModuleList
             // 
+            this.gpbModuleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gpbModuleList.Controls.Add(this.lstModules);
             this.gpbModuleList.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.gpbModuleList.Location = new System.Drawing.Point(478, 12);
@@ -215,10 +240,13 @@
             // 
             // lstModules
             // 
-            this.lstModules.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lstModules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstModules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.idColLstModules,
             this.nameColLstModules});
+            this.lstModules.FullRowSelect = true;
             this.lstModules.Location = new System.Drawing.Point(6, 25);
             this.lstModules.MultiSelect = false;
             this.lstModules.Name = "lstModules";
@@ -247,9 +275,7 @@
             this.Controls.Add(this.gpbModule);
             this.Controls.Add(this.gpbModuleButtons);
             this.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximizeBox = false;
             this.Name = "DemoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Demo";
@@ -282,5 +308,6 @@
         private FlowLayoutPanel flpButtons;
         private ColumnHeader idColLstModules;
         private ColumnHeader nameColLstModules;
+        private Button btnLinkUser;
     }
 }

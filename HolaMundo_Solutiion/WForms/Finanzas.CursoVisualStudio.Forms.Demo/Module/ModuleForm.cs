@@ -1,3 +1,5 @@
+using Finanzas.CursoVisualStudio.Forms.Demo.Common;
+using Finanzas.CursoVisualStudio.Shared.DTOs;
 using System.ComponentModel;
 
 namespace Finanzas.CursoVisualStudio.Forms.Demo
@@ -5,6 +7,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
     public partial class DemoForm : Form
     {
         private ModuleVM context;
+        private SearchDialogBox searchdb;
 
         public DemoForm()
         {
@@ -12,6 +15,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             this.context = new ModuleVM();
             this.context.PropertyChanged += Context_PropertyChanged;
             this.context.GetModules();
+            this.searchdb = new SearchDialogBox();
             this.CreateBindings();
         }
 
@@ -30,12 +34,25 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
                         }));
                 }
             }
+
+            if (e.PropertyName == "AllUsersSearchBox")
+            {
+                ((ListBox)this.searchdb.clbRelatedItems).DataSource = this.context.AllUsersSearchBox;
+                ((ListBox)this.searchdb.clbRelatedItems).DisplayMember = "NickName";
+                ((ListBox)this.searchdb.clbRelatedItems).ValueMember = "ID";
+
+                for (int i = 0; i < this.searchdb.clbRelatedItems.Items.Count; i++)
+                {
+                    this.searchdb.clbRelatedItems.SetItemChecked(i, (this.searchdb.clbRelatedItems.Items[i] as ModuleUserRelSearchBoxDto).IsChecked);
+                }
+            }
         }
 
         private void CreateBindings()
         {
             this.btnSave.DataBindings.Add("Visible", context, "IsEditingBtnVisible");
             this.btnCancel.DataBindings.Add("Visible", context, "IsEditingBtnVisible");
+            this.btnLinkUser.DataBindings.Add("Visible", context, "IsEditingBtnVisible");
             this.btnCreate.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.btnModify.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.btnDelete.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
@@ -43,10 +60,25 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             this.txtName.DataBindings.Add("Text", this.context, "ModuleDto.Name");
             this.txtDescription.DataBindings.Add("Text", this.context, "ModuleDto.Description");
             this.lstModules.DataBindings.Add("Enabled", this.context, "IsOperationBtnVisible");
-            this.dgvRelatedUsers.DataBindings
-                .Add("DataSource"
-                , this.context
-                , "RelatedUsers");
+            this.dgvRelatedUsers.DataBindings.Add("DataSource", this.context, "RelatedUsers");
+
+            #region SearchDialogBox
+            this.searchdb.btnSearch.Click += SearchDialogBox_BtnSearch_Click;
+            this.searchdb.txtFilter.DataBindings.Add("Text", this.context, "SearchDialogBoxFilter");
+            this.searchdb.btnAceptar.Click += SearchDialogBox_BtnAceptar;
+            #endregion
+        }
+
+        private void SearchDialogBox_BtnAceptar(object? sender, EventArgs e)
+        {
+            List<ModuleUserRelDto> selectedUsers = new List<ModuleUserRelDto>();
+            foreach (var item in this.searchdb.clbRelatedItems.CheckedItems)
+            {
+                selectedUsers.Add((item as ModuleUserRelDto));
+            }
+
+            this.context.RelatedUsers = new BindingList<ModuleUserRelDto>(selectedUsers);
+            this.searchdb.Close();
         }
 
         private void btnSaveModule_Click(object sender, EventArgs e)
@@ -102,6 +134,17 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
                     = new BindingList<Shared.DTOs
                     .ModuleUserRelDto>();
             }
+        }
+
+        private void btnLinkUser_Click(object sender, EventArgs e)
+        {
+            this.context.GetUsers();
+            this.searchdb.ShowDialog();
+        }
+
+        private void SearchDialogBox_BtnSearch_Click(object? sender, EventArgs e)
+        {
+            this.context.GetUsers();
         }
     }
 }
