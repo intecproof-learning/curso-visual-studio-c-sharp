@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [CursoVisualC#]    Script Date: 13/03/2023 07:07:07 p. m. ******/
+/****** Object:  Database [CursoVisualC#]    Script Date: 28/03/2023 03:26:01 p. m. ******/
 CREATE DATABASE [CursoVisualC#]
 GO
 ALTER DATABASE [CursoVisualC#] SET COMPATIBILITY_LEVEL = 160
@@ -78,7 +78,7 @@ ALTER DATABASE [CursoVisualC#] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLE
 GO
 USE [CursoVisualC#]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 13/03/2023 07:07:08 p. m. ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 28/03/2023 03:26:01 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -93,7 +93,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 13/03/2023 07:07:08 p. m. ******/
+/****** Object:  Table [dbo].[User]    Script Date: 28/03/2023 03:26:01 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +109,7 @@ CREATE TABLE [dbo].[User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_Module_Rel]    Script Date: 13/03/2023 07:07:08 p. m. ******/
+/****** Object:  Table [dbo].[User_Module_Rel]    Script Date: 28/03/2023 03:26:01 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -127,15 +127,67 @@ CREATE TABLE [dbo].[User_Module_Rel](
 GO
 SET IDENTITY_INSERT [dbo].[Module] ON 
 GO
-INSERT [dbo].[Module] ([id], [name], [description]) VALUES (1, N'WfN9xqas2Tv64rfaCWC', N'string')
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (1, N'Módulo A', N'Módulo A')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (2, N'Módulo B', N'Módulo B')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (3, N'Módulo Tran 1', N'Módulo Tran 1')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (4, N'Módulo Tran 2', N'Módulo Tran 2')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (9, N'Módulo ADO 1', N'Módulo ADO 1')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (10, N'Módulo ADO 2', N'Módulo ADO 2')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (11, N'12qRU', N'string')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (12, N'Módulo Abraham', N'Módulo Abraham')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (13, N'Módulo Abraham 2', N'Módulo Abraham 2')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (14, N'Modulointerface', N'Modulo interface')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (15, N'adasdadsas', N'asdasdasdasd')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (16, N'Módulo 1 Hola', NULL)
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (17, N'Módulo 2 Hola', NULL)
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (18, N'asdasdasdasdasdasdsd', N'asdasdasdasdasdasd')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (19, N'adsadasdasd', N'asdasdasdasd')
+GO
+INSERT [dbo].[Module] ([id], [name], [description]) VALUES (20, N'qwe', N'qwe')
 GO
 SET IDENTITY_INSERT [dbo].[Module] OFF
 GO
 SET IDENTITY_INSERT [dbo].[User] ON 
 GO
-INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (2, N'A32sunqkH', N'user@example.com', N'stringst')
+INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (2, N'Hugo', N'hugo@example.com', N'Admin123')
+GO
+INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (3, N'Paco', N'paco@example.com', N'Admin123')
+GO
+INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (4, N'Luis', N'Luis@example.com', N'Admin123')
+GO
+INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (5, N'o0GSTbiA6JJs', N'user@example.com', N'stringst')
+GO
+INSERT [dbo].[User] ([id], [nickName], [email], [password]) VALUES (6, N'Abraham', N'abraham@hotmail.com', N'Abraham123')
 GO
 SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (2, 1, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (2, 2, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (3, 2, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (4, 1, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (5, 11, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (6, 12, 1)
+GO
+INSERT [dbo].[User_Module_Rel] ([idUser], [idModule], [isActive]) VALUES (6, 13, 1)
 GO
 ALTER TABLE [dbo].[User_Module_Rel]  WITH CHECK ADD  CONSTRAINT [FK_User_Module_Rel_Module] FOREIGN KEY([idModule])
 REFERENCES [dbo].[Module] ([id])
