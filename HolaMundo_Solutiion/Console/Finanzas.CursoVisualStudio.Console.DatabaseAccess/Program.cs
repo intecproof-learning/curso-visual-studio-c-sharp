@@ -52,6 +52,13 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
                 File.Move(item, $"C:\\Temp\\test2\\{Path.GetFileName(item)}", overwrite: true);
                 Console.WriteLine($"Se movió el archivo {Path.GetFileName(item)}");
             }
+
+            foreach (var item in Directory
+                .GetFiles("C:\\Temp", "*.*"
+                , SearchOption.AllDirectories))
+            {
+                Console.WriteLine(item);
+            }
         }
 
         private static void DirectoryOperations()
