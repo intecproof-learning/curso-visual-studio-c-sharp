@@ -112,6 +112,8 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         public ObjectResponse<Module> SaveModule()
         {
+            moduleDto.RelatedUsers =
+                this.RelatedUsers.ToList();
             return this.business.CreateOrUpdateModule(this.moduleDto);
         }
 

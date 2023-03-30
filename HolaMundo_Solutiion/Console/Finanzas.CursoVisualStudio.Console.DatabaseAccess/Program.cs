@@ -1,6 +1,7 @@
 ﻿using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Finanzas.CursoVisualStudio.DatabaseAccess
 {
@@ -13,8 +14,64 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             //QueryADO();
             //InserUsers();
             //InsertModuleADO();
-            InsertUserModule();
+            //InsertUserModule();
+            //FileAccess();
+            FileAccessStreamWriter();
+            FileAccessStreamReader();
             Console.WriteLine("Finalizado");
+        }
+
+        private static void FileAccessStreamReader()
+        {
+            FileStream fs = File.Open
+            ("C:\\Temp\\demofileFor.csv"
+            , FileMode.OpenOrCreate
+            , System.IO.FileAccess.ReadWrite);
+
+            StreamReader sr = new StreamReader(fs);
+
+            Console.WriteLine(sr.ReadToEnd());
+
+            sr.Close();
+            sr.Dispose();
+        }
+
+        private static void FileAccessStreamWriter()
+        {
+            FileStream fs = File.Open
+            ("C:\\Temp\\demofileFor.csv"
+            , FileMode.OpenOrCreate
+            , System.IO.FileAccess.ReadWrite);
+
+            StreamWriter sw = new StreamWriter(fs);
+
+            for (int i = 0; i < 10; i++)
+            {
+                sw.WriteLine($"{i},{i + 1},{i + 2}");
+            }
+
+            sw.Close();
+            sw.Dispose();
+        }
+
+        private static void FileAccess()
+        {
+            FileStream fs = File.Open("C:\\Temp\\demofile.txt", FileMode.OpenOrCreate
+                , System.IO.FileAccess.ReadWrite);
+
+            fs.Write(Encoding.UTF8
+                .GetBytes("Hola Finanzas"));
+
+            fs.Position = 0;
+            fs.Flush();
+            byte[] buffer = new byte[fs.Length];
+            fs.Read(buffer, 0, (int)fs.Length);
+
+            String text = Encoding.UTF8.GetString(buffer);
+            Console.WriteLine(text);
+
+            fs.Close();
+            fs.Dispose();
         }
 
         private static void InsertUserModule()
@@ -49,8 +106,8 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
                     {
                         IdModule = 0,
                         IdUser = 0,
-                   IdModuleNavigation = module,
-                   IsActive= true
+                        IdModuleNavigation = module,
+                        IsActive = true
                     };
 
                 UserModuleRel umr2 =
@@ -58,7 +115,7 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
                     {
                         IdModule = 0,
                         IdUser = 0,
-                  IdModuleNavigation = module2,
+                        IdModuleNavigation = module2,
                         IsActive = true
                     };
 

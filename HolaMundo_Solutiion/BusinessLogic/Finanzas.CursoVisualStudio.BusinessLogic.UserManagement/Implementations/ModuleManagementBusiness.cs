@@ -28,7 +28,8 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                     {
                         if (uWork.ModuleRepo.Search(u => u.Id == item.ID).Any() == true)
                         {
-                            Sql.Module prev = uWork.ModuleRepo.Search(u => u.Id == item.ID).First();
+                            Sql.Module prev = uWork.ModuleRepo.Search(u => u.Id == item.ID
+                            , include: "UserModuleRels.IdUserNavigation").First();
 
                             item = this.ConvertModuleSqlToModuleDto(uWork.ModuleRepo.Modify(this.ConvertModuleDtoToModuleSql(item, prev)));
 
@@ -119,26 +120,62 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
             sql.Id = dto.ID;
             sql.Name = dto.Name;
 
-            //if (dto.RelatedUsers != null && dto.RelatedUsers.Any() == true)
-            //{
-            //    foreach (var item in dto.RelatedUsers)
-            //    {
-            //        sql.UserModuleRels.Add(
-            //            new Sql.UserModuleRel()
-            //            {
-            //                IsActive = true,
-            //                IdUser = item.UserDto.ID,
-            //                IdModule = dto.ID,
-            //                IdUserNavigation = new Sql.User()
-            //                {
-            //                    Id = item.UserDto.ID,
-            //                    Email = item.UserDto.Email,
-            //                    NickName = item.UserDto.NickName,
-            //                    Password = item.UserDto.Password,
-            //                }
-            //            });
-            //    }
-            //}
+            List<Sql.UserModuleRel> newRelatedUsers
+                = new List<Sql.UserModuleRel>();
+
+            if (dto.RelatedUsers != null && dto.RelatedUsers.Any() == true)
+            {
+                foreach (var item in dto.RelatedUsers)
+                {
+                    newRelatedUsers.Add(
+                        new Sql.UserModuleRel()
+                        {
+                            IsActive = true,
+                            IdUser = item.ID,
+                            IdModule = dto.ID,
+                            IdUserNavigation = new Sql.User()
+                            {
+                                Id = item.ID,
+                                Email = item.Email,
+                                NickName = item.NickName,
+                                Password = item.Password,
+                            }
+                        });
+                }
+
+                //Lista actual sql.UserModuleRels
+                //Nueva lista newRelatedUsers
+
+                foreach (var item in newRelatedUsers)
+                {
+                    if (sql.UserModuleRels
+                        .Any(umr => umr.IdUser == item.IdUser)
+                        == false)
+                    {
+                        sql.UserModuleRels.Add(item);
+                    }
+                    else
+                    {
+                        sql.UserModuleRels.Where(umr => umr.IdUser
+                        == item.IdUser).First().IsActive = item.IsActive;
+                    }
+                }
+
+                //Este línea de regresa todos los los elementos que están
+                //newRelatedUsers pero no en SQL.UserModuleRels
+                //newRelatedUsers.Where(nru => sql.UserModuleRels
+                //.Any(umr => umr.IdModule == nru.IdModule) == false);
+
+                var result =
+                    new List<Sql.UserModuleRel>(sql.UserModuleRels
+                    .Where(umr => newRelatedUsers
+                    .Any(nru => nru.IdUser == umr.IdUser) == false));
+
+                foreach (var item in result)
+                {
+                    sql.UserModuleRels.Remove(item);
+                }
+            }
 
             return sql;
         }
