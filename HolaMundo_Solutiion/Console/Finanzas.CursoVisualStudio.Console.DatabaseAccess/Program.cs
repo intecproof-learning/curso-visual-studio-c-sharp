@@ -16,9 +16,102 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             //InsertModuleADO();
             //InsertUserModule();
             //FileAccess();
-            FileAccessStreamWriter();
-            FileAccessStreamReader();
+            //FileAccessStreamWriter();
+            //FileAccessStreamReader();
+            //FileAccessAppend();
+            //FileAccessStreamReader();
+            //DirectoryOperations();
+            CopyMoveFiles();
+
             Console.WriteLine("Finalizado");
+        }
+
+        private static void CopyMoveFiles()
+        {
+            if (Directory.Exists("C:\\Temp\\test") == false)
+            {
+                Directory.CreateDirectory("C:\\Temp\\test");
+            }
+
+            if (Directory.Exists("C:\\Temp\\test2") == false)
+            {
+                Directory.CreateDirectory("C:\\Temp\\test2");
+            }
+
+            foreach (var item in Directory.GetFiles("C:\\Temp"))
+            {
+                File.Copy(item, $"C:\\Temp\\test\\{Path.GetFileName(item)}", overwrite: true);
+                Console.WriteLine($"Se copió el archivo {Path.GetFileName(item)}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            foreach (var item in Directory.GetFiles("C:\\Temp"))
+            {
+                File.Move(item, $"C:\\Temp\\test2\\{Path.GetFileName(item)}", overwrite: true);
+                Console.WriteLine($"Se movió el archivo {Path.GetFileName(item)}");
+            }
+        }
+
+        private static void DirectoryOperations()
+        {
+            if (Directory.Exists("C:\\Temp") == true)
+            {
+                foreach (var item in
+                    Directory.GetFiles("C:\\Temp"))
+                {
+                    Console.WriteLine(item);
+
+                    Console.WriteLine(
+                    File.GetCreationTime(item));
+
+                    Console.WriteLine(
+                    File.GetLastAccessTime(item));
+
+                    Console.WriteLine(
+                    File.GetLastWriteTime(item));
+                    Console.WriteLine("\n\n");
+                }
+
+                if (Directory.Exists("C:\\Temp\\test")
+                    == false)
+                {
+                    Directory.CreateDirectory
+                        ("C:\\Temp\\test");
+                }
+
+                foreach (var item in Directory
+                    .EnumerateDirectories("C:\\Temp"))
+                {
+                    Console.WriteLine(item);
+
+                    Console.WriteLine(Directory
+                        .GetCreationTime(item));
+                }
+
+                Directory.Delete("C:\\Temp\\test");
+            }
+        }
+
+        private static void FileAccessAppend()
+        {
+            if (File.Exists("C:\\Temp\\demofileFor.csv")
+                == true)
+            {
+                StreamWriter sw
+                = File.AppendText
+                ("C:\\Temp\\demofileFor.csv");
+
+                for (int i = 10; i < 20; i++)
+                {
+                    sw.WriteLine($"{i},{i + 1},{i + 2}");
+                }
+
+                sw.Close();
+                sw.Dispose();
+            }
+
         }
 
         private static void FileAccessStreamReader()
