@@ -7,7 +7,7 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             //QueryUsers();
             //QueryModules();
@@ -21,10 +21,64 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             //FileAccessAppend();
             //FileAccessStreamReader();
             //DirectoryOperations();
-            CopyMoveFiles();
+            //CopyMoveFiles();
+            NormalProcess();
 
             Console.WriteLine("Finalizado");
+            Console.WriteLine("Press any key to exit");
+            Console.ReadLine();
         }
+
+        private static async Task NormalProcess()
+        {
+            Thread.Sleep(1000);
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(6000);
+            //    Console.WriteLine("Dentro del run");
+            //});
+
+            for (int i = 10; i <= 20; i += 10)
+            {
+                ProcessAsync(i);
+            }
+
+            Console.WriteLine("NormalProcess - Finalizado");
+        }
+
+        private static async Task ProcessAsync(int i)
+        {
+            Thread.Sleep(1000);
+            for (int j = i; j <= i + 10; j++)
+            {
+                Console.WriteLine($"Procesando {i} - " +
+                    $"iteración {j}");
+                Process2Async(i, j);
+                Task.Run(() =>
+                 {
+                     Console.WriteLine("Dentro del run");
+                 });
+            }
+
+            Console.WriteLine("ProcessAsync - Finalizado");
+        }
+
+        private static async Task<int> Process2Async(
+            int i, int j)
+        {
+            Thread.Sleep(1000);
+            Console.WriteLine($"Process2Async: {i} - {j} ");
+
+            int result = 0;
+            for (int k = i; k <= j; k++)
+            {
+                result += k;
+            }
+            Console.WriteLine("Process2Async - Finalizado");
+
+            return result;
+        }
+
 
         private static void CopyMoveFiles()
         {

@@ -1,5 +1,6 @@
 using Finanzas.CursoVisualStudio.Forms.Demo.Common;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
+using Finanzas.CursoVisualStudio.Shared.Utilities;
 using System.ComponentModel;
 
 namespace Finanzas.CursoVisualStudio.Forms.Demo
@@ -9,8 +10,10 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         private ModuleVM context;
         private SearchDialogBox searchdb;
 
-        public DemoForm()
+        public DemoForm(String session)
         {
+            Utilities.session = session;
+            MessageBox.Show(session);
             InitializeComponent();
             this.context = new ModuleVM();
             this.context.PropertyChanged += Context_PropertyChanged;

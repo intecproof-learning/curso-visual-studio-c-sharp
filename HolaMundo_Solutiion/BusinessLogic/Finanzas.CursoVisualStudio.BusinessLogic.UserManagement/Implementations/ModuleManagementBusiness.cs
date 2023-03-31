@@ -35,6 +35,16 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
 
                             message = $"El Módulo \"{item.Name}\" se actualizó correctamente";
                             isSuccess = true;
+
+                            Utilities.LogMovement(ModulesEnum.Modules
+                            , new LogProperties()
+                            {
+                                Action = UserAcctionsEnum.Update,
+                                ExecutionDate = DateTime.Now,
+                                Message = message,
+                                MessageType = LogMessageType.Info,
+                                ObjectID = item.ID.ToString()
+                            });
                         }
                         else
                         {

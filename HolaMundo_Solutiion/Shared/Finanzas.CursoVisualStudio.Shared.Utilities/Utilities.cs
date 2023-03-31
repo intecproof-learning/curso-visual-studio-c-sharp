@@ -4,6 +4,9 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
 {
     public class Utilities
     {
+
+        public static String session = String.Empty;
+
         public static bool IsValidModel<T>(T obj, out ICollection<ValidationResult> results)
         {
             results = new List<ValidationResult>();
@@ -32,9 +35,18 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                     break;
             }
 
+            if (Directory.Exists(Path.GetDirectoryName
+                (logPath)) == false)
+            {
+                Directory.CreateDirectory(Path
+                    .GetDirectoryName(logPath));
+            }
+
             if (File.Exists(logPath) == false)
             {
-                File.Create(logPath);
+                FileStream fs = File.Create(logPath);
+                fs.Close();
+                fs.Dispose();
             }
 
             using (StreamWriter sw
@@ -43,8 +55,11 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                 sw.WriteLineAsync(
                     $"{moduleLog},{properties.Action}," +
                     $"{properties.Message}, {properties.MessageType}," +
-                    $"{properties.ObjectID}, {properties.ExecutionDate}");
+                    $"{properties.ObjectID}, {properties.ExecutionDate}," +
+                    $"{Utilities.session}");
             }
+
+            return true;
         }
     }
 
