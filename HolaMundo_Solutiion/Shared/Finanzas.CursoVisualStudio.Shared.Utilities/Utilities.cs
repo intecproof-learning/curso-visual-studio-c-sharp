@@ -43,8 +43,7 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                 sw.WriteLineAsync(
                     $"{moduleLog},{properties.Action}," +
                     $"{properties.Message}, {properties.MessageType}," +
-                    $"{properties.ObjectID}, {properties.ExecutionDate}"
-                    );
+                    $"{properties.ObjectID}, {properties.ExecutionDate}");
             }
         }
     }
