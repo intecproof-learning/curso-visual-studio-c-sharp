@@ -18,7 +18,8 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
         }
 
         public static bool LogMovement
-            (ModulesEnum moduleLog)
+            (ModulesEnum moduleLog
+            , LogProperties properties)
         {
             String logPath = String.Empty;
             switch (moduleLog)
@@ -29,6 +30,21 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                 case ModulesEnum.Modules:
                     logPath = "C:\\Temp\\Log\\ModulesLog.csv";
                     break;
+            }
+
+            if (File.Exists(logPath) == false)
+            {
+                File.Create(logPath);
+            }
+
+            using (StreamWriter sw
+                = File.AppendText(logPath))
+            {
+                sw.WriteLineAsync(
+                    $"{moduleLog},{properties.Action}," +
+                    $"{properties.Message}, {properties.MessageType}," +
+                    $"{properties.ObjectID}, {properties.ExecutionDate}"
+                    );
             }
         }
     }
@@ -57,9 +73,9 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
     public class LogProperties
     {
         public UserAcctionsEnum Action { get; set; }
-        
+
         public LogMessageType MessageType { get; set; }
-        
+
         public string Message { get; set; }
 
         public DateTime ExecutionDate { get; set; }
