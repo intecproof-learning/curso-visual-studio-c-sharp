@@ -31,7 +31,6 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
 
         private static async Task NormalProcess()
         {
-            //Thread.Sleep(6000);
             //await Task.Run(() =>
             //{
             //    Thread.Sleep(6000);
