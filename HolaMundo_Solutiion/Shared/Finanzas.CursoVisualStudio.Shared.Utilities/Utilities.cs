@@ -55,7 +55,7 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                 = File.AppendText(logPath))
             {
                 sw.WriteLineAsync(
-                    $"{moduleLog},{properties.Action}," +
+                    $"{moduleLog.GetDescription()},{properties.Action}," +
                     $"{properties.Message}, {properties.MessageType}," +
                     $"{properties.ObjectID}, {properties.ExecutionDate}," +
                     $"{Utilities.session}");
@@ -74,6 +74,14 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
                 enumValue.ToString()).First()
                 .GetCustomAttribute<DescriptionAttribute>()?
                 .Description ?? "Enumerador sin descripción";
+            //Operador ternario condición?verdadero:falso
+            //?? Abrev Operador ternario
+            //Evalua si el objeto de la izquiera es nulo
+            //Si es nulo regresa el valo especificado
+            //a la derecha y si no es nulo
+            //regresa el valor de la propiedad
+            //...Description == null?"Enumerador sin descripción":
+            //...Description
         }
     }
 
