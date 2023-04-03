@@ -12,7 +12,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             String session = Guid.NewGuid().ToString();
-            Application.Run(new DemoForm(session));
+            Application.Run(new Finanzas(session));
         }
     }
 }

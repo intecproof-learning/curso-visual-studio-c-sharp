@@ -10,10 +10,8 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         private ModuleVM context;
         private SearchDialogBox searchdb;
 
-        public DemoForm(String session)
+        public DemoForm()
         {
-            Utilities.session = session;
-            MessageBox.Show(session);
             InitializeComponent();
             this.context = new ModuleVM();
             this.context.PropertyChanged += Context_PropertyChanged;
