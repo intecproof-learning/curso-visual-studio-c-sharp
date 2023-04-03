@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Finanzas.CursoVisualStudio.Shared.Utilities
 {
@@ -63,9 +65,24 @@ namespace Finanzas.CursoVisualStudio.Shared.Utilities
         }
     }
 
+    public static class EnumExtensionMethods
+    {
+        public static String GetDescription
+            (this Enum enumValue)
+        {
+            return enumValue.GetType().GetMember(
+                enumValue.ToString()).First()
+                .GetCustomAttribute<DescriptionAttribute>()?
+                .Description ?? "Enumerador sin descripción";
+        }
+    }
+
+
     public enum ModulesEnum
     {
+        [Description("Módulo de usuarios")]
         Users,
+        [Description("Ventana de módulos")]
         Modules
     }
 
