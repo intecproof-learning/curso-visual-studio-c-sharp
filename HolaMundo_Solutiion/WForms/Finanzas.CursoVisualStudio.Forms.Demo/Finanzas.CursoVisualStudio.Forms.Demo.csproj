@@ -12,4 +12,10 @@
     <ProjectReference Include="..\..\BusinessLogic\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement\Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="User\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

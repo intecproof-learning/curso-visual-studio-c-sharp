@@ -1,11 +1,12 @@
-﻿using Finanzas.CursoVisualStudio.Shared.Utilities;
+﻿using Finanzas.CursoVisualStudio.Forms.Demo.User;
+using Finanzas.CursoVisualStudio.Shared.Utilities;
 
 namespace Finanzas.CursoVisualStudio.Forms.Demo
 {
     public partial class Finanzas : Form
     {
         private DemoForm modules;
-        private DemoForm users;
+        private UserForm users;
 
         public Finanzas(String session)
         {
@@ -13,14 +14,14 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             InitializeComponent();
 
             this.modules = new DemoForm();
-            this.users = new DemoForm();
+            this.users = new UserForm();
         }
 
         private void mnsUsersSubItem_Click(object sender, EventArgs e)
         {
             if (this.users.IsDisposed == true)
             {
-                this.users = new DemoForm();
+                this.users = new UserForm();
             }
 
             this.users.MdiParent = this;
