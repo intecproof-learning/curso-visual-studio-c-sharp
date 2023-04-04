@@ -1,6 +1,7 @@
 using Finanzas.CursoVisualStudio.Forms.Demo.Common;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
 using Finanzas.CursoVisualStudio.Shared.Utilities;
+using Newtonsoft.Json;
 using System.ComponentModel;
 
 namespace Finanzas.CursoVisualStudio.Forms.Demo
@@ -12,8 +13,36 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         public DemoForm()
         {
+            String prevState = String.Empty;
+            if (File.Exists("C:\\Temp\\ModuleState.json") == true)
+            {
+                DialogResult result = MessageBox.Show("Existe un estado previo. ¿Deseas recuperarlo?"
+                    , "Recuperar estado previo"
+                    , MessageBoxButtons.YesNo
+                    , MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    using (StreamReader sr = new StreamReader("C:\\Temp\\ModuleState.json"))
+                    {
+                        prevState = sr.ReadToEnd();
+                    }
+                    File.Delete("C:\\Temp\\ModuleState.json");
+                }
+            }
             InitializeComponent();
-            this.context = new ModuleVM();
+
+            if (String.IsNullOrEmpty(prevState) == true)
+            {
+                this.context = new ModuleVM();
+            }
+            else
+            {
+                ModuleVM instanciaEstadoPrevio = JsonConvert
+             .DeserializeObject<ModuleVM>(prevState);
+                this.context = instanciaEstadoPrevio;
+            }
+
             this.context.PropertyChanged += Context_PropertyChanged;
             this.context.GetModules();
             this.searchdb = new SearchDialogBox();

@@ -1,6 +1,7 @@
 ﻿using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementations;
 using Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Interfaces;
 using Finanzas.CursoVisualStudio.Shared.DTOs;
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -105,6 +106,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         public void Clean()
         {
+            this.SaveWindowState();
             this.EnableEditingMode(false);
             this.ModuleDto = new Module();
             this.GetModules();
@@ -169,6 +171,33 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void SaveWindowState()
+        {
+            String state = JsonConvert
+                .SerializeObject(this);
+
+            using (StreamWriter sw = new StreamWriter(File.Open(
+                "C:\\Temp\\ModuleState.json", FileMode.Create, FileAccess.Write)))
+            {
+                sw.Write(state);
+            }
+        }
+
+        public void LoadPrevState()
+        {
+            String prevState = String.Empty;
+            using (StreamReader sr
+                =new StreamReader("C:\\Temp\\ModuleState.json"))
+            {
+                prevState = sr.ReadToEnd();
+            }
+            ModuleVM instanciaEstadoPrevio = JsonConvert
+                .DeserializeObject<ModuleVM>(prevState);
+
+            IsEditingBtnVisible = instanciaEstadoPrevio.IsEditingBtnVisible;
+            IsOperationBtnVisible = instanciaEstadoPrevio.IsOperationBtnVisible;
         }
     }
 }

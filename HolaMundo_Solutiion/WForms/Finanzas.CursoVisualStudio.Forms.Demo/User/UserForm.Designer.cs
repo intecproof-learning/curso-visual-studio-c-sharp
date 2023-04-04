@@ -41,14 +41,14 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLinkUser = new System.Windows.Forms.Button();
             this.gpbUser = new System.Windows.Forms.GroupBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.dgvRelatedModules = new System.Windows.Forms.DataGridView();
             this.lblEmail = new System.Windows.Forms.Label();
             this.gpbUserList = new System.Windows.Forms.GroupBox();
             this.lstUsers = new System.Windows.Forms.ListView();
             this.idColLstUsers = new System.Windows.Forms.ColumnHeader();
             this.nickNameColLstUsers = new System.Windows.Forms.ColumnHeader();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
             this.gpbUserButtons.SuspendLayout();
             this.flpButtons.SuspendLayout();
             this.gpbUser.SuspendLayout();
@@ -202,6 +202,29 @@
             this.gpbUser.TabStop = false;
             this.gpbUser.Text = "Propiedades del usuario";
             // 
+            // txtPassword
+            // 
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPassword.Location = new System.Drawing.Point(96, 97);
+            this.txtPassword.MaxLength = 16;
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPassword.Size = new System.Drawing.Size(358, 26);
+            this.txtPassword.TabIndex = 6;
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblPassword.Location = new System.Drawing.Point(6, 99);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(84, 19);
+            this.lblPassword.TabIndex = 5;
+            this.lblPassword.Text = "Contraseña";
+            // 
             // dgvRelatedModules
             // 
             this.dgvRelatedModules.AllowUserToAddRows = false;
@@ -269,29 +292,6 @@
             // 
             this.nickNameColLstUsers.Text = "Apodo";
             this.nickNameColLstUsers.Width = 265;
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblPassword.Location = new System.Drawing.Point(6, 99);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(55, 19);
-            this.lblPassword.TabIndex = 5;
-            this.lblPassword.Text = "Apodo";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Location = new System.Drawing.Point(96, 97);
-            this.txtPassword.MaxLength = 16;
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPassword.Size = new System.Drawing.Size(358, 26);
-            this.txtPassword.TabIndex = 6;
             // 
             // UserForm
             // 

@@ -12,14 +12,11 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
         {
             Utilities.session = session;
             InitializeComponent();
-
-            this.modules = new DemoForm();
-            this.users = new UserForm();
         }
 
         private void mnsUsersSubItem_Click(object sender, EventArgs e)
         {
-            if (this.users.IsDisposed == true)
+            if (this.users == null || this.users.IsDisposed == true)
             {
                 this.users = new UserForm();
             }
@@ -31,7 +28,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         private void mnsModulesSubItem_Click(object sender, EventArgs e)
         {
-            if (this.modules.IsDisposed == true)
+            if (this.modules == null || this.modules.IsDisposed == true)
             {
                 this.modules = new DemoForm();
             }
