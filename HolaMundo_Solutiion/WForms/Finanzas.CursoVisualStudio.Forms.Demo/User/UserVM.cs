@@ -12,11 +12,11 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
 
         private bool isEditingBtnVisible;
         private bool isOperationBtnVisible;
-        private Module moduleDto;
-        private IModuleManagementBusiness business;
-        private List<Module> modules;
-        private BindingList<ModuleUserRelDto> relatedUsers;
-        private List<ModuleUserRelSearchBoxDto> allUsersSearchBox;
+        private Shared.DTOs.User userDto;
+        private IUserManagementBusiness business;
+        private List<Shared.DTOs.User> users;
+        private BindingList<ModuleUserRelDto> relatedModules;
+        private List<ModuleUserRelSearchBoxDto> allModulesSearchBox;
         private String searchDialogBoxFilter;
 
         public bool IsEditingBtnVisible
@@ -38,32 +38,32 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             }
         }
 
-        public Module ModuleDto
+        public Shared.DTOs.User UserDto
         {
-            get => moduleDto;
+            get => userDto;
             set
             {
-                moduleDto = value;
+                userDto = value;
                 this.NotifyPropertyChanged();
             }
         }
 
-        public List<Module> Modules
+        public List<Shared.DTOs.User> Users
         {
-            get => modules;
+            get => users;
             private set
             {
-                modules = value;
+                users = value;
                 this.NotifyPropertyChanged();
             }
         }
 
-        public BindingList<ModuleUserRelDto> RelatedUsers
+        public BindingList<ModuleUserRelDto> RelatedModules
         {
-            get => relatedUsers;
+            get => relatedModules;
             set
             {
-                relatedUsers = value;
+                relatedModules = value;
                 this.NotifyPropertyChanged();
             }
         }
@@ -78,12 +78,12 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             }
         }
 
-        public List<ModuleUserRelSearchBoxDto> AllUsersSearchBox
+        public List<ModuleUserRelSearchBoxDto> AllModulesSearchBox
         {
-            get => allUsersSearchBox;
+            get => allModulesSearchBox;
             set
             {
-                allUsersSearchBox = value;
+                allModulesSearchBox = value;
                 this.NotifyPropertyChanged();
             }
         }
@@ -92,9 +92,9 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
         {
             this.isEditingBtnVisible = false;
             this.isOperationBtnVisible = true;
-            this.moduleDto = new Module();
-            this.business = new ModuleManagementBusiness();
-            this.GetModules();
+            this.userDto = new Shared.DTOs.User();
+            this.business = new UserManagementBusiness();
+            this.GetUsers();
         }
 
         public void EnableEditingMode(bool isEditing)
@@ -106,31 +106,31 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
         public void Clean()
         {
             this.EnableEditingMode(false);
-            this.ModuleDto = new Module();
-            this.GetModules();
+            this.UserDto = new Shared.DTOs.User();
+            this.GetUsers();
         }
 
-        public ObjectResponse<Module> SaveModule()
+        public ObjectResponse<Shared.DTOs.User> SaveModule()
         {
-            moduleDto.RelatedUsers =
-                this.RelatedUsers.ToList();
-            return this.business.CreateOrUpdateModule(this.moduleDto);
-        }
-
-        public void GetModules()
-        {
-            var result = this.business.GetModule("");
-            if (result.IsSucess == true)
-            {
-                this.Modules = result.ObjectResult;
-            }
-            else
-            {
-                this.Modules = new List<Module>();
-            }
+            //userDto.RelatedModules =
+            //    this.RelatedModules.ToList();
+            return this.business.CreateOrUpdateUser(this.userDto);
         }
 
         public void GetUsers()
+        {
+            var result = this.business.GetUser("");
+            if (result.IsSucess == true)
+            {
+                this.Users = result.ObjectResult;
+            }
+            else
+            {
+                this.Users = new List<Shared.DTOs.User>();
+            }
+        }
+
+        public void GetRelatedModules()
         {
             UserManagementBusiness userBusiness = new UserManagementBusiness();
             var result = userBusiness.GetUser(this.SearchDialogBoxFilter);
@@ -149,17 +149,17 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
 
                 foreach (var item in findUsers)
                 {
-                    if (this.relatedUsers.Any(ru => ru.ID == item.ID) == true)
+                    if (this.relatedModules.Any(ru => ru.ID == item.ID) == true)
                     {
                         item.IsChecked = true;
                     }
                 }
 
-                this.AllUsersSearchBox = new List<ModuleUserRelSearchBoxDto>(findUsers);
+                this.AllModulesSearchBox = new List<ModuleUserRelSearchBoxDto>(findUsers);
             }
             else
             {
-                this.AllUsersSearchBox = new List<ModuleUserRelSearchBoxDto>();
+                this.AllModulesSearchBox = new List<ModuleUserRelSearchBoxDto>();
             }
         }
 

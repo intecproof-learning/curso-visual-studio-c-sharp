@@ -15,31 +15,31 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             InitializeComponent();
             this.context = new UserVM();
             this.context.PropertyChanged += Context_PropertyChanged;
-            this.context.GetModules();
+            this.context.GetUsers();
             this.searchdb = new SearchDialogBox();
             this.CreateBindings();
         }
 
         private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Modules")
+            if (e.PropertyName == "Users")
             {
                 this.lstUsers.Items.Clear();
 
-                foreach (var item in this.context.Modules)
+                foreach (var item in this.context.Users)
                 {
                     this.lstUsers.Items.Add(new
                         ListViewItem(new string[] {
                             item.ID.ToString(),
-                            item.Name
+                            item.NickName
                         }));
                 }
             }
 
-            if (e.PropertyName == "AllUsersSearchBox")
+            if (e.PropertyName == "AllModulesSearchBox")
             {
-                ((ListBox)this.searchdb.clbRelatedItems).DataSource = this.context.AllUsersSearchBox;
-                ((ListBox)this.searchdb.clbRelatedItems).DisplayMember = "NickName";
+                ((ListBox)this.searchdb.clbRelatedItems).DataSource = this.context.AllModulesSearchBox;
+                ((ListBox)this.searchdb.clbRelatedItems).DisplayMember = "Name";
                 ((ListBox)this.searchdb.clbRelatedItems).ValueMember = "ID";
 
                 for (int i = 0; i < this.searchdb.clbRelatedItems.Items.Count; i++)
@@ -58,10 +58,10 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             this.btnModify.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.btnDelete.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.gpbUser.DataBindings.Add("Enabled", context, "IsEditingBtnVisible");
-            this.txtName.DataBindings.Add("Text", this.context, "ModuleDto.Name");
-            this.txtDescription.DataBindings.Add("Text", this.context, "ModuleDto.Description");
+            this.txtName.DataBindings.Add("Text", this.context, "UserDto.NickName");
+            this.txtDescription.DataBindings.Add("Text", this.context, "UserDto.Email");
             this.lstUsers.DataBindings.Add("Enabled", this.context, "IsOperationBtnVisible");
-            this.dgvRelatedModules.DataBindings.Add("DataSource", this.context, "RelatedUsers");
+            this.dgvRelatedModules.DataBindings.Add("DataSource", this.context, "RelatedModules");
 
             #region SearchDialogBox
             this.searchdb.btnSearch.Click += SearchDialogBox_BtnSearch_Click;
@@ -78,7 +78,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
                 selectedUsers.Add((item as ModuleUserRelDto));
             }
 
-            this.context.RelatedUsers = new BindingList<ModuleUserRelDto>(selectedUsers);
+            this.context.RelatedModules = new BindingList<ModuleUserRelDto>(selectedUsers);
             this.searchdb.Close();
         }
 
@@ -123,15 +123,15 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
         {
             if (e.IsSelected == true)
             {
-                this.context.ModuleDto = this.context.Modules.Where(m => m.ID.ToString() == e.Item.Text).First();
-                this.context.RelatedUsers
-                    = new BindingList<Shared.DTOs.ModuleUserRelDto>
-                    (this.context.ModuleDto.RelatedUsers);
+                this.context.UserDto = this.context.Users.Where(m => m.ID.ToString() == e.Item.Text).First();
+                //this.context.RelatedModules
+                //    = new BindingList<Shared.DTOs.ModuleUserRelDto>
+                //    (this.context.UserDto.RelatedModules);
             }
             else
             {
-                this.context.ModuleDto = new Shared.DTOs.Module();
-                this.context.RelatedUsers
+                this.context.UserDto = new Shared.DTOs.User();
+                this.context.RelatedModules
                     = new BindingList<Shared.DTOs
                     .ModuleUserRelDto>();
             }
@@ -139,13 +139,13 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
 
         private void btnLinkUser_Click(object sender, EventArgs e)
         {
-            this.context.GetUsers();
+            this.context.GetRelatedModules();
             this.searchdb.ShowDialog();
         }
 
         private void SearchDialogBox_BtnSearch_Click(object? sender, EventArgs e)
         {
-            this.context.GetUsers();
+            this.context.GetRelatedModules();
         }
     }
 }
