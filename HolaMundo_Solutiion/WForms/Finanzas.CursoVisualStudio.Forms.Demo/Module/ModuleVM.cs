@@ -106,7 +106,6 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
         public void Clean()
         {
-            this.SaveWindowState();
             this.EnableEditingMode(false);
             this.ModuleDto = new Module();
             this.GetModules();
@@ -173,7 +172,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             }
         }
 
-        private void SaveWindowState()
+        public void SaveWindowState()
         {
             String state = JsonConvert
                 .SerializeObject(this);

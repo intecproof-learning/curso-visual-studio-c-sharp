@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -46,6 +47,7 @@
             this.lstModules = new System.Windows.Forms.ListView();
             this.idColLstModules = new System.Windows.Forms.ColumnHeader();
             this.nameColLstModules = new System.Windows.Forms.ColumnHeader();
+            this.savePrevStateTimer = new System.Windows.Forms.Timer(this.components);
             this.gpbModuleButtons.SuspendLayout();
             this.flpButtons.SuspendLayout();
             this.gpbModule.SuspendLayout();
@@ -266,6 +268,11 @@
             this.nameColLstModules.Text = "Nombre";
             this.nameColLstModules.Width = 265;
             // 
+            // savePrevStateTimer
+            // 
+            this.savePrevStateTimer.Enabled = true;
+            this.savePrevStateTimer.Interval = 60000;
+            // 
             // DemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -309,5 +316,6 @@
         private ColumnHeader idColLstModules;
         private ColumnHeader nameColLstModules;
         private Button btnLinkUser;
+        private System.Windows.Forms.Timer savePrevStateTimer;
     }
 }

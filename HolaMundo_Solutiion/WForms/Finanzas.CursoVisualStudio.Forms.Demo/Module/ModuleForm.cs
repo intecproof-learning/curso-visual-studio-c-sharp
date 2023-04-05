@@ -47,6 +47,16 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
             this.context.GetModules();
             this.searchdb = new SearchDialogBox();
             this.CreateBindings();
+            this.savePrevStateTimer.Start();
+            this.savePrevStateTimer.Tick +=
+                (sender, e) =>
+                {
+                    if (this.context.IsEditingBtnVisible
+                    == true)
+                    {
+                        this.context.SaveWindowState();
+                    }
+                };
         }
 
         private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -143,6 +153,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo
 
             if (result == DialogResult.Yes)
             {
+                this.context.SaveWindowState();
                 this.context.Clean();
             }
 
