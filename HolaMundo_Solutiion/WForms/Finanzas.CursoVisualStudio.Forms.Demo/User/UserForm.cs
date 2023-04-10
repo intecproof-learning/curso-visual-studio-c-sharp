@@ -58,8 +58,11 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             this.btnModify.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.btnDelete.DataBindings.Add("Visible", context, "IsOperationBtnVisible");
             this.gpbUser.DataBindings.Add("Enabled", context, "IsEditingBtnVisible");
-            this.txtName.DataBindings.Add("Text", this.context, "UserDto.NickName");
-            this.txtDescription.DataBindings.Add("Text", this.context, "UserDto.Email");
+            this.txtNickName.DataBindings.Add("Text", this.context, "UserDto.NickName");
+            this.txtEmail.DataBindings.Add("Text", this.context, "UserDto.Email");
+            this.txtPassword.DataBindings.Add("Text",
+                this.context,
+                "UserDto.Password");
             this.lstUsers.DataBindings.Add("Enabled", this.context, "IsOperationBtnVisible");
             this.dgvRelatedModules.DataBindings.Add("DataSource", this.context, "RelatedModules");
 
@@ -72,13 +75,13 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
 
         private void SearchDialogBox_BtnAceptar(object? sender, EventArgs e)
         {
-            List<ModuleUserRelDto> selectedUsers = new List<ModuleUserRelDto>();
+            List<UserModuleRelDto> selectedUsers = new List<UserModuleRelDto>();
             foreach (var item in this.searchdb.clbRelatedItems.CheckedItems)
             {
-                selectedUsers.Add((item as ModuleUserRelDto));
+                selectedUsers.Add((item as UserModuleRelDto));
             }
 
-            this.context.RelatedModules = new BindingList<ModuleUserRelDto>(selectedUsers);
+            this.context.RelatedModules = new BindingList<UserModuleRelDto>(selectedUsers);
             this.searchdb.Close();
         }
 
@@ -124,16 +127,16 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             if (e.IsSelected == true)
             {
                 this.context.UserDto = this.context.Users.Where(m => m.ID.ToString() == e.Item.Text).First();
-                //this.context.RelatedModules
-                //    = new BindingList<Shared.DTOs.ModuleUserRelDto>
-                //    (this.context.UserDto.RelatedModules);
+                this.context.RelatedModules
+                    = new BindingList<Shared.DTOs.UserModuleRelDto>
+                    (this.context.UserDto.RelatedModules);
             }
             else
             {
                 this.context.UserDto = new Shared.DTOs.User();
                 this.context.RelatedModules
                     = new BindingList<Shared.DTOs
-                    .ModuleUserRelDto>();
+                    .UserModuleRelDto>();
             }
         }
 

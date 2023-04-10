@@ -30,9 +30,9 @@
         private void InitializeComponent()
         {
             this.lblNickName = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtNickName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
             this.gpbUserButtons = new System.Windows.Forms.GroupBox();
             this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -66,16 +66,16 @@
             this.lblNickName.TabIndex = 0;
             this.lblNickName.Text = "Apodo";
             // 
-            // txtName
+            // txtNickName
             // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNickName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtName.Location = new System.Drawing.Point(96, 20);
-            this.txtName.MaxLength = 12;
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(358, 26);
-            this.txtName.TabIndex = 1;
+            this.txtNickName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNickName.Location = new System.Drawing.Point(96, 20);
+            this.txtNickName.MaxLength = 12;
+            this.txtNickName.Name = "txtNickName";
+            this.txtNickName.Size = new System.Drawing.Size(358, 26);
+            this.txtNickName.TabIndex = 1;
             // 
             // btnSave
             // 
@@ -88,17 +88,17 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSaveModule_Click);
             // 
-            // txtDescription
+            // txtEmail
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDescription.Location = new System.Drawing.Point(96, 59);
-            this.txtDescription.MaxLength = 50;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(358, 26);
-            this.txtDescription.TabIndex = 3;
+            this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtEmail.Location = new System.Drawing.Point(96, 59);
+            this.txtEmail.MaxLength = 50;
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtEmail.Size = new System.Drawing.Size(358, 26);
+            this.txtEmail.TabIndex = 3;
             // 
             // gpbUserButtons
             // 
@@ -192,8 +192,8 @@
             this.gpbUser.Controls.Add(this.dgvRelatedModules);
             this.gpbUser.Controls.Add(this.lblEmail);
             this.gpbUser.Controls.Add(this.lblNickName);
-            this.gpbUser.Controls.Add(this.txtDescription);
-            this.gpbUser.Controls.Add(this.txtName);
+            this.gpbUser.Controls.Add(this.txtEmail);
+            this.gpbUser.Controls.Add(this.txtNickName);
             this.gpbUser.Font = new System.Drawing.Font("Segoe UI", 9.163636F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.gpbUser.Location = new System.Drawing.Point(12, 12);
             this.gpbUser.Name = "gpbUser";
@@ -319,9 +319,9 @@
         #endregion
 
         private Label lblNickName;
-        private TextBox txtName;
+        private TextBox txtNickName;
         private Button btnSave;
-        private TextBox txtDescription;
+        private TextBox txtEmail;
         private GroupBox gpbUserButtons;
         private Button btnDelete;
         private Button btnModify;

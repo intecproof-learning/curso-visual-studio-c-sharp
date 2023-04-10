@@ -15,7 +15,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
         private Shared.DTOs.User userDto;
         private IUserManagementBusiness business;
         private List<Shared.DTOs.User> users;
-        private BindingList<ModuleUserRelDto> relatedModules;
+        private BindingList<UserModuleRelDto> relatedModules;
         private List<ModuleUserRelSearchBoxDto> allModulesSearchBox;
         private String searchDialogBoxFilter;
 
@@ -58,7 +58,7 @@ namespace Finanzas.CursoVisualStudio.Forms.Demo.User
             }
         }
 
-        public BindingList<ModuleUserRelDto> RelatedModules
+        public BindingList<UserModuleRelDto> RelatedModules
         {
             get => relatedModules;
             set

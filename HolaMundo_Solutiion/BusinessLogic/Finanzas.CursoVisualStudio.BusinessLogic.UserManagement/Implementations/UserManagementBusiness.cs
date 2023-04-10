@@ -175,13 +175,10 @@ namespace Finanzas.CursoVisualStudio.BusinessLogic.UserManagement.Implementation
                         new UserModuleRelDto()
                         {
                             IsActive = item.IsActive,
-                            ModuleDto = new Module()
-                            {
-                                Description = item.IdModuleNavigation.Description,
-                                ID = item.IdModule,
-                                Name = item.IdModuleNavigation.Name,
-                                RelatedUsers = null
-                            }
+                            Description = item.IdModuleNavigation.Description,
+                            ID = item.IdModule,
+                            Name = item.IdModuleNavigation.Name,
+                            RelatedUsers = null
                         });
                 }
             }
