@@ -6,7 +6,7 @@
 </head>
 <body>
     <header>
-        <h1>Administración de usuarios</h1>
+        <h1 id="main-title">Administración de usuarios</h1>
     </header>
 
     <section>
@@ -28,7 +28,9 @@
         </form>
     </section>
     <section>
-        <h2>Listas</h2>
+        <h2 onclick="Probar()">Listas</h2>
+        <button id="btn-probar" onclick="Probar()">
+        Probar</button>
         <!--<ol>-->
             <!--Ordered List-->
             <!--<li>Elemento 1</li>--> <!--List Item-->
@@ -56,8 +58,98 @@
             <dd>Descripción 2</dd>
         </dl>-->
     </section>
-    <section></section>
+    <section id="section-ejercicio"></section>
 
     <footer></footer>
+
+    <script>
+        console.log("Hola")
+        /* Tipos de datos que soporta JavaScript
+         * Texto
+         * Numérico
+         * Booelan
+         */
+        var name = 'Abraham'
+        var age = 36
+        var isWorking = true
+
+        console.log("Nombre: " + name)
+        console.log("Edad: " + age)
+        console.log("Está trabajando: " + isWorking)
+
+        age = "36"
+        console.log("Edad: " + age)
+
+        var numero = 1
+        var logico = true
+
+        /*
+        * == Compara únicamente el valor
+        * En el siguiente escenario 1 sí es igual que
+        * verdadero por valor y diferente por tipo
+        * */
+        if (numero == logico) {
+            console.log("numero = logico")
+        }
+        else {
+            console.log("numero != logico")
+        }
+
+        /*
+        * === Compara el valor y el tipo de dato
+        * En el siguiente escenario 1 no es igual que
+        * verdadero porque aunque tienen el mismo valor
+        * son de diferente tipo de dato
+        * */
+        if (numero === logico) {
+            console.log("numero = logico")
+        }
+        else {
+            console.log("numero != logico")
+        }
+
+        printMessage("Hola", 22, true)
+        printMessage(22,"Hola", true)
+        printMessage(true, 22, "Hola")
+        printMessage(22, true, "Hola")
+
+        function printMessage(param1, param2, param3) {
+
+            console.log("Param1 = " + param1)
+            console.log("Param2 = " + param2)
+            console.log("Param3 = " + param3)
+
+            return "Si quiero que regrese algo pongo return"
+        }
+
+        /**
+         * Para modificar el text de un elemento busca por las
+         * siguientes propiedades
+         * text
+         * value
+         * innerText (Coloca de manera literal el
+         * texto que le asignes)
+         * innerHTML (Coloca el código HTML que le asignes)
+         * */
+        document.getElementById("main-title").innerHTML
+   ="<strong><em>Modificado desde JavaScript</em></strong>"
+
+        document.getElementById("Name").value =
+            "Valor predeterminado"
+
+        alert(document.getElementById("Name").value)
+
+        function Probar() {
+            alert("Diste click en el botón")
+        }
+
+        var section = document.getElementById
+            ("section-ejercicio")
+
+        for (var i = 0; i < 11; i++) {
+            section.innerHTML = "<label>" + i + "</label>"
+        }
+
+    </script>
 </body>
 </html>
