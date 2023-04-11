@@ -11,17 +11,17 @@
 
     <section>
         <form method="POST"
-       action="http://localhost:5115/api/Module/create">
+              action="http://localhost:5115/api/Module/create">
 
             <div>
                 <label for="Name">Nombre: </label>
-                <input name="Name" id="Name" type="text"/>
+                <input name="Name" id="Name" type="text" />
             </div>
 
             <div>
                 <label for="Description">Descripción</label>
                 <input name="Description" id="Description"
-                       type="text"/>
+                       type="text" />
             </div>
 
             <input type="submit" value="Guardar" />
@@ -30,17 +30,18 @@
     <section>
         <h2 onclick="Probar()">Listas</h2>
         <button id="btn-probar" onclick="Probar()">
-        Probar</button>
+            Probar
+        </button>
         <!--<ol>-->
-            <!--Ordered List-->
-            <!--<li>Elemento 1</li>--> <!--List Item-->
-            <!--<li>Elemento 2</li>
+        <!--Ordered List-->
+        <!--<li>Elemento 1</li>--> <!--List Item-->
+        <!--<li>Elemento 2</li>
             <li>Elemento 3</li>
             <li>...</li>
             <li>Elemento n</li>
         </ol>-->
 
-        <ul>
+        <ul id="lista">
             <!--Unordered List-->
             <li>Elemento 1</li>
             <li>Elemento 2</li>
@@ -58,7 +59,20 @@
             <dd>Descripción 2</dd>
         </dl>-->
     </section>
-    <section id="section-ejercicio"></section>
+    <section id="section-ejercicio">
+        <div>
+            <label for="cantidad">Cantidad: </label>
+            <input name="cantidad" id="cantidad" type="text" />
+        </div>
+
+        <div>
+            <label for="palabra">Palabra</label>
+            <input name="palabra" id="palabra"
+                   type="text" />
+        </div>
+
+        <button id="btn-llenar" onclick="llenar()">Llenar</button>
+    </section>
 
     <footer></footer>
 
@@ -109,7 +123,7 @@
         }
 
         printMessage("Hola", 22, true)
-        printMessage(22,"Hola", true)
+        printMessage(22, "Hola", true)
         printMessage(true, 22, "Hola")
         printMessage(22, true, "Hola")
 
@@ -132,7 +146,7 @@
          * innerHTML (Coloca el código HTML que le asignes)
          * */
         document.getElementById("main-title").innerHTML
-   ="<strong><em>Modificado desde JavaScript</em></strong>"
+            = "<strong><em>Modificado desde JavaScript</em></strong>"
 
         document.getElementById("Name").value =
             "Valor predeterminado"
@@ -145,11 +159,38 @@
 
         var section = document.getElementById
             ("section-ejercicio")
-
+        //<section></section>
+        //innerHTML = ""
         for (var i = 0; i < 11; i++) {
-            section.innerHTML = "<label>" + i + "</label>"
+            section.innerHTML += "<label>" + i + "</label>"
+            //i = 0 -> "" + <label>0</label>
+            //i = 1 -> "<label>0</label>" + <label>1</label>
+            //i = 1 -> <label>0</label> <label>1</label>
+            //i = 1 -> <section><label>0</label><label>1</label></section>
         }
 
+
+
+        function llenar() {
+            var list = document.getElementById("lista")
+            var cantidad = document
+                .getElementById("cantidad").value
+            var palabra = document
+                .getElementById("palabra").value
+
+            list.innerHTML = ""
+
+            for (var i = 0; i < cantidad; i++) {
+                //list.innerHTML +=
+                //    "<li>" + palabra + "</li>"
+                var li = document.createElement("li")
+                li.append(palabra)
+                //Con las dos líneas de arriba lo que hacemos
+                //es crear un elemento li: <li>[palbra]</li>
+                list.appendChild(li)
+            }
+
+        }
     </script>
 </body>
 </html>
