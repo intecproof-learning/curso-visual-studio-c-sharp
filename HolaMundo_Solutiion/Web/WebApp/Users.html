@@ -22,7 +22,7 @@
         </div>
 
         <div>
-            <label for="Password">Correo electrónico</label>
+            <label for="Password">Contraseña</label>
             <input id="Password" name="Password" type="password" />
         </div>
 
@@ -62,7 +62,7 @@
 
             execHttprequest("POST"
                 , url
-                , null, (response) => {
+                , JSON.stringify(user), (response) => {
                     var result = JSON.parse(response)
                 alert(result.message)
             }, JSON.stringify(user))
