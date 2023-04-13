@@ -38,20 +38,25 @@
         function main(event) {
             var btnSearch = document
                 .getElementById("btn-search")
-            btnSearch.onclick = buttonSearchClick()
+            btnSearch.onclick = buttonSearchClick
         }
 
         function buttonSearchClick() {
             var criteria = document
-                .getElementById("NickName");
+                .getElementById("NickName").value
 
             if (criteria === '' || criteria === null) {
                 criteria = document
-                    .getElementById("Email")
+                    .getElementById("Email").value
+            }
+
+            var url = "http://localhost:5115/api/User/get"
+            if (criteria != null && criteria != '') {
+                url += "?criteria=" + criteria
             }
 
             execHttprequest("GET"
-                , "http://localhost:5115/api/User/get"
+                , url
                 , null, (response) => {
                     var lista = document.getElementById("lista")
                     lista.innerHTML = ""

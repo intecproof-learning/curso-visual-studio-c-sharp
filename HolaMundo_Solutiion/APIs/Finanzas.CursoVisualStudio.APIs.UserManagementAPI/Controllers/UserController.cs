@@ -27,7 +27,8 @@ namespace Finanzas.CursoVisualStudio.APIs.UserManagementAPI.Controllers
 
             return Ok(result);
         }
-
+        //http://localhost:puerto/api/User/get
+        //http://localhost:puerto/api/User/get?criteria=valor
         [HttpGet("get")]
         public IActionResult
             GetUser(String? criteria)
