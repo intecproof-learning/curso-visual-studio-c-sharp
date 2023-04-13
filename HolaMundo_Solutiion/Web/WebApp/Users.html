@@ -21,7 +21,13 @@
             <input id="Email" name="Email" type="email" />
         </div>
 
+        <div>
+            <label for="Password">Correo electrónico</label>
+            <input id="Password" name="Password" type="password" />
+        </div>
+
         <button id="btn-search">Buscar</button>
+        <button id="btn-create">Crear</button>
     </section>
 
     <section>
@@ -39,6 +45,29 @@
             var btnSearch = document
                 .getElementById("btn-search")
             btnSearch.onclick = buttonSearchClick
+
+            document.getElementById("btn-create")
+                .onclick = buttonCreateClick
+        }
+
+        function buttonCreateClick() {
+            var user = {}
+            user.id = 0
+            user.email = document.getElementById("Email").value
+            user.nickName = document.getElementById("NickName").value
+            user.password = document.getElementById("Password").value
+            user.relatedModules = []
+
+            var url = "http://localhost:5115/api/User/create"
+
+            execHttprequest("POST"
+                , url
+                , null, (response) => {
+                    var result = JSON.parse(response)
+                alert(result.message)
+            }, JSON.stringify(user))
+
+            console.log(JSON.stringify(user))
         }
 
         function buttonSearchClick() {
@@ -68,13 +97,15 @@
                         lista.innerHTML +=
                             "<li>" + item.nickName + " - " + item.email + "</li>"
                     })
-            })
+                }, null)
         }
 
         function execHttprequest(method, url, body
-            , callback) {
+            , callback, params) {
             var request = new XMLHttpRequest()
             request.open(method, url)
+            request.setRequestHeader("Content-Type"
+                , "application/json;charset=UTF-8");
             request.onload = (e) => {
                 callback(request.response)
             }
@@ -83,7 +114,7 @@
                 alert(request.status)
             }
 
-            request.send()
+            request.send(params)
         }
     </script>
 </body>
