@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Administración de usuarios</title>
+</head>
+<body>
+    <header>
+        <h1>Administración de usuarios</h1>
+    </header>
+    <section>
+        <div>
+            <label for="NickName">Apodo</label>
+            <input id="NickName"
+                   name="NickName"
+                   type="text" />
+        </div>
+
+        <div>
+            <label for="Email">Correo electrónico</label>
+            <input id="Email" name="Email" type="email" />
+        </div>
+
+        <button id="btn-search">Buscar</button>
+    </section>
+
+    <section>
+        <ul id="lista"></ul>
+    </section>
+
+    <footer>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',
+            main(event))
+
+        function main(event) {
+            var btnSearch = document
+                .getElementById("btn-search")
+            btnSearch.onclick = buttonSearchClick()
+        }
+
+        function buttonSearchClick() {
+            var criteria = document
+                .getElementById("NickName");
+
+            if (criteria === '' || criteria === null) {
+                criteria = document
+                    .getElementById("Email")
+            }
+
+            execHttprequest("GET"
+                , "http://localhost:5115/api/User/get"
+                , null, (response) => {
+                    var lista = document.getElementById("lista")
+                    lista.innerHTML = ""
+
+                    var result = JSON.parse(response)
+                    alert(result.message)
+
+                    result.objectResult.forEach((item) => {
+                        lista.innerHTML +=
+                            "<li>" + item.nickName + " - " + item.email + "</li>"
+                    })
+            })
+        }
+
+        function execHttprequest(method, url, body
+            , callback) {
+            var request = new XMLHttpRequest()
+            request.open(method, url)
+            request.onload = (e) => {
+                callback(request.response)
+            }
+
+            request.onerror = (e) => {
+                alert(request.status)
+            }
+
+            request.send()
+        }
+    </script>
+</body>
+</html>

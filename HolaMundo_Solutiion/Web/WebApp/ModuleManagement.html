@@ -191,6 +191,32 @@
             }
 
         }
+
+        var request = new XMLHttpRequest()
+        request.open("GET",
+            "http://localhost:5115/api/User/get")
+        request.onload = (e) => {
+            var lista = document.getElementById("lista")
+            lista.innerHTML = ""
+
+            var result = JSON.parse(request.response)
+            alert(result.message)
+
+            result.objectResult.forEach((item) => {
+                lista.innerHTML +=
+ "<li>" + item.nickName + " - " + item.email + "</li>"
+            })
+            /**
+             * 1 -> iteracion(item)
+             * 2 -> iteracion(item)
+             * */
+        }
+        
+        request.onerror = (e) => {
+            alert(request.status)
+        }
+
+        request.send()
     </script>
 </body>
 </html>

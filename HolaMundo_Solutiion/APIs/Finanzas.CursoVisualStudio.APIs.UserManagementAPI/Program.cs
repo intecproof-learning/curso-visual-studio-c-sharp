@@ -22,6 +22,13 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(c =>
+            {
+                c.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+
             app.UseAuthorization();
 
 
