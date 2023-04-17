@@ -3,14 +3,36 @@
 <head>
     <meta charset="utf-8" />
     <title>Administración de usuarios</title>
+    <style type="text/css">
+        h1 {
+            color: red;
+            font-style: italic;
+        }
+
+        .titulo-demo-1 {
+            font-size: 12px;
+            font-weight: 100;
+            color: green;
+        }
+
+        #titulo-demo-1 {
+            font-size: 72px;
+            color: orangered;
+            font-weight: 900;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Administración de usuarios</h1>
+        <h1 id="titulo-demo-1">Título con ID</h1>
+        <h1 id="titulo-demo-1" class="titulo-demo-1">Título con class</h1>
+        <h1 class="titulo-demo-1">Título con class 2</h1>
     </header>
     <section>
         <div>
-            <label for="NickName">Apodo</label>
+            <label class="titulo-demo-1" for="NickName">Apodo</label>
             <input id="NickName"
                    name="NickName"
                    type="text" />
@@ -35,6 +57,7 @@
     </section>
 
     <footer>
+        <h1 class="titulo-demo-1">Título con class 2</h1>
     </footer>
 
     <script>
@@ -64,8 +87,8 @@
                 , url
                 , JSON.stringify(user), (response) => {
                     var result = JSON.parse(response)
-                alert(result.message)
-            }, JSON.stringify(user))
+                    alert(result.message)
+                }, JSON.stringify(user))
 
             console.log(JSON.stringify(user))
         }
