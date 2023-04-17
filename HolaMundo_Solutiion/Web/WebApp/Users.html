@@ -4,6 +4,22 @@
     <meta charset="utf-8" />
     <title>Administración de usuarios</title>
     <style type="text/css">
+/*
+    CSS tiene diferentes tipos de especificidad
+    donde el más alto es el más específico
+    Espec 1 -> Selectores elemento [h1, h2, label, p, ...]
+    Espec 2 -> Selectores clase, se utiliza .
+    Espec 3 -> Selectored ID, se utiliza #
+    Espec 4 -> Selectores combinados, se utiliza combinación
+    de los anteriores
+
+*/
+
+        h1 {
+            color: yellow;
+            font-style: italic;
+        }
+
         h1 {
             color: red;
             font-style: italic;
@@ -16,6 +32,19 @@
         }
 
         #titulo-demo-1 {
+            font-size: 72px;
+            color: orangered;
+            font-weight: 900;
+            text-decoration: underline;
+        }
+
+        h1.titulo-demo-1 {
+            font-size: 12px;
+            font-weight: 100;
+            color: green;
+        }
+
+        label#titulo-demo-1 {
             font-size: 72px;
             color: orangered;
             font-weight: 900;
@@ -53,7 +82,8 @@
     </section>
 
     <section>
-        <ul id="lista"></ul>
+        <ul style="color:dodgerblue;
+      text-decoration:underline" id="lista"></ul>
     </section>
 
     <footer>
