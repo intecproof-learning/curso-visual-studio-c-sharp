@@ -4,17 +4,18 @@
     <meta charset="utf-8" />
     <title>Administración de usuarios</title>
     <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="bootstrap.css" />
     <style type="text/css">
-/*
-    CSS tiene diferentes tipos de especificidad
-    donde el más alto es el más específico
-    Espec 1 -> Selectores elemento [h1, h2, label, p, ...]
-    Espec 2 -> Selectores clase, se utiliza .
-    Espec 3 -> Selectored ID, se utiliza #
-    Espec 4 -> Selectores combinados, se utiliza combinación
-    de los anteriores
+        /*
+            CSS tiene diferentes tipos de especificidad
+            donde el más alto es el más específico
+            Espec 1 -> Selectores elemento [h1, h2, label, p, ...]
+            Espec 2 -> Selectores clase, se utiliza .
+            Espec 3 -> Selectored ID, se utiliza #
+            Espec 4 -> Selectores combinados, se utiliza combinación
+            de los anteriores
 
-*/
+        */
 
         h1 {
             color: yellow;
@@ -60,32 +61,37 @@
         <h1 id="titulo-demo-1" class="titulo-demo-1">Título con class</h1>
         <h1 class="titulo-demo-1">Título con class 2</h1>
     </header>
-    <section>
-        <div>
-            <label class="titulo-demo-1" for="NickName">Apodo</label>
-            <input id="NickName"
-                   name="NickName"
-                   type="text" />
+
+    <section class="container-fluid">
+        <div class="col-md-6">
+            <div class="row">
+                <label class="titulo-demo-1 col-md-3 form-label" for="NickName">Apodo</label>
+                <input id="NickName"
+                       name="NickName"
+                       type="text" class="col-md-4" />
+            </div>
+
+            <div class="row">
+                <label class="col-md-3 form-label" for="Email">Correo electrónico</label>
+                <input class="col-md-4" id="Email" name="Email" type="email" />
+            </div>
+
+            <div class="row">
+                <label class="col-md-3 form-label" for="Password">Contraseña</label>
+                <input class="col-md-4" id="Password" name="Password" type="password" />
+            </div>
+
+            <div class="row">
+                <button class="btn btn-primary col-md-1 me-md-2" id="btn-search">Buscar</button>
+                <button class="btn btn-primary col-md-1  me-md-2" id="btn-create">Crear</button>
+            </div>
         </div>
 
-        <div>
-            <label for="Email">Correo electrónico</label>
-            <input id="Email" name="Email" type="email" />
+        <div class="col-md-6">
+            <ul id="lista"></ul>
         </div>
-
-        <div>
-            <label for="Password">Contraseña</label>
-            <input id="Password" name="Password" type="password" />
-        </div>
-
-        <button id="btn-search">Buscar</button>
-        <button id="btn-create">Crear</button>
     </section>
 
-    <section>
-        <ul style="color:dodgerblue;
-      text-decoration:underline" id="lista"></ul>
-    </section>
 
     <footer>
         <h1 class="titulo-demo-1">Título con class 2</h1>
