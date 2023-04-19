@@ -50,6 +50,8 @@
     </footer>
 
     <script>
+        var usersList = []
+
         document.addEventListener('DOMContentLoaded',
             main(event))
 
@@ -105,10 +107,12 @@
                     var result = JSON.parse(response)
                     alert(result.message)
 
+                    usersList = result.objectResult
+
                     result.objectResult.forEach((item) => {
                         lista.innerHTML +=
-                            "<li class='list-group-item list-existing-items'"
-                            + ">Apodo: "
+                            "<li id='" + item.id + "'"
+                        + " class='list-group-item list-existing-items'>Apodo: "
                             + item.nickName
                             + "<br/> Correo electrónico: "
                             + item.email

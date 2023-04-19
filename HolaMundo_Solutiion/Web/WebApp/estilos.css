@@ -1,6 +1,17 @@
-﻿li.list-existing-items {
-    border:2px solid blue;
+﻿ul {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px dashed black;
+}
+
+li.list-existing-items {
+    border: 2px solid rgb(168,18,62) !important;
     cursor: pointer;
     border-radius: 10px;
-    margin: 10px;/*arriba derecha abajo izquierda*/
+    margin: 10px; /*arriba derecha abajo izquierda*/
 }
+
+    li.list-existing-items:hover {
+        transform: scale(1.025);
+        box-shadow: 10px 10px 5px rgba(168,18,62,.5)
+    }
