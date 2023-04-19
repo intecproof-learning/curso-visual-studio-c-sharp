@@ -1,6 +1,6 @@
 ﻿li.list-existing-items {
-    border:5px solid blue;
+    border:2px solid blue;
     cursor: pointer;
-    border-radius: 25px;
+    border-radius: 10px;
     margin: 10px;/*arriba derecha abajo izquierda*/
 }

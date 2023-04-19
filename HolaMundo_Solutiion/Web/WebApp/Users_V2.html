@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Administración de usuarios</title>
+    <link rel="stylesheet" href="bootstrap.css" />
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+    <header>
+        <h1>Administración de usuarios</h1>
+    </header>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="NickName">Apodo</label>
+                    <input id="NickName"
+                           name="NickName"
+                           type="text" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label col-md-3" for="Email">Correo electrónico</label>
+                    <input class="form-control" id="Email" name="Email" type="email" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label col-md-3" for="Password">Contraseña</label>
+                    <input class="form-control" id="Password" name="Password" type="password" />
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary col-md-2 me-md-2" id="btn-search">Buscar</button>
+                    <button class="btn btn-primary col-md-2 me-md-2" id="btn-create">Crear</button>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <ul class="list-group" id="lista"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="card-footer">
+        <h1 class="titulo-demo-1">Título con class 2</h1>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',
+            main(event))
+
+        function main(event) {
+            var btnSearch = document
+                .getElementById("btn-search")
+            btnSearch.onclick = buttonSearchClick
+
+            document.getElementById("btn-create")
+                .onclick = buttonCreateClick
+        }
+
+        function buttonCreateClick() {
+            var user = {}
+            user.id = 0
+            user.email = document.getElementById("Email").value
+            user.nickName = document.getElementById("NickName").value
+            user.password = document.getElementById("Password").value
+            user.relatedModules = []
+
+            var url = "http://localhost:5115/api/User/create"
+
+            execHttprequest("POST"
+                , url
+                , JSON.stringify(user), (response) => {
+                    var result = JSON.parse(response)
+                    alert(result.message)
+                }, JSON.stringify(user))
+
+            console.log(JSON.stringify(user))
+        }
+
+        function buttonSearchClick() {
+            var criteria = document
+                .getElementById("NickName").value
+
+            if (criteria === '' || criteria === null) {
+                criteria = document
+                    .getElementById("Email").value
+            }
+
+            var url = "http://localhost:5115/api/User/get"
+            if (criteria != null && criteria != '') {
+                url += "?criteria=" + criteria
+            }
+
+            execHttprequest("GET"
+                , url
+                , null, (response) => {
+                    var lista = document.getElementById("lista")
+                    lista.innerHTML = ""
+
+                    var result = JSON.parse(response)
+                    alert(result.message)
+
+                    result.objectResult.forEach((item) => {
+                        lista.innerHTML +=
+                            "<li class='list-group-item list-existing-items'"
+                            + ">Apodo: "
+                            + item.nickName
+                            + "<br/> Correo electrónico: "
+                            + item.email
+                            + "<br/> Password: "
+                            + item.password
+                            + "</li>"
+                    })
+                }, null)
+        }
+
+        function execHttprequest(method, url, body
+            , callback, params) {
+            var request = new XMLHttpRequest()
+            request.open(method, url)
+            request.setRequestHeader("Content-Type"
+                , "application/json;charset=UTF-8");
+            request.onload = (e) => {
+                callback(request.response)
+            }
+
+            request.onerror = (e) => {
+                alert(request.status)
+            }
+
+            request.send(params)
+        }
+    </script>
+</body>
+</html>
