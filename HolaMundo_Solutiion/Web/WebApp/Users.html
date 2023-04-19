@@ -62,33 +62,35 @@
         <h1 class="titulo-demo-1">Título con class 2</h1>
     </header>
 
-    <section class="container-fluid">
-        <div class="col-md-6">
-            <div class="row">
-                <label class="titulo-demo-1 col-md-3 form-label" for="NickName">Apodo</label>
-                <input id="NickName"
-                       name="NickName"
-                       type="text" class="col-md-4" />
+    <section class="container">
+        <div class="row">
+            <div class="form-control col-md-6">
+                <div class="row">
+                    <label class="titulo-demo-1 col-md-3 form-label" for="NickName">Apodo</label>
+                    <input id="NickName"
+                           name="NickName"
+                           type="text" class="col-md-4" />
+                </div>
+
+                <div class="row">
+                    <label class="col-md-3 form-label" for="Email">Correo electrónico</label>
+                    <input class="col-md-4" id="Email" name="Email" type="email" />
+                </div>
+
+                <div class="row">
+                    <label class="col-md-3 form-label" for="Password">Contraseña</label>
+                    <input class="col-md-4" id="Password" name="Password" type="password" />
+                </div>
+
+                <div class="row">
+                    <button class="btn btn-primary col-md-1 me-md-2" id="btn-search">Buscar</button>
+                    <button class="btn btn-primary col-md-1  me-md-2" id="btn-create">Crear</button>
+                </div>
             </div>
 
-            <div class="row">
-                <label class="col-md-3 form-label" for="Email">Correo electrónico</label>
-                <input class="col-md-4" id="Email" name="Email" type="email" />
+            <div class="col-md-6">
+                <ul class="list-group" id="lista"></ul>
             </div>
-
-            <div class="row">
-                <label class="col-md-3 form-label" for="Password">Contraseña</label>
-                <input class="col-md-4" id="Password" name="Password" type="password" />
-            </div>
-
-            <div class="row">
-                <button class="btn btn-primary col-md-1 me-md-2" id="btn-search">Buscar</button>
-                <button class="btn btn-primary col-md-1  me-md-2" id="btn-create">Crear</button>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <ul id="lista"></ul>
         </div>
     </section>
 
@@ -155,7 +157,14 @@
 
                     result.objectResult.forEach((item) => {
                         lista.innerHTML +=
-                            "<li>" + item.nickName + " - " + item.email + "</li>"
+                            "<li class='list-group-item list-existing-items'"
+                            + ">Apodo: "
+                            + item.nickName
+                            + "<br/> Correo electrónico: "
+                            + item.email
+                            + "<br/> Password: "
+                            + item.password
+                            + "</li>"
                     })
                 }, null)
         }
