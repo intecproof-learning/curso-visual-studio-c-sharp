@@ -133,6 +133,20 @@
 
             var li = document.getElementById(id)
             li.classList.add('list-item-active')
+
+            for (var i = 0; i < usersList.length; i++) {
+                if (usersList[i].id == id) {
+                    document.getElementById('NickName')
+                        .value = usersList[i].nickName
+
+                    document.getElementById('Email')
+                        .value = usersList[i].email
+
+                    document.getElementById('Password')
+                        .value = usersList[i].password
+                }
+            }
+
         }
 
         function execHttprequest(method, url, body
