@@ -11,6 +11,10 @@ li.list-existing-items {
     margin: 10px; /*arriba derecha abajo izquierda*/
 }
 
+li.list-item-active {
+    box-shadow: 10px 10px 5px rgba(168,18,62,.5)
+}
+
     li.list-existing-items:hover {
         transform: scale(1.025);
         box-shadow: 10px 10px 5px rgba(168,18,62,.5)

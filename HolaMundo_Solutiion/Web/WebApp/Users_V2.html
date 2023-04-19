@@ -39,7 +39,8 @@
 
             <div class="col-md-6">
                 <div class="row">
-                    <ul class="list-group" id="lista"></ul>
+                    <ul class="list-group" id="lista">
+                    </ul>
                 </div>
             </div>
         </div>
@@ -111,8 +112,9 @@
 
                     result.objectResult.forEach((item) => {
                         lista.innerHTML +=
-                            "<li id='" + item.id + "'"
-                        + " class='list-group-item list-existing-items'>Apodo: "
+                            "<li onclick='userItemClick(" + item.id + ")'"       
+                            +" id='" + item.id + "'"
+  + " class='list-group-item list-existing-items'>Apodo: "
                             + item.nickName
                             + "<br/> Correo electrónico: "
                             + item.email
@@ -121,6 +123,16 @@
                             + "</li>"
                     })
                 }, null)
+        }
+
+        function userItemClick(id) {
+            var lis = document.getElementsByTagName('li')
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].classList.remove('list-item-active')
+            }
+
+            var li = document.getElementById(id)
+            li.classList.add('list-item-active')
         }
 
         function execHttprequest(method, url, body
