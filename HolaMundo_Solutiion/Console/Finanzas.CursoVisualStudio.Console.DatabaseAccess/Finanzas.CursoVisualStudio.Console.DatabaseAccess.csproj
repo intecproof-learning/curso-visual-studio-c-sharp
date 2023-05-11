@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\Finanzas.CursoVisualStudio.DataAccess.SQLDatabase\Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.csproj" />
   </ItemGroup>
 

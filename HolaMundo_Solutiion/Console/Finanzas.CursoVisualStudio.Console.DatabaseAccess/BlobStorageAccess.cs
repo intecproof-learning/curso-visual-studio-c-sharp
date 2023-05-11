@@ -1,13 +1,7 @@
 ﻿using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
-using Cemex.Arkik.DataAccess.KeyVault;
-using Cemex.Arkik.Shared.ApplicationSettings;
-using Cemex.Arkik.Shared.Utils;
-using System.Reflection.Metadata;
-using System.Text;
 
 namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
 {
@@ -16,6 +10,8 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
     /// </summary>
     public class BlobStorageAccess
     {
+        private String connectionString = "";
+
         private BlobServiceClient blobServiceClient;
 
         /// <summary>
@@ -23,7 +19,7 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
         /// </summary>
         public BlobStorageAccess()
         {
-            blobServiceClient = new BlobServiceClient(KeyVaultAccess.GetKeyVaultSecret((String)ArkikConfiguration.Configuration["KeyVaultSecrets"].StorageAccount_ConS).Result);
+            blobServiceClient = new BlobServiceClient(connectionString);
         }
 
         /// <summary>
@@ -68,7 +64,7 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
 
                 if (generateSAS)
                 {
-                    var values = ArkikConfiguration.Configuration["KeyVaultSecrets"].StorageAccount_ConS.Split(";");
+                    var values = connectionString.Split(";");
 
                     var valueAccount = values[1].Substring("AccountName=".Length);
                     var valueKey = values[2].Substring("AccountKey=".Length);
@@ -78,8 +74,8 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
                         BlobContainerName = blobClient.BlobContainerName,
                         BlobName = blobClient.Name,
                         Resource = "b",
-                        StartsOn = new DateTimeOffset(Utilities.GetLocalDateTime()),
-                        ExpiresOn = new DateTimeOffset(Utilities.GetLocalDateTime().AddYears(1)),
+                        StartsOn = new DateTimeOffset(DateTime.Now),
+                        ExpiresOn = new DateTimeOffset(DateTime.Now.AddYears(1)),
                     };
                     blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
 
@@ -121,7 +117,7 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
 
                 if (generateSAS)
                 {
-                    var values = ArkikConfiguration.Configuration["KeyVaultSecrets"].StorageAccount_ConS.Split(";");
+                    var values = connectionString.Split(";");
 
                     var valueAccount = values[1].Substring("AccountName=".Length);
                     var valueKey = values[2].Substring("AccountKey=".Length);
@@ -131,8 +127,8 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
                         BlobContainerName = blobClient.BlobContainerName,
                         BlobName = blobClient.Name,
                         Resource = "b",
-                        StartsOn = new DateTimeOffset(Utilities.GetLocalDateTime()),
-                        ExpiresOn = new DateTimeOffset(Utilities.GetLocalDateTime().AddYears(1))
+                        StartsOn = new DateTimeOffset(DateTime.Now),
+                        ExpiresOn = new DateTimeOffset(DateTime.Now.AddYears(1))
                     };
                     blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
 
@@ -268,7 +264,7 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
         /// <param name="cancellationToken">Optional. Tokento propagate
         /// notifications that the operation should be cancelled.</param>
         /// <returns>A list of BlobItem in the container</returns>
-        public List<BlobItem> GetBlobList(string containerName, string prefix, BlobTraits blobTraits = BlobTraits.None, 
+        public List<BlobItem> GetBlobList(string containerName, string prefix, BlobTraits blobTraits = BlobTraits.None,
             BlobStates blobStates = BlobStates.None, CancellationToken cancellationToken = default)
         {
             try
