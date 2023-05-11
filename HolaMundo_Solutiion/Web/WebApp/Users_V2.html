@@ -73,7 +73,7 @@
             user.password = document.getElementById("Password").value
             user.relatedModules = []
 
-            var url = "http://localhost:5115/api/User/create"
+            var url = "https://webappacc.azurewebsites.net/api/User/create"
 
             execHttprequest("POST"
                 , url
@@ -94,7 +94,7 @@
                     .getElementById("Email").value
             }
 
-            var url = "http://localhost:5115/api/User/get"
+            var url = "https://webappacc.azurewebsites.net/api/User/get"
             if (criteria != null && criteria != '') {
                 url += "?criteria=" + criteria
             }

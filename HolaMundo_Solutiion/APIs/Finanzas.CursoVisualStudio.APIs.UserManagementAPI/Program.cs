@@ -15,12 +15,8 @@ namespace Finanzas.CusroVisualStudio.APIs.UserManagementAPI
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors(c =>
             {
