@@ -10,7 +10,8 @@ namespace Cemex.Arkik.DataAccess.AzureStorage.BlobStorage
     /// </summary>
     public class BlobStorageAccess
     {
-        private String connectionString = "";
+        private String connectionString =
+            "DefaultEndpointsProtocol=https;AccountName=demostorageacch;AccountKey=6vIkdiR1ynHdrplv69u5tMSqLvezV709TfoOu5UtAwvmxGEBOUvLDb3aD9TGc8J6noFJfUAd5y5g+AStHaldvg==;EndpointSuffix=core.windows.net";
 
         private BlobServiceClient blobServiceClient;
 

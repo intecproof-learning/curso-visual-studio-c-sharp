@@ -1,4 +1,5 @@
-﻿using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
+﻿using Cemex.Arkik.DataAccess.AzureStorage.BlobStorage;
+using Finanzas.CursoVisualStudio.DataAccess.SQLDatabase.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -22,7 +23,21 @@ namespace Finanzas.CursoVisualStudio.DatabaseAccess
             //FileAccessStreamReader();
             //DirectoryOperations();
             //CopyMoveFiles();
-            NormalProcess();
+            //NormalProcess();
+
+            BlobStorageAccess access = new BlobStorageAccess();
+            await access.UploadBlob("demoprog",
+                "console.txt",
+                "Hola desde C# 2", false, false);
+
+            var result = await access.UploadBlob("demoprog2",
+                "console2.txt",
+                "Hola desde C#2", true, false);
+            Console.WriteLine(result);
+
+            await access.UploadBlob("demoprog3",
+                "console3.txt",
+                "Hola desde C#3", false, true);
 
             Console.WriteLine("Finalizado");
             Console.WriteLine("Press any key to exit");
